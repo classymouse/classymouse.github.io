@@ -1,503 +1,237 @@
-[COLOR orchid][B]plugin version 2.2.7-alpha/Module version 2.3.7-alpha/Artwork version 2.2.1-alpha[/B][/COLOR]
-
-[COLOR red]WARNING[/COLOR]: This is an alpha release intended for testing and feedback. Not recommended for general use. Expect bugs and incomplete features. Please report any issues to the GitHub repository. Therefore we added an alpha warning in the version announcement dialog to inform users about the experimental nature of this release. Do NOT add this version to your stable builds, repo's or recommend it to non-technical users - Team Crew is not responsible for any issues arising from use of this alpha version. Use at your own risk.
-
-[COLOR teal]Info[/COLOR]: Comprehensive trailer functionality implementation across all TV content views, critical UpNext watch tracking fix preventing episodes from being marked as watched during auto-play, progress table cleanup for accurate "Continue Watching" data, and code quality improvements in sources validation.
-
-[COLOR yellow]** NEW - Trailer Functionality (TV Shows & Episodes)[/COLOR]
-[COLOR green]Added[/COLOR]: Trailer button in TV show information dialog (matches movie functionality)
-[COLOR green]Added[/COLOR]: TMDB videos API integration for TV shows (append_to_response=videos)
-[COLOR green]Added[/COLOR]: Trailer button in episode information dialog
-[COLOR green]Added[/COLOR]: Trailer button in Next Episodes / In Progress lists (progress.py)
-[COLOR green]Added[/COLOR]: Trailer metadata parameter for proper poster display in trailer dialog
-[COLOR green]Added[/COLOR]: YouTube plugin integration for trailer playback, including widgets and context menus
-[COLOR green]Added[/COLOR]: Fixed
-[COLOR green]Improved[/COLOR]: Trailer preference system (official trailers prioritized over user uploads)
-[COLOR cyan]Technical[/COLOR]: InfoTag.setTrailer() calls via _info_tag wrapper to bypass ListItemInfoTag limitations
-[COLOR teal]Coverage[/COLOR]: Trailers now available in TV shows, episodes, seasons, Next Episodes, and In Progress views
-
-[COLOR yellow]** FIXED - UpNext Auto-Play Watch Tracking[/COLOR]
-[COLOR orange]Fixed[/COLOR]: Episodes not being marked as watched when UpNext auto-plays next episode
-[COLOR orange]Fixed[/COLOR]: Race condition where player.stop() called before monitoring loop reached 92% threshold
-[COLOR orange]Fixed[/COLOR]: Explicit metadata passing via _current_episode parameter prevents reliance on global state
-[COLOR green]Added[/COLOR]: markEpisodeDuringPlayback() call BEFORE player.stop() in play_next_episode()
-[COLOR green]Added[/COLOR]: Current episode metadata capture in show_upnext_dialog()
-[COLOR green]Improved[/COLOR]: Detailed logging for UpNext watch tracking ("[UpNext] Marking as watched: Show S#E#")
-[COLOR teal]Impact[/COLOR]: All episodes watched via UpNext countdown now properly sync to Trakt
-
-[COLOR yellow]** FIXED - Progress Table Database Cleanup[/COLOR]
-[COLOR orange]Fixed[/COLOR]: Fully watched episodes (resume_point >= 92%) stored in progress table with resume_point=1
-[COLOR orange]Fixed[/COLOR]: Progress table contained completed items instead of only in-progress content
-[COLOR green]Added[/COLOR]: Conditional DELETE logic in bookmarks.reset() for fully watched content
-[COLOR green]Added[/COLOR]: Trakt progress table DELETE operation when watched=True
-[COLOR green]Improved[/COLOR]: Progress table now only contains genuinely in-progress items (< 92%)
-[COLOR cyan]Technical[/COLOR]: bookmarks.reset() calls delete_progress_from_database() for watched, update_progress_in_database() for in-progress
-[COLOR teal]Impact[/COLOR]: "In Progress" and "Next Episodes" lists cleaner and more accurate
-
-[COLOR yellow]** Code Quality Improvements[/COLOR]
-[COLOR orange]Fixed[/COLOR]: urllib.parse import issues in sources.py (lines 4043-4160)
-[COLOR orange]Fixed[/COLOR]: Removed outdated six.moves compatibility imports (Python 2/3 bridge no longer needed)
-[COLOR orange]Fixed[/COLOR]: Incorrect urlparse.unquote() calls (urlparse is function, not module)
-[COLOR orange]Fixed[/COLOR]: Redundant import re statements inside _validate_title() and _filter_extras()
-[COLOR green]Added[/COLOR]: unquote to top-level urllib.parse imports for proper URL decoding
-[COLOR green]Improved[/COLOR]: Context menu consistency with replaceItems=True across tvshows.py, episodes.py, progress.py
-[COLOR cyan]Technical[/COLOR]: All urllib.parse functions now imported at module level (urlparse, parse_qs, unquote)
-
-[COLOR yellow]** Version Updates[/COLOR]
-[COLOR green]Updated[/COLOR]: script.module.thecrew: 2.3.6-alpha -> 2.3.7-alpha
-[COLOR green]Updated[/COLOR]: plugin.video.thecrew: 2.2.6-alpha -> 2.2.7-alpha
-[COLOR green]Updated[/COLOR]: script.thecrew.artwork: 2.2.0-alpha -> 2.2.1-alpha
-
-[COLOR orchid][B]plugin version 2.2.5-alpha/Module version 2.3.5-alpha[/B][/COLOR] - [COLOR orange]INTERNAL UPDATE[/COLOR]
-
-[COLOR teal]Info[/COLOR]: Major UI modernization with version announcements, comprehensive startup maintenance system, modernized log viewer, improved subtitle handling with OpenSubtitles REST API integration, organized context menu system, and expanded Trakt API integration with 13 new discovery endpoints, plus new TMDB endpoints for theatrical releases and upcoming content.
-
-[COLOR yellow]** NEW - Trakt Discovery Endpoints (13 New Features)[/COLOR]
-[COLOR green]Added[/COLOR]: Box Office - Weekend top 10 movies (revived from private list, now uses Trakt /movies/boxoffice)
-[COLOR green]Added[/COLOR]: Recommended for You - Personalized movie recommendations based on watch history
-[COLOR green]Added[/COLOR]: Popular Movies - Most popular movies on Trakt
-[COLOR green]Added[/COLOR]: Anticipated Movies - Most anticipated upcoming movies
-[COLOR green]Added[/COLOR]: Most Played Movies - Movies with highest watch counts
-[COLOR green]Added[/COLOR]: Most Watched Movies - Movies watched by most unique users
-[COLOR green]Added[/COLOR]: Most Collected Movies - Movies most collected in user libraries
-[COLOR green]Added[/COLOR]: Recommended Shows - Personalized TV show recommendations
-[COLOR green]Added[/COLOR]: Popular Shows - Most popular TV shows on Trakt
-[COLOR green]Added[/COLOR]: Anticipated Shows - Most anticipated upcoming TV shows
-[COLOR green]Added[/COLOR]: Most Played Shows - TV shows with highest watch counts
-[COLOR green]Added[/COLOR]: Most Watched Shows - TV shows watched by most unique users
-[COLOR green]Added[/COLOR]: Most Collected Shows - TV shows most collected in user libraries
-[COLOR green]Improved[/COLOR]: Smart caching
-[COLOR green]Improved[/COLOR]: All new endpoints support pagination and have proper error handling
-[COLOR green]Added[/COLOR]: Settings toggles for all 13 new features (can be individually enabled/disabled)
-[COLOR teal]Coverage[/COLOR]: Trakt API integration increased from ~30 endpoints (50%) to ~45 endpoints
-
-[COLOR yellow]** NEW - Trakt QR Code Authentication[/COLOR]
-[COLOR green]Added[/COLOR]: QR code display during Trakt authentication for mobile device scanning
-[COLOR green]Added[/COLOR]: Local QR code generation using internal library (no external API dependencies)
-[COLOR green]Improved[/COLOR]: Dedicated QR dialog with modern glassy background - scan to authenticate instantly
-[COLOR teal]Usage[/COLOR]: When authorizing Trakt, scan QR code with mobile device OR enter code manually
-[COLOR orange]Fixed[/COLOR]: orion_api.py typo (getcontrol -> getControl) in orionQRViewer class
-[COLOR cyan]Technical[/COLOR]: QR codes generated locally, works offline, no rate limits
-
-[COLOR yellow]** NEW - TMDB Discovery Endpoints (5 New Features)[/COLOR]
-[COLOR green]Added[/COLOR]: Now Playing (In Theaters) - Movies currently playing in theaters (TMDB -> Movies submenu)
-[COLOR green]Added[/COLOR]: Upcoming Releases - Movies releasing in the next 4 weeks (TMDB -> Movies submenu)
-[COLOR green]Added[/COLOR]: Upcoming Shows - TV shows premiering in the next 30 days (TMDB -> TV Shows submenu)
-[COLOR green]Added[/COLOR]: Latest Releases (Streaming/Digital) - Past 31 days of streaming/digital releases with dates (Movies main menu + TMDB)
-[COLOR green]Added[/COLOR]: Premieres (All Platforms) - Past 31 days of all premieres with dates (Movies main menu + TMDB)
-[COLOR green]Improved[/COLOR]: Smart caching - Now Playing (15 min), Recent releases & upcoming (24 hours)
-[COLOR teal]Note[/COLOR]: Latest Releases and Premieres provide JustWatch-equivalent "What's New" functionality with prominent menu placement
-
-[COLOR yellow]** TV Calendar Optimization[/COLOR]
-[COLOR green]Fixed[/COLOR]: Reduced TV Calendar from 61 days (30 back + 31 forward) to 14 days (7 back + 7 forward)
-[COLOR green]Improved[/COLOR]: Eliminated talk show spam - reduced from 21 episodes per show to ~5 per show
-[COLOR teal]Impact[/COLOR]: Calendar menu now shows 7 date entries instead of 30 (77% reduction in clutter)
-
-[COLOR yellow]** Code Quality Improvements[/COLOR]
-[COLOR orange]Fixed[/COLOR]: Removed duplicate worker(), no_info(), and super_info() methods in Episodes class (95 lines)
-[COLOR orange]Fixed[/COLOR]: Old worker() using unbounded thread pool (max_workers=total) - could spawn 1000s of threads
-[COLOR orange]Fixed[/COLOR]: Incompatible super_info() signature (item vs index parameter) causing type errors
-[COLOR orange]Fixed[/COLOR]: Implemented DBID retrieval for library items - enables watched status sync via JSON-RPC
-[COLOR green]Improved[/COLOR]: Modern thread-safe implementations now active (max_workers limited to 50)
-[COLOR teal]Impact[/COLOR]: Better performance, stability, and prevents potential crashes from thread exhaustion
-
-[COLOR yellow]** NEW - Library Playback Integration (Optional Feature)[/COLOR]
-[COLOR green]Added[/COLOR]: Library Playback Integration setting - syncs watched status to Kodi library during playback
-[COLOR green]Added[/COLOR]: Opt-in toggle in Settings -> Library -> "Library Playback Integration (Sync Watched Status)"
-[COLOR cyan]Default[/COLOR]: Disabled (false) - no performance overhead for addon-only users (majority)
-[COLOR cyan]When to Enable[/COLOR]: Only if you play content from Kodi library AND want watched status synced back to library
-[COLOR cyan]How it Works[/COLOR]: When enabled, player queries Kodi library during playback to find movieid/episodeid and marks items as watched
-[COLOR cyan]Performance[/COLOR]: Zero overhead when disabled (early return, no JSON-RPC calls) | Minimal overhead when enabled (2 JSON-RPC queries per playback)
-[COLOR teal]Note[/COLOR]: Most users play directly from addon and don't need this feature - Trakt already handles watched status sync
-[COLOR teal]Who Needs This[/COLOR]: Users who manage content in Kodi library AND want library watched status updated when playing from The Crew
-[COLOR teal]Limitation[/COLOR]: Only works when playing library items - addon-scraped content won't have a library DBID to update
-
-[COLOR yellow]** Context Menu Organization[/COLOR]
-[COLOR green]Improved[/COLOR]: Reorganized context menus in logical order (movies.py, lists.py, progress.py)
-[COLOR green]Improved[/COLOR]: Custom menu items now appear in consistent order: Playback -> Discovery -> Information -> Status -> Library -> Management
-[COLOR teal]Note[/COLOR]: System context menus (Play, Play Next, Queue Item, Information, Mark Watched, Add to Favourites) cannot be removed or hidden
-[COLOR teal]Reason[/COLOR]: Kodi removed replaceItems parameter from Python API in v17 Krypton (2016) - this is a Kodi core limitation, not an addon issue
-[COLOR teal]Documentation[/COLOR]: https://github.com/xbmc/xbmc/blob/master/xbmc/interfaces/legacy/ListItem.h - official Kodi source confirms parameter removal
-[COLOR green]Result[/COLOR]: Custom menus appear first (organized and useful), system menus appear below (unavoidable)
-
-[COLOR yellow]** NEW - Version Announcement System[/COLOR]
-[COLOR green]Added[/COLOR]: New nice version announcement dialog with glassy orchid-themed UI matching TV Evening quality
-[COLOR green]Added[/COLOR]: VersionAnnouncement.xml dialogs for both modern and thecrew skins - new design with gradient overlays
-[COLOR green]Added[/COLOR]: version_announcement.py module - WindowXMLDialog controller with smart display logic
-[COLOR green]Added[/COLOR]: version_config.py - maintainable configuration system for version-specific announcements
-[COLOR green]Added[/COLOR]: Automatic version detection - shows once per new version, once per session for alpha/beta builds
-[COLOR green]Added[/COLOR]: Version display shows both module and plugin versions (e.g., "Module v2.3.5-alpha | Plugin v2.2.5-alpha")
-[COLOR green]Added[/COLOR]: Three action buttons: View Changelog (opens custom LogViewer), Alpha Info (opens website), Close (closes dialog)
-[COLOR green]Added[/COLOR]: Template system for alpha/beta/stable announcements with customizable highlights
-[COLOR green]Added[/COLOR]: Alpha warning section with yellow text explaining experimental nature
-[COLOR green]Added[/COLOR]: Dialog stays open when viewing changelog or alpha info - only Close button dismisses
-[COLOR green]Added[/COLOR]: last_version_announcement setting for tracking displayed versions
-[COLOR green]Added[/COLOR]: Session-based display tracking for alpha builds (non-persistent)
-
-[COLOR yellow]** NEW - Comprehensive Startup Maintenance System[/COLOR]
-[COLOR green]Added[/COLOR]: startup_maintenance.py module with organized StartupMaintenance class
-[COLOR green]Added[/COLOR]: Database schema checks and automatic thecrew_player table creation
-[COLOR green]Added[/COLOR]: Stale TV Evening session cleanup - detects and clears leftover playlist data
-[COLOR green]Added[/COLOR]: TMDB configuration updates with 7-day cache to reduce API calls
-[COLOR green]Added[/COLOR]: Cache cleanup system - removes subtitle files older than 1 day
-[COLOR green]Added[/COLOR]: Version tracking in settings for maintenance history
-[COLOR green]Added[/COLOR]: Database integrity checks with detailed logging
-[COLOR green]Added[/COLOR]: Version announcement integration - shows after all maintenance tasks complete
-[COLOR green]Added[/COLOR]: Detailed maintenance logging with task timing and error tracking
-[COLOR green]Added[/COLOR]: Non-blocking maintenance execution - errors don't fail addon startup
-
-[COLOR yellow]** NEW - Modernized LogViewer (Changelog Viewer)[/COLOR]
-[COLOR green]Added[/COLOR]: Modern LogViewer.xml with glassy background matching TV Evening/Version Announcement style
-[COLOR green]Added[/COLOR]: Slim modern scrollbar (12px wide) with orchid color theme (was 30px)
-[COLOR green]Added[/COLOR]: Fade animations (300ms) for smooth dialog open/close
-[COLOR green]Added[/COLOR]: Enhanced scrolling support - mousewheel, arrow keys, page up/down, home/end
-[COLOR green]Added[/COLOR]: Multi-line scrolling - 3 lines per arrow/wheel, 10 lines per page key
-[COLOR green]Added[/COLOR]: Modern close button with green color theme and proper white.png textures
-[COLOR green]Added[/COLOR]: Orchid header text with separator line for cleaner design
-[COLOR green]Added[/COLOR]: Better spacing and padding for improved readability
-[COLOR green]Added[/COLOR]: Comprehensive action handling in changelog.py with proper error logging
-[COLOR green]Added[/COLOR]: Jump to top/bottom functionality with Home/End keys
-
-[COLOR yellow]** NEW - OpenSubtitles REST API Integration[/COLOR]
-[COLOR green]Added[/COLOR]: OpenSubtitles REST API v1 support replacing legacy XML-RPC
-[COLOR green]Added[/COLOR]: User-provided API key system (OSapikey setting) for ethical API usage
-[COLOR green]Added[/COLOR]: Dynamic User-Agent with actual plugin version (e.g., "The Crew 2.2.5-alpha")
-[COLOR green]Added[/COLOR]: Subtitle search with proper API key authorization header
-[COLOR green]Added[/COLOR]: Settings subtitle priority support with language-based sorting
-[COLOR green]Added[/COLOR]: English audio track selection for - your settings preferred language - subtitles
-[COLOR green]Added[/COLOR]: IMDB ID format preservation (tt prefix) for API compatibility
-
-[COLOR orange]Fixed[/COLOR]: TV Evening stale session bug - playlist_position=-1 errors when user cancels at duration selection
-[COLOR orange]Fixed[/COLOR]: Database not cleared on TV Evening cancellation - now cleans up on cancel/empty playlist
-[COLOR orange]Fixed[/COLOR]: Version announcement showing every startup - now respects session tracking for alpha builds
-[COLOR orange]Fixed[/COLOR]: Button colors missing in version announcement - switched to white.png textures with proper colordiffuse
-[COLOR orange]Fixed[/COLOR]: Changelog dialog using outdated basic textviewer - now uses custom glassy LogViewer
-[COLOR orange]Fixed[/COLOR]: LogViewer scrolling jumping to start/end - fixed navigation logic for smooth 3-line scrolling
-[COLOR orange]Fixed[/COLOR]: Buttons closing dialog immediately - removed premature dialog.close() calls
-[COLOR orange]Fixed[/COLOR]: OpenSubtitles authentication failures - proper REST API headers and format
-
-[COLOR cyan]Changed[/COLOR]: Startup maintenance now uses dedicated module instead of inline function
-[COLOR cyan]Changed[/COLOR]: Version announcement content now managed in version_config.py (easy to maintain)
-[COLOR cyan]Changed[/COLOR]: Changelog viewer displays through custom WindowXMLDialog instead of basic textviewer
-[COLOR cyan]Changed[/COLOR]: All version announcement text to ASCII (removed UTF-8 emojis for Kodi compatibility)
-[COLOR cyan]Changed[/COLOR]: Button styling to match TV Evening dialogs (orchid focus, semi-transparent unfocused)
-[COLOR cyan]Changed[/COLOR]: Scrollbar styling from chunky old design to sleek modern 12px bar
-[COLOR cyan]Changed[/COLOR]: LogViewer navigation to keep focus on textbox for proper scroll handling
-
-[COLOR orchid]Extra[/COLOR]: Version announcement system configured for 2.2.5-alpha with highlights
-[COLOR orchid]Extra[/COLOR]: Alpha Info button links to https://classymouse.github.io
-[COLOR orchid]Extra[/COLOR]: Comprehensive logging throughout all new systems for debugging
-[COLOR orchid]Extra[/COLOR]: All dialogs use consistent glassy orchid theme for unified look
-
-[COLOR orchid][B]version 2.3.6-alpha[/B][/COLOR] - [COLOR orange]INTERNAL UPDATE[/COLOR]
-
-[COLOR teal]Info[/COLOR]: Comprehensive filtering system overhaul (Phases 1-4) - eliminates spam domains, wrong results, and quality imbalance. All features include GUI management and detailed logging.
-
-[COLOR green]Added[/COLOR]: TV Evening View Playlist.
-[COLOR green]Added[/COLOR]: Advanced search for TVShows and Movies with save possibility on filters.
-[COLOR green]Added[/COLOR]: Scraper test window in Settings -> The Crew: Scraper Status.
-[COLOR green]Added[/COLOR]: (ETag) Cached artwork on widgets and other listings on top of the new get_image() method for improved performance and reduced API calls.
-[COLOR green]Added[/COLOR]: A lot of filtering options to scrapers, e.g. to filter out trailers, samples, proofs, etc. from the results.
-
-[COLOR yellow]** NEW - Phase 2: Result Validation (Experimental)[/COLOR]
-[COLOR green]Added[/COLOR]: Year validation filter - verifies release year matches metadata (±1 tolerance) to prevent wrong movie versions (e.g., "Beekeeper 2" returning "Beekeeper 1" results).
-[COLOR green]Added[/COLOR]: Title fuzzy matching filter - confirms source title actually matches search using intelligent normalization and TMDb/Trakt aliases.
-[COLOR green]Added[/COLOR]: Settings: filter.year toggle (default: false) - enable after testing to fix critical version mismatch bug.
-[COLOR green]Added[/COLOR]: Settings: filter.title toggle (default: false) - enable after testing to prevent different movies/shows with similar names.
-[COLOR orange]Fixed[/COLOR]: Critical bug where "The Beekeeper (2027)" returned "The Beekeeper (2024)" results - year validation now rejects mismatched releases.
-[COLOR orange]Fixed[/COLOR]: Widget playback failures and wrong results caused by missing result validation layer.
-
-[COLOR yellow]** NEW - Phase 3: Undesirables System (Spam/Foreign Domain Blocking)[/COLOR]
-[COLOR green]Added[/COLOR]: Undesirables filtering system with SQLite database - blocks 48 default spam domains and watermarks (tamilrockers, movierulz, www.1xbet.com, etc.).
-[COLOR green]Added[/COLOR]: Undesirables GUI - multi-select dialog to enable/disable 48 default keywords, add custom keywords, remove user entries.
-[COLOR green]Added[/COLOR]: Settings: filter.undesirables toggle (default: true) - blocks foreign torrent sites and watermarked releases.
-[COLOR green]Added[/COLOR]: Settings actions: "Manage Undesirables", "Define Extra Keywords", "Remove User Keywords", "Clear ALL User Keywords".
-[COLOR green]Added[/COLOR]: String IDs 90227-90230 for undesirables dialogs.
-[COLOR green]Added[/COLOR]: Router actions in crew.py: undesirablesSelect, undesirablesInput, undesirablesUserRemove, undesirablesUserRemoveAll.
-[COLOR green]Added[/COLOR]: get_user_defined() method to undesirables.py for GUI filtering.
-[COLOR green]Added[/COLOR]: Detailed logging: "[Undesirables] Filtered N sources (48 keywords active)".
-
-[COLOR yellow]** NEW - Phase 4: Advanced Filtering (Quality & Content)[/COLOR]
-[COLOR green]Added[/COLOR]: Extras filter - removes samples, deleted scenes, bloopers, bonus content, making-of, featurettes, commentaries, and trailers from results.
-[COLOR green]Added[/COLOR]: Per-quality source limits (default: 10 per quality) - prevents imbalance where 100 SD sources drown out 5 4K sources.
-[COLOR green]Added[/COLOR]: Settings: filter.extras toggle (default: true) to enable/disable bonus content filtering.
-[COLOR green]Added[/COLOR]: Settings: results.per_quality_limit slider (0-25, default: 10) to control maximum sources per quality tier - set to 0 for unlimited.
-
-[COLOR cyan]Changed[/COLOR]: Filtering pipeline now includes 5 stages: HEVC → Year → Title → Undesirables → Extras → Per-Quality Limits.
-[COLOR cyan]Changed[/COLOR]: All filters use fail-open error handling to prevent blocking valid sources on exceptions.
-[COLOR cyan]Changed[/COLOR]: Settings category "Playback Features" (90226) - merged UPNEXT + TV Evening into single category.
-[COLOR cyan]Changed[/COLOR]: Constants section in crewruntime.py - centralized API keys and color string IDs for better maintainability.
-[COLOR cyan]Changed[/COLOR]: Color identifier lists now imported from crewruntime constants instead of hardcoded in tvshows.py and episodes.py.
-[COLOR cyan]Changed[/COLOR]: A lot of user settings added/moved/removed, changed "Settings"-menu to only show "Settings: General".
-
-[COLOR orange]Fixed[/COLOR]: Duplicate string ID conflict - color identifier settings (unaired/premium/torrent) now use unique IDs (32753-32762) instead of conflicting with episode menu strings.
-[COLOR orange]Fixed[/COLOR]: Trailer playback flickering - added control.idle() cleanup after playback to clear rotating busy cursor.
-[COLOR orange]Fixed[/COLOR]: Trailer windowed mode dialog cleanup - fixed getCurrentDialogId() call and proper dialog closure.
-[COLOR orange]Fixed[/COLOR]: Poor scraper quality caused by lack of domain blacklist - undesirables system now filters 48 known spam/foreign sites.
-
-[COLOR orchid]Extra[/COLOR]: Bumped versions to module:2.3.6-alpha/plugin: 2.2.5-alpha/artwork: 2.1.9-alpha.
-[COLOR orchid]Extra[/COLOR]: Created FILTERING_GUIDE.md - comprehensive user documentation for all filtering features.
-[COLOR orchid]Extra[/COLOR]: Performance impact: All filters add < 100ms overhead for 100 sources (barely noticeable).
-
-[COLOR orchid][B]version 2.3.5-alpha[/B][/COLOR]
-
-[COLOR teal]Info[/COLOR]: Major debrid pack resolution system with support for Real-Debrid, AllDebrid, and Premiumize. Correct episode files now automatically selected from season packs with smart filtering and size-based selection.
-
-[COLOR green]Added[/COLOR]: Pack support for Real-Debrid - automatic episode file selection from cached season pack torrents
-[COLOR green]Added[/COLOR]: Pack support for AllDebrid - magnet upload and episode file selection with status checking
-[COLOR green]Added[/COLOR]: Pack support for Premiumize - transfer creation and episode file selection from cached packs
-[COLOR green]Added[/COLOR]: Token fetching from ResolveURL addon - seamless integration with existing debrid credentials
-[COLOR green]Added[/COLOR]: Smart file selection algorithm - collects all matching files, filters samples/proofs/trailers, selects largest file
-[COLOR green]Added[/COLOR]: Resolution progress dialog - shows detailed status (token→magnet→processing→finding file→generating link)
-[COLOR green]Added[/COLOR]: Lock mechanism - prevents duplicate pack resolution attempts for same torrent hash
-[COLOR green]Added[/COLOR]: Status checks for cached torrents - fast bailout to ResolveURL for uncached content
-
-[COLOR orange]Fixed[/COLOR]: Wrong episodes playing from season packs - pack resolver now selects correct episode file using seas_ep_filter()
-[COLOR orange]Fixed[/COLOR]: Mislabeled torrent files - largest file selection prevents incorrect releases from playing
-[COLOR orange]Fixed[/COLOR]: Missing resolution feedback - added progress dialog showing pack resolution stages (was blank 6-second delay)
-[COLOR orange]Fixed[/COLOR]: Multiple progress dialog sources - removed playItem() dialog that showed item-by-item "Resolving..." updates
-[COLOR orange]Fixed[/COLOR]: Duplicate resolveurl resolution block in sourcesResolve() causing double processing
-
-[COLOR cyan]Changed[/COLOR]: Episode file matching - now collects ALL matches instead of first match, enabling better selection
-[COLOR cyan]Changed[/COLOR]: Pack resolution architecture - added progressDialog parameter to all three service-specific functions
-[COLOR cyan]Changed[/COLOR]: File selection logic - size-based selection (max by bytes/size) ensures full episodes over samples
-[COLOR cyan]Changed[/COLOR]: Sample filtering - filters 'sample', 'proof', '-trailer' from matched files before selection
-[COLOR cyan]Changed[/COLOR]: resolve_pack() function signature - added progressDialog parameter for status updates
-[COLOR cyan]Changed[/COLOR]: Pack resolution logging - shows file sizes in MB for all potential matches and selected file
-
-[COLOR orchid][B]version 2.3.4-alpha[/B][/COLOR]
-
-[COLOR teal]Info[/COLOR]: Major scraper architecture refactoring with complete base class redesign, achieving 15x performance improvement and eliminating 2000+ lines of duplicate code across 31+ scrapers.
-
-[COLOR green]Added[/COLOR]: BaseScraper class - unified architecture for all direct and international scrapers with shared methods (movie, tvshow, episode, sources, resolve)
-[COLOR green]Added[/COLOR]: TorrentBaseScraper class - specialized base for all torrent scrapers with magnet building, size parsing, seeders checking, and pack support
-[COLOR green]Added[/COLOR]: flexible base class initialization system - optional parameters allow scrapers to set attributes after super().__init__()
-[COLOR green]Added[/COLOR]: centralized helper methods - _parse_data(), _parse_size(), _request(), _build_magnet(), _build_query(), _build_hdlr(), _matches_release()
-[COLOR green]Added[/COLOR]: torrent pack support methods - sources_packs() integrated into base class for all 16 torrent scrapers
-
-[COLOR orange]Fixed[/COLOR]: import path errors - corrected all relative imports from ...modules to ..modules (33 instances across scrapers)
-[COLOR orange]Fixed[/COLOR]: wrapper file contamination - recreated 7 direct scraper wrappers with clean imports only (fixed IndentationError in anymovies.py)
-[COLOR orange]Fixed[/COLOR]: base class initialization errors - made name/base_link/search_link parameters optional to prevent "missing positional arguments" errors
-[COLOR orange]Fixed[/COLOR]: Trakt 422 validation errors - rounded progress values to 2 decimal places (e.g., 0.34 instead of 0.3425651511824678)
-[COLOR orange]Fixed[/COLOR]: scraper loading failures - 26 of 31 scrapers failing due to import errors, now all 31+ loading successfully
-
-[COLOR cyan]Changed[/COLOR]: Complete refactoring of 31+ scrapers - 7 direct (allmoviesforyou, anymovies, dbgo, databasegdriveplayer, easynews, ororo, watchepisodes)
-[COLOR cyan]Changed[/COLOR]: Complete refactoring of 16 torrent scrapers - 1337x, BitLord, EZTV, GloTorrents, IsoHunt2, KickAss2, LimeTorrents, MagnetDL, PirateBay, TorDL, TorrentDownloads, TorrentGalaxy, TorrentQuest, Torrentio, YIFY, YourBittorrent
-[COLOR cyan]Changed[/COLOR]: Complete refactoring of 9 international scrapers - 2ddl, 300mbfilms, maxrls, myvideolinks, onlineseries, rapidmoviez, rlsbb, scenerls, scenerls_v2
-[COLOR cyan]Changed[/COLOR]: scraper performance - 15x speed improvement through base class optimization and code deduplication
-[COLOR cyan]Changed[/COLOR]: codebase size reduction - eliminated ~2000-2500 lines of duplicate code (40-45% reduction across refactored scrapers)
-[COLOR cyan]Changed[/COLOR]: Trakt scrobble logging - enhanced 422 error handler with response body details for better debugging
-
-[COLOR orchid][B]version 2.3.3-alpha[/B][/COLOR]
-
-[COLOR teal]Info[/COLOR]: Rebuild of 2.3.2-alpha with corrected zip packaging. No code changes - this version bump is required for Kodi to download the fixed packages.
-
-[COLOR orange]Fixed[/COLOR]: Corrupted zip file packaging (97MB file including cache.db - now properly 1.8MB)
-
-[COLOR orchid][B]version 2.3.2-alpha[/B][/COLOR]
-
-[COLOR teal]Info[/COLOR]: Major update with complete TVShows model modernization, working Documentary section, new Progress tracking menus, GUI artwork refresh, and comprehensive bug fixes.
-
-[COLOR green]Added[/COLOR]: TVShows completely modernized - Full conversion to TVItem/TVShow/Episode model architecture for better compatibility and performance
-[COLOR green]Added[/COLOR]: Progress tracking menus - Three new Trakt progress views (Shows, Next Episodes, In Progress Episodes) using dedicated Progress indexer
-[COLOR green]Added[/COLOR]: Documentary section fully functional - 25 categories, video playback working, pagination support for browsing extensive catalogs
-[COLOR green]Added[/COLOR]: Complete metadata support - Director, writer, cast with thumbnails on all TV content via InfoTag API
-[COLOR green]Added[/COLOR]: GUI artwork refresh - Updated modern theme icons for main menu items (movies, TV shows, tools, search) and category screens
-[COLOR green]Added[/COLOR]: Documentary category browsing with proper URL structure (/category/name/) for all 25 categories
-[COLOR green]Added[/COLOR]: YouTube video extraction support in documentaries using contentUrl/embedUrl meta tags
-[COLOR green]Added[/COLOR]: Gambling spam filtering in documentary parser (casino, sportsbook, betting, etc.)
-[COLOR green]Added[/COLOR]: Relative URL support in documentary link extraction for site-internal navigation
-[COLOR green]Added[/COLOR]: Episode model with complete InfoTag field mapping (premiered, rating, votes, duration, etc.)
-
-[COLOR orange]Fixed[/COLOR]: TVShows threading issues - Eliminated race conditions in multi-threaded episode list generation
-[COLOR orange]Fixed[/COLOR]: InfoTag compatibility warnings - Removed deprecated setInfo/setCast calls, using setInfo with ListItem.VIDEOINFO_TAG
-[COLOR orange]Fixed[/COLOR]: Artwork display issues - Proper poster/fanart/banner mapping using InfoTag methods
-[COLOR orange]Fixed[/COLOR]: Documentary page 1 filtering - Removed sports betting spam that was slipping through initial filters
-[COLOR orange]Fixed[/COLOR]: Documentary category parsing - Changed from broken HTML parsing to hardcoded 25 working categories
-[COLOR orange]Fixed[/COLOR]: Documentary video playback - Fixed YouTube video ID extraction by stripping query parameters
-[COLOR orange]Fixed[/COLOR]: Documentary 403 Forbidden errors - Added Chrome User-Agent headers and client.request() fallback
-[COLOR orange]Fixed[/COLOR]: Season display duplicating show titles in episode labels
-[COLOR orange]Fixed[/COLOR]: Cast member display now shows character names and thumbnails properly
-[COLOR orange]Fixed[/COLOR]: Episode premiere dates now showing correctly in list views
-
-[COLOR cyan]Changed[/COLOR]: Episode list generation - 50-70% faster with show-level caching and parallel processing
-[COLOR cyan]Changed[/COLOR]: All TV content now uses modern InfoTag API instead of deprecated setInfo methods
-[COLOR cyan]Changed[/COLOR]: Documentary URLs updated to correct endpoints (/all/, /list/, /top-100/, /category/)
-[COLOR cyan]Changed[/COLOR]: Video playback method changed from xbmc.Player().play() to setResolvedUrl() for documentaries
-[COLOR cyan]Changed[/COLOR]: Artwork addon version bumped to 2.1.1 reflecting extensive icon updates
-
-[COLOR orchid][B]version 2.3.1-alpha[/B][/COLOR]
-
-[COLOR teal]Info[/COLOR]: This is a maintenance release focused on TV show season display fixes, Trakt sync improvements, genre filtering enhancements, library auto-update improvements, and repository organization.
-
-[COLOR green]Added[/COLOR]: user notification when new TV show seasons are detected by library auto-update
-[COLOR green]Added[/COLOR]: comprehensive library auto-update documentation (docs/LIBRARY_AUTO_UPDATE.md)
-[COLOR green]Added[/COLOR]: repository build automation tools (build_repo.py and build_repo_zip.py)
-[COLOR green]Added[/COLOR]: repository/ folder to .gitignore to prevent build artifacts in version control
-[COLOR green]Added[/COLOR]: organized documentation structure - all docs moved to docs/ folder
-[COLOR green]Added[/COLOR]: organized testing structure - all tests moved to tests/ folder
-[COLOR green]Added[/COLOR]: organized development tools - all scripts moved to tools/ folder
-[COLOR green]Added[/COLOR]: Trakt batch API operations for season watched/unwatched - fetches all episodes from TMDB and marks entire season in single API call
-[COLOR green]Added[/COLOR]: cache invalidation after Trakt sync operations to ensure watched indicators refresh immediately
-[COLOR green]Added[/COLOR]: IMDB-to-TMDB conversion for shows without TMDB ID before batch operations
-
-[COLOR orange]Fixed[/COLOR]: season poster display - now uses 'seasons' content type instead of 'tvshows' for proper skin artwork mapping
-[COLOR orange]Fixed[/COLOR]: season poster thumbnail - changed from fanart fallback to proper season poster source
-[COLOR orange]Fixed[/COLOR]: season Information context menu - added required metadata fields (season, tvshowtitle, title) for dialog display
-[COLOR orange]Fixed[/COLOR]: season mediatype - changed from 'tvshow' to 'season' for correct Kodi integration
-[COLOR orange]Fixed[/COLOR]: Trakt HTTP 429 rate limit errors when marking seasons watched/unwatched - now uses batch operations (10 episodes = 1 API call instead of 10 calls)
-[COLOR orange]Fixed[/COLOR]: watched/unwatched indicators not updating after season marking - added cache clearing for Trakt activity cache and syncTVShows function cache
-[COLOR orange]Fixed[/COLOR]: Trakt season sync response parsing - switched from get_trakt() to getTraktAsJson() for proper JSON handling
-[COLOR orange]Fixed[/COLOR]: genre filter showing too many foreign movies - switched from TMDB to Trakt API for genre filtering
-[COLOR orange]Fixed[/COLOR]: library auto-update now checks for new seasons every 3 days (reduced from 7 days) for faster new season detection
-[COLOR orange]Fixed[/COLOR]: library service now properly detects and adds new seasons to continuing shows
-[COLOR orange]Fixed[/COLOR]: episode caching improvements for better performance
-
-[COLOR cyan]Changed[/COLOR]: genre filtering now uses Trakt trending API with genre slugs instead of TMDB discover with numeric IDs
-[COLOR cyan]Changed[/COLOR]: genres() method updated to use Trakt genre slugs (action, comedy, science-fiction, etc.) for better English-language content curation
-[COLOR cyan]Changed[/COLOR]: repository structure reorganized for better maintainability
-[COLOR cyan]Changed[/COLOR]: .gitignore updated to prevent temporary development files in root directory
-
-[COLOR red]Removed[/COLOR]: unhinged scraper (caused repository errors)
-[COLOR red]Removed[/COLOR]: "TV Movie" genre (TMDB-specific, not available in Trakt)
-
-[COLOR orchid][B](plugin) version 2.2.0-alpha[/B][/COLOR]
-
-[COLOR teal]Info[/COLOR]: This is a [B]major alpha release[/B] representing a nearly complete rewrite with extensive improvements to scraping, caching, debrid management, and Trakt integration. All critical bugs have been resolved and the addon is ready for community testing.
-
-[COLOR red]Warning[/COLOR]: As of his version The crew will only (!) supports Python 3.8 and higher which means, for now, kodi v20 and above. [B]Unexpected results WILL happen when using on v19[/B].
-
-[COLOR green]Added[/COLOR]: total episodes/seasons and watched/unwatched episodes where available (if your skin supports it!)
-[COLOR green]Added[/COLOR]: widgets don't show unaired episodes in progress list anymore. In normal listings they are colored based on your settings
-[COLOR green]Added[/COLOR]: holiday/christmas movies menu item will be shown automagically in December
-[COLOR green]Added[/COLOR]: * Now Watching * menu in movies and tvshows
-[COLOR green]Added[/COLOR]: search items can be deleted per item inside dialog (hold button or right-click)
-[COLOR green]Added[/COLOR]: progress time remaining in title when movie or episode is paused
-[COLOR green]Added[/COLOR]: progress synced with trakt
-[COLOR green]Added[/COLOR]: Extensive Orion support (see https://www.orionoid.com for info)
-[COLOR green]Added[/COLOR]: CocoScrapers integration with user-configurable enable/disable setting
-[COLOR green]Added[/COLOR]: season pack and show pack support for 14 torrent scrapers (1337x, BitLord, EZTV, GloTorrents, IsoHunt2, KickAss2, LimeTorrents, MagnetDL, PirateBay, TorDL, TorrentDownloads, TorrentGalaxy, TorrentQuest, YourBittorrent)
-[COLOR green]Added[/COLOR]: centralized HTTP client with connection pooling (20 connections) and automatic retry logic (3 attempts with exponential backoff)
-[COLOR green]Added[/COLOR]: intelligent cache TTLs - 6 hours for airing shows, 30 days for ended shows
-[COLOR green]Added[/COLOR]: Trakt batch operations with conditional requests (If-Modified-Since and ETag headers)
-[COLOR green]Added[/COLOR]: Unified key/value cache with ETag and Last-Modified support and a `get_with_etag` helper for conditional revalidation
-[COLOR green]Added[/COLOR]: Integrated ETag/conditional revalidation into Trakt last-activities (60s TTL) to reduce redundant API calls
-[COLOR green]Added[/COLOR]: Database migration `cache_v2` to add `namespace`, `etag`, and `last_modified` columns and migrate legacy `table` values
-[COLOR green]Added[/COLOR]: tests for cache migration and ETag/304/200 flows and Trakt integration; docs added (`CACHE_ETAG.md`, `MIGRATIONS.md`)
-[COLOR green]Added[/COLOR]: tools/check_cache_db.py for quick inspection of cache DB rows and migration status
-[COLOR green]Added[/COLOR]: proactive Trakt token refresh when < 1 hour remains (handles new 1-day token expiration policy)
-[COLOR green]Added[/COLOR]: TMDb append_to_response optimization reducing API calls by 50%
-[COLOR green]Added[/COLOR]: Trakt scrobble queue system - batches playback events every 5 minutes to reduce API spam (90% fewer API calls)
-[COLOR green]Added[/COLOR]: immediate queue processing on playback stop to ensure resume time is saved instantly
-[COLOR green]Added[/COLOR]: source caching system with configurable duration (5-60 min, default 15) - instant source retrieval on revisit
-[COLOR green]Added[/COLOR]: remaining time display for episodes in lists (matches movie behavior)
-[COLOR green]Added[/COLOR]: Debrid Account Manager - centralized interface to view Real-Debrid, AllDebrid, and Premiumize account information
-[COLOR green]Added[/COLOR]: account status display with color-coded indicators (green=active, red=inactive)
-[COLOR green]Added[/COLOR]: readable expiration dates with days remaining countdown
-[COLOR green]Added[/COLOR]: color-coded expiration warnings (green >30 days, yellow 8-30 days, red ≤7 days)
-[COLOR green]Added[/COLOR]: back button navigation in all debrid manager screens for improved UX
-[COLOR green]Added[/COLOR]: extensive logging for debrid account detection and API integration
-[COLOR green]Added[/COLOR]: Unix timestamp to readable date conversion (YYYY-MM-DD HH:MM UTC format)
-[COLOR green]Added[/COLOR]: cloud storage browser menu placeholder (future implementation)
-[COLOR green]Added[/COLOR]: Viperscrapers integration with 13 additional torrent sources (Torrent9, Torrentio, YggTorrent, Sharewood, etc.)
-[COLOR green]Added[/COLOR]: Gearsscrapers compatibility and integration
-[COLOR green]Added[/COLOR]: local XML override support (xml/ directory) for testing remote category XMLs without modifying online sources
-[COLOR green]Added[/COLOR]: safe logging wrapper for binary data detection - prevents 73MB+ log file corruption from video content dumps
-[COLOR green]Added[/COLOR]: local adultresolver override with ResolveURL framework integration (65+ supported hosts)
-[COLOR green]Added[/COLOR]: manual extraction fallback patterns (4+ regex patterns) for adult content resolution
-[COLOR green]Added[/COLOR]: Kodi image cache clearing utility scripts (interactive and quick versions) for Windows
-[COLOR green]Added[/COLOR]: threading protection for Trakt token refresh using window properties to prevent race conditions
-
-[COLOR orange]Fixed[/COLOR]: trailers playing again
-[COLOR orange]Fixed[/COLOR]: major core code changes py2 to 3. Will [B]not[/B] work on a python 2 version
-[COLOR orange]Fixed[/COLOR]: countless bugs in code due to py 3
-[COLOR orange]Fixed[/COLOR]: fanart size quality now works in info screens and all other widgetsd etc. (you might want to clear your cache)
-[COLOR orange]Fixed[/COLOR]: Continue Watching now shows all episodes with progress instead of only first 7
-[COLOR orange]Fixed[/COLOR]: Episode labels now display clean format (Show - (S##E##) - Episode Title) without duplication
-[COLOR orange]Fixed[/COLOR]: UnboundLocalError crash when episodes have resume_point from progress table
-[COLOR orange]Fixed[/COLOR]: selecting an actor with the tmdb addon installed is fixed
-[COLOR orange]Fixed[/COLOR]: all references to "next", so all nextpages are working again properly
-[COLOR orange]Fixed[/COLOR]: several indicators (e.g. progress indicators movies)
-[COLOR orange]Fixed[/COLOR]: countless errors and created numerous new defs to fix old code
-[COLOR orange]Fixed[/COLOR]: reading of the trakt/local bookmarks setting in Settings
-[COLOR orange]Fixed[/COLOR]: a lot of regex strings to string literals (raw) to prevent deprecation warnings
-[COLOR orange]Fixed[/COLOR]: Manually setting watched/unwatched status in trakt via context menu
-[COLOR orange]Fixed[/COLOR]: sync Trakt with start/stop/resume in player
-[COLOR orange]Fixed[/COLOR]: size/filetypes/fileinfo and added the Dolby Vision (DV) tag as seperate
-[COLOR orange]Fixed[/COLOR]: issue with trakt authentication on some systems
-[COLOR orange]Fixed[/COLOR]: issue with trakt syncing on some systems
-[COLOR orange]Fixed[/COLOR]: info screen missing data (e.g. genres, release date etc.)
-[COLOR orange]Fixed[/COLOR]: info contextual menu on tv-shows not working properly
-[COLOR orange]Fixed[/COLOR]: security vulnerability - replaced eval() with json.loads() in cache deserialization
-[COLOR orange]Fixed[/COLOR]: Trakt OAuth token refresh now uses correct headers (no Authorization header during refresh)
-[COLOR orange]Fixed[/COLOR]: endless loop when stopping movie playback - removed Container.Refresh on manual stop
-[COLOR orange]Fixed[/COLOR]: Trakt 401 error infinite loop - token_refresh now returns boolean and prevents recursive calls
-[COLOR orange]Fixed[/COLOR]: 304 (Not Modified) handling no longer refreshes cached timestamp so servers can be revalidated by TTL
-[COLOR orange]Fixed[/COLOR]: NameError in ETag conditional path resolved (incorrect reference to `cache.cache_insert` fixed)
-[COLOR orange]Fixed[/COLOR]: CREATE TABLE and migration paths made idempotent and benign "already exists" OperationalError suppressed to avoid noisy startup logs
-[COLOR orange]Fixed[/COLOR]: source selection dialog showing empty labels - fixed broken filter logic in sources.py
-[COLOR orange]Fixed[/COLOR]: external lists "Unknown Video Info Key" errors - corrected metadata filtering order in lists.py
-[COLOR orange]Fixed[/COLOR]: sublink selection dialog showing blank lines - added default "Link N" labels for unnamed sublinks
-[COLOR orange]Fixed[/COLOR]: resume time not being saved correctly when user stops playback manually
-[COLOR orange]Fixed[/COLOR]: excessive Trakt API calls on every pause/resume/stop event
-[COLOR orange]Fixed[/COLOR]: resume point corruption - percentage values incorrectly stored as seconds in database
-[COLOR orange]Fixed[/COLOR]: remaining time calculation showing wrong values (e.g., "1 min" instead of "60 min")
-[COLOR orange]Fixed[/COLOR]: movie and episode resume points now correctly converted from corrupted percentage data
-[COLOR orange]Fixed[/COLOR]: episode resume points not retrieved properly - missing season/episode parameters
-[COLOR orange]Fixed[/COLOR]: duplicate database updates from scrobble functions overwriting correct resume times
-[COLOR orange]Fixed[/COLOR]: Continue Watching for TV Shows showing wrong/missing episodes - fill_progress_table now fetches both movies AND episodes from Trakt
-[COLOR orange]Fixed[/COLOR]: episodes with <92% progress showing checkmark instead of resume arrow - overlay logic now checks progress table first
-[COLOR orange]Fixed[/COLOR]: AttributeError when adding movies/TV shows to library - corrected router to use libmovies, libtvshows, and libepisodes as classes instead of methods
-[COLOR orange]Fixed[/COLOR]: critical scraping bug - ValueError "not enough values to unpack (expected 3, got 2)" that caused 100% scraping failure
-[COLOR orange]Fixed[/COLOR]: source tuple priority stripping that broke all 44 scrapers
-[COLOR orange]Fixed[/COLOR]: IndentationError in episodes.py line 498 (_fetch_tmdb_data method)
-[COLOR orange]Fixed[/COLOR]: Dialog().ok() calls to use 2 arguments for Kodi Python 3 compatibility
-[COLOR orange]Fixed[/COLOR]: TypeError in debrid manager preventing feature from loading
-[COLOR orange]Fixed[/COLOR]: debrid account detection - improved resolver instantiation and auth token retrieval
-[COLOR orange]Fixed[/COLOR]: UTF-8 special character encoding issues (removed checkmarks and arrows)
-[COLOR orange]Fixed[/COLOR]: debrid manager now properly checks for multiple auth token setting names
-[COLOR orange]Fixed[/COLOR]: Trakt reauth flow - added error handling for failed token refresh and user notification
-[COLOR orange]Fixed[/COLOR]: Trakt token refresh logic - now checks for <1 hour remaining before attempting refresh to prevent unnecessary API calls
-[COLOR orange]Fixed[/COLOR]: Trakt 401 error handling - token_refresh now returns boolean success status to prevent infinite retry loops
-[COLOR orange]Fixed[/COLOR]: Trakt race condition - concurrent token refreshes from multiple threads causing 400 errors and failed authentication
-[COLOR orange]Fixed[/COLOR]: Trakt token refresh now uses window property locking to ensure only one thread refreshes at a time (prevents OAuth2 single-use token conflicts)
-[COLOR orange]Fixed[/COLOR]: Progress view and frontpage widget showing empty results after Kodi restart due to failed token refresh
-
-[COLOR cyan]Changed[/COLOR]: several (missing) language strings
-[COLOR cyan]Changed[/COLOR]: trailers: 1 result plays automatically, multiple results can be selected by the user from a dialog
-[COLOR cyan]Changed[/COLOR]: changed startup dialogs -> silent boot is now really silent (will log when debug is enabled)
-[COLOR cyan]Changed[/COLOR]: changed tvshows/seasons/episodes/movies etc. to use the new Listitems
-[COLOR cyan]Changed[/COLOR]: artwork (e.g. clearlogo, clearart and a new thumbnail for TVShows)
-[COLOR cyan]Changed[/COLOR]: local bookmarks significally, it is possible you will lose some progress if you are not using trakt
-[COLOR cyan]Changed[/COLOR]: workings of local and trakt bookmarks. If you choose "local" bookmarks your progress stays local to the device, if you choose "[COLOR red][B]Trakt[/B][/COLOR]" your progress will be updated with Trakt and you can continue watching on another device
-[COLOR cyan]Changed[/COLOR]: TMDb API calls now use append_to_response to fetch credits, external_ids, and ratings in single request
-[COLOR cyan]Changed[/COLOR]: Trakt API now uses batch /sync/watched endpoint instead of per-type loops
-[COLOR cyan]Changed[/COLOR]: HTTP sessions now persist across requests with connection pooling and rate limiting
-[COLOR cyan]Changed[/COLOR]: all scrapers now use centralized HTTPClient with shared connection pool
-[COLOR cyan]Changed[/COLOR]: Trakt HTTP helpers updated to accept conditional headers and return (text, headers, status); last-activities now use `get_with_etag` with a 60s TTL for conditional revalidation
-[COLOR cyan]Changed[/COLOR]: cache table schema migrated: legacy `table` column values are copied to new `namespace` column; schema_migrations records `cache_v2` idempotently
-[COLOR cyan]Changed[/COLOR]: scrapers and pack implementations updated and documented (CocoScrapers / PACK docs) with tests for pack behavior and caching integration
-[COLOR cyan]Changed[/COLOR]: Trakt scrobbling now queues events and processes in 5-minute batches instead of immediate API calls
-[COLOR cyan]Changed[/COLOR]: superinfo caching optimized for 50-70% faster metadata retrieval
-[COLOR cyan]Changed[/COLOR]: BGDialog source update frequency reduced by 83% (updates every 6th source instead of every source)
-[COLOR cyan]Changed[/COLOR]: library season tracking improved to prevent duplicate episodes
-[COLOR cyan]Changed[/COLOR]: list rendering order corrected (alphabetical → chronological where appropriate)
-[COLOR cyan]Changed[/COLOR]: debrid manager uses select() dialogs instead of textviewer() for better navigation
-[COLOR cyan]Changed[/COLOR]: color scheme standardized across addon (green=safe, yellow=warn, red=danger, skyblue=names)
-[COLOR cyan]Changed[/COLOR]: back button uses << instead of UTF-8 arrow character
-
-[COLOR orchid]Extra[/COLOR]: Bumped version to 2.2.0-alpha
-[COLOR orchid]Extra[/COLOR]: Alpha repository created and deployed to GitHub (thecrew-alpha-repo)
-[COLOR orchid]Extra[/COLOR]: Repository generator tool (build_repo.py) for automated packaging and deployment
-[COLOR orchid]Extra[/COLOR]: Added tools/check_cache_db.py for cache database inspection
-[COLOR orchid]Extra[/COLOR]: Added tools/clear_kodi_image_cache.ps1 for Windows thumbnail cache management
-
-[COLOR red]Removed[/COLOR]: 51 backup files and .bak files from codebase (alpha cleanup phase)
-[COLOR red]Removed[/COLOR]: test compatibility code that was breaking production scraping
-[COLOR red]Removed[/COLOR]: UTF-8 special characters (●, ←) that displayed incorrectly in Kodi
-[COLOR red]Removed[/COLOR]: all startup code bloat for cleaner initialization
-[COLOR red]Removed[/COLOR]: obsolete Python 2 compatibility layers
-[COLOR red]Removed[/COLOR]: Kodi-six dependency
-[COLOR red]Removed[/COLOR]: support for Furk.net
-[COLOR red]Removed[/COLOR]: eval() from cache system (security risk)
-[COLOR red]Removed[/COLOR]: redundant TMDb external_ids API calls (now included via append_to_response)
+[COLOR orchid][B]The Crew Addon - Release Notes[/B][/COLOR]
+
+[COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
+
+
+=====================================================
+Version 2.5.0-beta (March 19, 2026) - COMPLETE MODERNIZATION RELEASE
+=====================================================
+
+[COLOR yellow]*** BETA RELEASE - MASSIVE OVERHAUL FROM 2.0.6 ***[/COLOR]
+
+[COLOR orchid]This represents months of work completely modernizing The Crew![/COLOR]
+
+[COLOR cyan]What changed from version 2.0.6:[/COLOR]
+- Complete migration from Python 2/3 hybrid to pure Python 3
+- Almost every line of code rewritten and modernized
+- Old Genesis-based code completely replaced
+- Performance transformation: 30-45 second waits -> 1-3 seconds for lists!
+- Scrapers completely fixed and functional
+- Adult section now fully working
+- Movies/TV Shows now consistently functional
+- Brand new caching system for blazing-fast navigation
+- Modern architecture throughout
+
+[COLOR lime]This isn't an update - it's a complete transformation of The Crew addon![/COLOR]
+
+[COLOR lime]NEW FEATURE - TV EVENING:[/COLOR]
+[COLOR orchid]*** Experience a whole new way to binge-watch your favorite shows! ***[/COLOR]
+
+TV Evening is an automatic playlist mode that transforms your TV show watching experience:
+- Beautiful fullscreen overlay with show backdrop appears during episode scraping
+- Episode information and cast photos displayed elegantly during transitions
+- Smart countdown appears at 92% of episode completion (not during credits!)
+- Seamless automatic transitions between episodes - sit back and enjoy
+- Gorgeous pause screens between episodes with show artwork
+- Robust fallback system ensures backdrops always load (TMDB -> Fanart cache -> Theme)
+
+[COLOR cyan]How to use:[/COLOR] Navigate to any TV show episode and select "TV Evening" from the context menu.
+Add multiple episodes to your playlist and let The Crew handle the rest!
+
+[COLOR orange]TV Evening - Technical Fixes:[/COLOR]
+- Fixed timing detection to handle resume points correctly (seek detection + stabilization)
+- Fixed overlay not appearing during source scraping
+- Fixed backdrop loading failures (database schema migration + TMDB CDN update)
+- Fixed overlay staying on screen during playback
+- Added session validation to prevent false playback starts
+- Migrated to new TMDB image CDN (image.tmdb.org) with automatic URL migration
+- Implemented 3-tier backdrop fallback for maximum reliability
+
+[COLOR lime]NEW FEATURES - CONTENT DISCOVERY:[/COLOR]
+
+[COLOR cyan]Personal Calendars:[/COLOR]
+- TV Calendar - See episodes airing from YOUR subscribed shows (not global trends!)
+- Movie Calendar - See releases from YOUR watchlist and collection
+- Multiple time ranges: Today, This Week, Next Week
+- Never miss new episodes or movie releases you're waiting for
+
+[COLOR cyan]Trakt Integration (13 New Discovery Features):[/COLOR]
+- Recommended for You - Personalized movie & show recommendations
+- Popular - Most popular movies and shows on Trakt
+- Anticipated - Most anticipated upcoming releases
+- Most Played - Content with highest watch counts
+- Most Watched - Content watched by most unique users
+- Most Collected - Content most collected in user libraries
+- Box Office - Weekend top 10 movies
+- Related Movies/Shows - Smart recommendations based on what you're watching
+- User Statistics - View your watch counts, time spent, top genres
+- Watch History - Complete viewing history with timestamps (preserves rewatches!)
+- Trakt QR Code Authentication - Scan with mobile device for instant setup
+
+[COLOR cyan]TMDB Integration (5 New Features):[/COLOR]
+- Now Playing (In Theaters) - Movies currently in theaters
+- Upcoming Releases - Movies releasing in the next 4 weeks
+- Latest Releases - Past 31 days of streaming/digital releases
+- Premieres (All Platforms) - Recent premieres across all platforms
+- Upcoming Shows - TV shows premiering in the next 30 days
+
+[COLOR cyan]Content Enhancement:[/COLOR]
+- Trailer Support for TV Shows & Episodes - YouTube integration everywhere
+- Trailer buttons in info dialogs, Next Episodes, and In Progress lists
+- "Page X of Y" pagination display for all Trakt and TMDB lists
+- Complete metadata enhancement (studio, genre, MPAA ratings)
+
+[COLOR cyan]Family Features:[/COLOR]
+- PIN Protection for Adult Content - SHA256 hashed, 4-hour session
+- Custom parental control with masked PIN entry
+- Configurable section name in settings
+
+[COLOR red]CRITICAL FIXES:[/COLOR]
+
+[COLOR orange]Major Bugs Resolved:[/COLOR]
+- [COLOR red]CRITICAL:[/COLOR] Trakt Token Refresh - Was completely broken, now auto-refreshes forever (re-authorize once!)
+- [COLOR red]CRITICAL:[/COLOR] Episode Scraping - Was returning WRONG episodes (everything except requested!)
+- [COLOR red]CRITICAL:[/COLOR] UpNext Auto-Play - Episodes weren't being marked as watched
+- [COLOR red]CRITICAL:[/COLOR] Info Dialog Playback - Endless loop on Shield TV fixed
+- Calendar Date Issues - Fixed timezone problems showing wrong episodes
+- "Most Voted" Lists - No longer showing unreleased/unaired content
+- UpNext - No longer auto-plays unaired episodes
+- Progress Table - Only shows genuinely in-progress content (not completed)
+- Unaired Seasons - Correct watched indicator display
+- Russian Torrents - Episode pack filtering now works correctly
+- Audio Selection - No longer selected twice during playback
+
+[COLOR lime]PERFORMANCE IMPROVEMENTS:[/COLOR]
+- Logging Overhead - 98% reduction! (100,000+ lines -> 1,800 lines)
+- Cold Start Time - 90% faster (7,800 lines -> 770 lines, 5-8 seconds faster)
+- Source scraping is now 75-83% faster (5-15 seconds instead of 60+ seconds)
+- Next Episodes widget loads in 2 seconds instead of 45 seconds (95% faster!)
+- Progress counter now shows correct scraper names during search
+- Scraping timeout reduced to 15 seconds (most results appear in first 5 seconds)
+- Smart widget caching - detects cache warmth, instant loads on warm cache
+- 30-day TMDB artwork caching for faster navigation
+- Reduced disk I/O with optimized logging and caching strategies
+
+[COLOR lime]ARCHITECTURE & CODE QUALITY:[/COLOR]
+- BaseScraper Architecture - Unified base class for all ~34 crew scrapers
+- TMDBMixin Base Class - Eliminated ~150 lines of duplicate code
+- Modern Python 3 patterns throughout (no more Python 2 compatibility code)
+- BeautifulSoup4 HTML parser added for complex website scraping
+- 113 Regex patterns fixed with raw string literals (r'') for reliability
+- Title matching regex modernized for better scraper filename matching
+- Thread pool optimization - prevented potential crashes from exhaustion
+- Removed dead code: tvmaze.py, dom_parser2.py, legacy scrapers, IMDB lists
+- Sports resolver modernization with graceful crypto degradation
+
+[COLOR orange]OTHER FIXES:[/COLOR]
+- Pirate Bay sources now return successfully
+- Progress dialog showing wrong scraper count
+- Trakt authentication errors that caused infinite loops
+- Episodes widget not updating after watching episodes
+- Some shows had invalid IDs causing crashes
+
+[COLOR red]REMOVED:[/COLOR]
+- Disabled 3 slow scrapers that rarely found content (kickass2, eztv, limetorrents)
+
+[COLOR cyan]NOTE:[/COLOR]
+To get an even better experience, enable gearsscrapers, cocoscrapers or viperscrapers in Settings > External Scrapers.
+These add many more high-quality sources to complement The Crew's built-in scrapers.
+
+=====================================================
+Version 2.2.10-alpha (March 16, 2026)
+=====================================================
+
+[COLOR lime]IMPROVED:[/COLOR]
+- Widget loading much faster with smart cache detection
+- Less logging spam in the log files
+- Episode metadata fetching optimized for widgets
+
+[COLOR orange]FIXED:[/COLOR]
+- Variable scope bugs in episode fetching
+- Early return bug causing empty episode lists
+- Boolean handling in TMDB configuration
+
+=====================================================
+Version 2.2.9-alpha (March 2026)
+=====================================================
+
+[COLOR lime]ADDED:[/COLOR]
+- Personal TV Calendar - see episodes airing from YOUR subscribed shows
+- Movie Calendar - see releases from YOUR watchlist
+- Related Movies and Related Shows recommendations
+- User Statistics - view your watch counts and top genres
+- PIN protection for adult content section (parental control)
+
+[COLOR orange]FIXED:[/COLOR]
+- Calendar showing wrong episodes due to timezone issues
+- "Most Voted" lists showing unreleased content
+- UpNext not marking episodes as watched during auto-play
+- In Progress list showing completed episodes
+- IPTV menu not opening
+
+=====================================================
+Version 2.2.8-alpha (March 2026)
+=====================================================
+
+[COLOR orange]FIXED:[/COLOR]
+- Info dialog "Play" button causing endless loops on Shield TV
+- Playback timeout issues on slower devices
+
+=====================================================
+Version 2.2.7-alpha (March 2026)
+=====================================================
+
+[COLOR lime]ADDED:[/COLOR]
+- Trailer buttons for TV shows and episodes
+- Trailer support in Next Episodes and In Progress lists
+- YouTube plugin integration for trailer playback
+
+[COLOR orange]FIXED:[/COLOR]
+- Episodes not marked as watched when UpNext auto-plays
+- Progress table showing completed episodes
+- Wrong episodes being scraped (returning everything except requested episode)
+
+=====================================================
+Version 2.2.6-alpha (February 2026)
+=====================================================
+
+[COLOR lime]ADDED:[/COLOR]
+- Trakt QR code authentication for easy mobile setup
+- 13 new Trakt discovery features (Recommended, Popular, Anticipated, etc.)
+- 5 new TMDB discovery features (Now Playing, Upcoming, etc.)
+- Box Office weekend top 10 movies
+- Watch history tracking with timestamps
+
+[COLOR orange]FIXED:[/COLOR]
+- Trakt token refresh was completely broken
+- Unaired seasons showing as watched
+- UpNext auto-playing unaired episodes
+- TV Calendar reduced from 61 days to 14 days (less clutter)
+
+[COLOR lime]IMPROVED:[/COLOR]
+- "Page X of Y" display for all lists
+- Calendar views sorted by air date
+
+=====================================================
+Version 2.2.5-alpha (February 2026)
+=====================================================
+
+[COLOR lime]ADDED:[/COLOR]
+- Version announcement dialog on startup
+- Comprehensive maintenance system
+- Modernized log viewer
+- OpenSubtitles REST API integration
+
+[COLOR orange]FIXED:[/COLOR]
+- Duplicate code removed from Episodes class
+- Thread pool exhaustion issues
+- DBID retrieval for library items
+
+=====================================================
+
+[COLOR cyan]For detailed technical changes, see changelog_technical_archive.txt[/COLOR]
+
+[COLOR yellow]IMPORTANT:[/COLOR]
+This is a beta release. While we've tested extensively, please report any issues to our GitHub repository.
+
+[COLOR orchid]Thank you for using The Crew![/COLOR]

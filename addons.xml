@@ -1,146 +1,75 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <addons>
-  <addon id="plugin.video.thecrew" version="2.2.8-alpha" name="[COLOR orchid]THE CREW[/COLOR]" provider-name="The Crew">
-    <requires>
-      <import addon="xbmc.python" version="3.0.0" />
-      <import addon="script.module.thecrew" />
-      <import addon="script.thecrew.artwork" />
-      <import addon="script.module.requests" />
-      <import addon="script.module.resolveurl" />
-      <import addon="script.module.resolveurl.xxx" version="2.0.1" />
-      <import addon="script.module.simplejson" />
-      <import addon="script.module.requests" />
-      <import addon="script.module.beautifulsoup4" />
-      <import addon="script.module.six" />
-      <import addon="script.module.orion" optional="true" />
-      <import addon="plugin.video.youtube" optional="true" />
-      <import addon="script.module.inputstreamhelper" version="0.3.3" />
-    </requires>
-    <extension library="thecrew.py" point="xbmc.python.pluginsource">
-      <provides>video</provides>
-    </extension>
-    <extension library="service.py" point="xbmc.service" />
-    <extension point="xbmc.addon.metadata">
-      <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you, the best in entertainment.</summary>
-      <description lang="en">Many come, Many go. The true and dedicated are here.</description>
-      <platform>all</platform>
-      <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
-      <disclaimer lang="en">The authors of this addon do not host any of the content which is found nor have any affiliation with any of the content providers. This addon simply searches websites for content. Use it at your own risk!</disclaimer>
-      <assets>
-        <icon>icon.png</icon>
-        <fanart>fanart.jpg</fanart>
-        <screenshot>resources/art/ss/1.png</screenshot>
-        <screenshot>resources/art/ss/2.png</screenshot>
-        <screenshot>resources/art/ss/3.png</screenshot>
-      </assets>
-    </extension>
-  </addon>
-  <addon id="repository.thecrew" name="[COLOR orchid]THE CREW REPO[/COLOR]" provider-name="The Crew" version="0.3.8">
-    <extension point="xbmc.addon.repository" name="The Crew">
-      <dir minversion="18.9.9">
-        <info compressed="false">https://raw.githubusercontent.com/thecrewwh/zips/master/matrix/_zip/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/thecrewwh/zips/master/matrix/_zip/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/thecrewwh/zips/master/matrix/_zip</datadir>
-      </dir>
-      <dir>
-        <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
-      </dir>
-      <dir>
-        <info compressed="false">https://raw.githubusercontent.com/unhingedthemes/zips/main/_zips/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/unhingedthemes/zips/main/_zips/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/unhingedthemes/zips/main/_zips/</datadir>
-      </dir>
-      <dir>
-        <info compressed="false">https://github.com/OldManJax/repository.animaniac/raw/master/addons.xml</info>
-        <checksum>https://github.com/OldManJax/repository.animaniac/raw/master/addons.xml.md5</checksum>
-        <datadir zip="true">https://github.com/OldManJax/repository.animaniac/raw/master/</datadir>
-      </dir>
-      <dir>
-        <info compressed="false">https://raw.githubusercontent.com/dobbelina/repository.dobbelina/master/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/dobbelina/repository.dobbelina/master/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/dobbelina/repository.dobbelina/master/</datadir>
-      </dir>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-      <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you the best in entertainment.</summary>
-      <description lang="en">Many come, Many go. The true and dedicated are here. We here</description>
-      <platform>all</platform>
-      <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
-      <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
-      <assets>
-        <icon>icon.png</icon>
-        <fanart>fanart.jpg</fanart>
-        <screenshot>resources/art/ss/1.png</screenshot>
-        <screenshot>resources/art/ss/2.png</screenshot>
-        <screenshot>resources/art/ss/3.png</screenshot>
-      </assets>
-    </extension>
-  </addon>
-  <addon id="repository.thecrew.alpha" name="The Crew Alpha Repository" version="1.0.8" provider-name="The Crew">
-    <extension point="xbmc.addon.repository" name="The Crew Alpha Repository">
-      <dir>
-        <info compressed="false">https://classymouse.github.io/addons.xml</info>
-        <checksum>https://classymouse.github.io/addons.xml.md5</checksum>
-        <datadir zip="true">https://classymouse.github.io/</datadir>
-      </dir>
-      <dir>
-        <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
-      </dir>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-      <summary lang="en">The Crew Alpha Testing Repository</summary>
-      <description lang="en">Alpha testing repository for The Crew addons. Contains pre-release versions with latest features and fixes. For testing purposes only.[CR][CR]Version 2.2.8-alpha / 2.3.7-alpha includes:[CR]• New Kids Section with family-friendly content filtering (G/PG movies, TV-Y/TV-G shows)[CR]• TMDB Discover API integration for curated children's content[CR]• Fixed critical service startup bug - version announcements now working[CR]• Service.py main() now executes properly on Kodi startup[CR]• Startup maintenance and provider updates restored[CR]• Improved Trakt sync scheduling with user-configurable intervals</description>
-      <disclaimer lang="en">This repository contains ALPHA software. Use at your own risk. Backup your Kodi databases before installing.</disclaimer>
-      <platform>all</platform>
-      <license>GNU GENERAL PUBLIC LICENSE Version 3</license>
-      <website>https://classymouse.github.io/</website>
-      <source>https://github.com/classymouse/script.module.thecrew</source>
-      <assets>
-        <icon>icon.png</icon>
-        <fanart>fanart.jpg</fanart>
-      </assets>
-      <news>v1.0.8 (Mar 2026) - Kids section added, critical service.py startup fix, updated descriptions[CR]v1.0.7 (Mar 2026) - Repository package optimization, development files excluded[CR]v1.0.5 (Feb 2026) - Removed unhingedthemes repository[CR]v1.0.4 (Feb 2026) - Removed production repository from alpha site</news>
-    </extension>
-  </addon>
-  <addon id="script.module.thecrew" name="[COLOR orchid]THE CREW MODULE[/COLOR]" version="2.3.7-alpha" provider-name="The Crew">
-    <requires>
-      <import addon="xbmc.python" version="3.0.0" />
-      <import addon="script.module.beautifulsoup4" />
-      <import addon="script.module.resolveurl" />
-      <import addon="script.module.resolveurl.xxx" version="2.0.1" />
-    </requires>
-    <extension point="xbmc.python.module" library="lib" />
-    <extension point="xbmc.addon.metadata">
-      <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you, the best in entertainment.</summary>
-      <description lang="en">Many come, Many go. The true and dedicated are here.</description>
-      <platform>all</platform>
-      <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
-      <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
-      <assets>
-        <icon>icon.png</icon>
-        <fanart>fanart.jpg</fanart>
-      </assets>
-    </extension>
-  </addon>
-  <addon id="script.thecrew.artwork" version="2.2.1-alpha" name="[COLOR orchid]THE CREW ARTWORK[/COLOR]" provider-name="The Crew">
-    <requires>
-      <import addon="xbmc.python" version="3.0.0" />
-    </requires>
-    <extension point="xbmc.python.module" library="lib" />
-    <extension point="xbmc.addon.metadata">
-      <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you the best in entertainment.</summary>
-      <description lang="en">Many come, Many go. The true and dedicated are here.</description>
-      <platform>all</platform>
-      <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
-      <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
-      <assets>
-        <icon>icon.png</icon>
-        <fanart>fanart.jpg</fanart>
-      </assets>
-    </extension>
-  </addon>
+    <addon id="script.module.thecrew" name="[COLOR orchid]THE CREW MODULE[/COLOR]" version="2.5.0-beta" provider-name="The Crew">
+        <requires>
+            <import addon="xbmc.python" version="3.0.0" />
+            <import addon="script.module.beautifulsoup4" />
+            <import addon="script.module.resolveurl" />
+            <import addon="script.module.resolveurl.xxx" version="2.0.1" />
+        </requires>
+        <extension point="xbmc.python.module" library="lib" />
+        <extension point="xbmc.addon.metadata">
+            <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you, the best in entertainment.</summary>
+            <description lang="en">Many come, Many go. The true and dedicated are here.</description>
+            <platform>all</platform>
+            <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+            <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
+            <assets>
+                <icon>icon.png</icon>
+                <fanart>fanart.jpg</fanart>
+            </assets>
+        </extension>
+    </addon>
+    <addon id="plugin.video.thecrew" version="2.5.0-beta" name="[COLOR orchid]THE CREW[/COLOR]" provider-name="The Crew">
+        <requires>
+            <import addon="xbmc.python" version="3.0.0" />
+            <import addon="script.module.thecrew" />
+            <import addon="script.thecrew.artwork" />
+            <import addon="script.module.requests" />
+            <import addon="script.module.resolveurl" />
+            <import addon="script.module.resolveurl.xxx" version="2.0.1" />
+            <import addon="script.module.simplejson" />
+            <import addon="script.module.requests" />
+            <import addon="script.module.beautifulsoup4" />
+            <import addon="script.module.six" />
+            <import addon="script.module.orion" optional="true" />
+            <import addon="plugin.video.youtube" optional="true" />
+            <import addon="script.module.inputstreamhelper" version="0.3.3" />
+        </requires>
+        <extension library="thecrew.py" point="xbmc.python.pluginsource">
+            <provides>video</provides>
+        </extension>
+        <extension library="service.py" point="xbmc.service" />
+        <extension point="xbmc.addon.metadata">
+            <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you, the best in entertainment.</summary>
+            <description lang="en">Many come, Many go. The true and dedicated are here.</description>
+            <platform>all</platform>
+            <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+            <disclaimer lang="en">The authors of this addon do not host any of the content which is found nor have any affiliation with any of the content providers. This addon simply searches websites for content. Use it at your own risk!</disclaimer>
+            <assets>
+                <icon>icon.png</icon>
+                <fanart>fanart.jpg</fanart>
+                <screenshot>resources/art/ss/1.png</screenshot>
+                <screenshot>resources/art/ss/2.png</screenshot>
+                <screenshot>resources/art/ss/3.png</screenshot>
+            </assets>
+        </extension>
+    </addon>
+    <addon id="script.thecrew.artwork" version="2.5.0-beta" name="[COLOR orchid]THE CREW ARTWORK[/COLOR]" provider-name="The Crew">
+        <requires>
+            <import addon="xbmc.python" version="3.0.0" />
+        </requires>
+        <extension point="xbmc.python.module" library="lib" />
+        <extension point="xbmc.addon.metadata">
+            <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you the best in entertainment.</summary>
+            <description lang="en">Many come, Many go. The true and dedicated are here.</description>
+            <platform>all</platform>
+            <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+            <disclaimer lang="en">The author of this addon do not host any of the content which is found and have no affiliation with any of the content providers. This addon simply searches websites for content. Use at your own risk!</disclaimer>
+            <assets>
+                <icon>icon.png</icon>
+                <fanart>fanart.jpg</fanart>
+            </assets>
+        </extension>
+    </addon>
 </addons>
