@@ -71,8 +71,6 @@ EXCLUDE_PATTERNS = [
     # Local development
     "local_overrides",
     "local_overrides*",
-    "white",
-    "white*",
     "crew*.xml",
     "auto-commit.ps1",
     "backup_originals",
