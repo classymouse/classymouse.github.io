@@ -72,4 +72,31 @@
             </assets>
         </extension>
     </addon>
+    <addon id="repository.thecrew.alpha" name="The Crew Alpha Repository" version="1.0.10" provider-name="The Crew">
+        <extension point="xbmc.addon.repository" name="The Crew Alpha Repository">
+            <dir>
+                <info compressed="false">https://classymouse.github.io/addons.xml</info>
+                <checksum>https://classymouse.github.io/addons.xml.md5</checksum>
+                <datadir zip="true">https://classymouse.github.io/</datadir>
+            </dir>
+            <dir>
+                <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
+                <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
+                <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
+            </dir>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary lang="en">The Crew Alpha Testing Repository</summary>
+            <description lang="en">Alpha testing repository for The Crew addons. Contains pre-release versions with latest features and fixes. For testing purposes only.</description>
+            <disclaimer lang="en">This repository contains ALPHA software. Use at your own risk. Backup your Kodi databases before installing.</disclaimer>
+            <platform>all</platform>
+            <license>GNU GENERAL PUBLIC LICENSE Version 3</license>
+            <website>https://classymouse.github.io/</website>
+            <source>https://github.com/classymouse/script.module.thecrew</source>
+            <assets>
+                <icon>icon.png</icon>
+                <fanart>fanart.jpg</fanart>
+            </assets>
+        </extension>
+    </addon>
 </addons>
