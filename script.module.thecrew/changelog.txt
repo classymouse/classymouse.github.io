@@ -2,6 +2,17 @@
 
 [COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
 
+=====================================================
+Version 2.5.2 (March 21, 2026) - BUG FIX RELEASE
+=====================================================
+[COLOR orange]Bugs Fixes[/COLOR]
+- Scraper status was broken on Shield tv - now shows correct status and errors
+- Episode watched status not updating after UpNext/TV Evening playback (Trakt parameter bug + missing container refresh)
+- Log Uploads (anonymized) didn't work on non Windows platforms - now works on all platforms
+
+[COLOR orange]Improvements[/COLOR]
+- Changed UpNext default trigger from 92% to 97% so users see more episode content before auto-play
+
 
 =====================================================
 Version 2.5.0-beta (March 19, 2026) - COMPLETE MODERNIZATION RELEASE
