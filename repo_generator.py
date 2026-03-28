@@ -48,6 +48,7 @@ EXCLUDE_PATTERNS = [
     # IDEs and editors
     ".idea",
     ".vscode",
+    ".vs",
     ".pylintrc",
     "*.swp",
     "*.swo",

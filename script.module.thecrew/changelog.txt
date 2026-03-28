@@ -3,6 +3,55 @@
 [COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
 
 =====================================================
+Version 2.5.5 (March 27, 2026) - Bug Fixes and Improvements - [COLOR cyan][B]The 'Saskia' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed Next Episodes (widget) finally (user found a critical bug in the new episode fetching code - fixed now!)
+- added Hidden items menu-item for Trakt hidden shows calendar
+- Fixed some variable scope bugs in episode fetching that caused empty lists
+- Fixed Trakt re-authentication loop: token expiry key mismatch, broken time arithmetic, missing user notification, and no background token keepalive (token is now silently refreshed every hour while Kodi is running)
+
+[COLOR lime]Extra[/COLOR]
+- Added comprehensive metadata caching for TV shows to reduce redundant API calls
+- Cached metadata includes director, writer, cast, genre, studio, country, rating, votes, and MPAA
+- bumped version to module 2.5.5/plugin 2.5.1 to include these fixes and improvements
+
+=====================================================
+Version 2.5.4 (March 26, 2026) - WIDGET OPTIMIZATION - [COLOR orange][B]INTERNAL RELEASE ONLY[/B][/COLOR]
+=====================================================
+[COLOR lime]Performance[/COLOR]
+- Widget loading optimized with minimal metadata fetching (~75% bandwidth savings)
+- Widgets now fetch only essential data (title, overview, air date) - no cast/crew/images
+- Eliminates unnecessary 20-30KB payload per episode in widget listings
+- Batch cache loading now supports both minimal (widgets) and full (directories) metadata modes
+- Directory listings maintain full metadata with cast/crew for rich browsing experience
+
+[COLOR cyan]Technical Details[/COLOR]
+- New Episode.fetch_tmdb_metadata_minimal() method skips TMDB append_to_response parameter
+- Widget mode detected via CrewRuntime.is_widget_listing() check
+- Minimal metadata includes: episode name, overview, air date, still path, ratings, runtime
+- Full metadata (directories only) includes: cast, crew, guest stars, writers, directors, external IDs
+- Widget mode automatically uses minimal metadata for Next Episodes and In Progress Episodes
+- Results in faster initial widget load and reduced TMDB API usage
+
+=====================================================
+Version 2.5.3 (March 26, 2026) - CRITICAL TIMEOUT FIX - [COLOR orange][B]INTERNAL RELEASE ONLY[/B][/COLOR]
+=====================================================
+[COLOR red]Critical Bug Fixes[/COLOR]
+- Fixed infinite loading cursor on Next Episodes, In Progress Shows, and In Progress Episodes lists (Shield TV Android)
+- Added comprehensive timeout protection to all parallel processing operations in progress indexer
+- Implements graceful degradation: lists load even if some shows timeout (partial results vs infinite hang)
+- Added detailed timeout logging for debugging network/TMDB connectivity issues
+
+[COLOR cyan]Technical Details[/COLOR]
+- ThreadPoolExecutor operations now have multi-level timeout protection:
+  * 30 seconds max per show/episode processing (handles slow TMDB/network)
+  * Adaptive total timeout: 4 minutes max or 2 seconds per item average
+  * Continues processing remaining items even if some timeout
+- Affects users who don't open Kodi for days (cold cache triggers more TMDB fetches)
+- Prevents ONE stuck show from blocking entire list forever
+
+=====================================================
 Version 2.5.2 (March 21, 2026) - BUG FIX RELEASE
 =====================================================
 [COLOR orange]Bugs Fixes[/COLOR]
