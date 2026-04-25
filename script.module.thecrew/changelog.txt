@@ -3,6 +3,26 @@
 [COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
 
 =====================================================
+Version 2.5.7 / Plugin 2.5.3 (April 25, 2026) - Bug Fixes and New Feature - [COLOR cyan][B]The 'Water Break' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed sports streams broken due to incorrect cdnImport() path resolution (used addonPath instead of __file__-relative path, causing stale local override to always load)
+- Fixed crewstreamer local override causing NameError (missing 'c' import) silently swallowed by bare except, returning None for all streams
+- Removed broken local_overrides/crewstreamer.py entirely - CDN version is now authoritative
+- Fixed Trakt update_progress_in_database() for episodes: now correctly matches on show identifiers (showimdb/showtrakt/showtmdb + season/episode) instead of episode-level imdb/trakt; adds INSERT fallback when no existing row is found
+- Fixed Trakt delete_progress_from_database() for episodes: now matches on showimdb as well as imdb so show progress is correctly cleared
+- Fixed UpNext prefetch guard: added _secondary_episode is not None check to prevent premature prefetch start
+
+[COLOR lime]New Feature[/COLOR]
+- Added UpNext 'seconds before end' setting (upnext.end_seconds): configurable slider in settings to trigger UpNext dialog N seconds before episode ends, complementing the existing percentage-based trigger
+- Added string #32725 (EN + NL) for the new setting label
+
+[COLOR cyan]Technical[/COLOR]
+- UpNext single-use cache: TTL removed, cache is cleared on read to prevent stale UpNext data
+- New crewservice.py module: UpNext monitoring with dual-mode trigger (time-based and percent-based) and Trakt scrobble on playback end
+- Bumped module to 2.5.7 / plugin to 2.5.3
+
+=====================================================
 Version 2.5.5 (March 27, 2026) - Bug Fixes and Improvements - [COLOR cyan][B]The 'Saskia' Release[/B][/COLOR]
 =====================================================
 [COLOR orange]Bug Fixes[/COLOR]
