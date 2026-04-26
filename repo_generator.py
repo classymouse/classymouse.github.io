@@ -72,11 +72,13 @@ EXCLUDE_PATTERNS = [
     # Local development
     "local_overrides",
     "local_overrides*",
+    "white",
     "crew*.xml",
     "auto-commit.ps1",
     "backup_originals",
     "backup_originals*",
     "resize_images*.ps1",
+    "test_videos",
 
     # Test files
     "test_*.py",
@@ -88,6 +90,8 @@ EXCLUDE_PATTERNS = [
     "*.log",
     "*.tmp",
     "*.temp",
+    "*.bak",
+    "*.old",
     "__MACOSX",
 
     # OS files

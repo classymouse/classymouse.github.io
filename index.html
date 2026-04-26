@@ -284,7 +284,7 @@
         </div>
 
         <div class="alert">
-            <h3>🎉 Beta Release Available - Version 2.5.7</h3>
+            <h3>🎉 Beta Release Available - Version 2.5.8</h3>
             <p>This is a major beta release with complete Python 3 modernization. While stable, please <strong>backup your Kodi databases before installing</strong> as this is still in testing phase.</p>
         </div>
 
@@ -294,11 +294,11 @@
             <div class="version-grid">
                 <div class="version-item">
                     <h3>Module</h3>
-                    <div class="version-number">2.5.7</div>
+                    <div class="version-number">2.5.8</div>
                 </div>
                 <div class="version-item">
                     <h3>Plugin</h3>
-                    <div class="version-number">2.5.3</div>
+                    <div class="version-number">2.5.4</div>
                 </div>
                 <div class="version-item">
                     <h3>Artwork</h3>
@@ -309,6 +309,18 @@
                     <div class="version-number">1.0.10</div>
                 </div>
             </div>
+        </div>
+
+        <div class="features">
+            <h2>What's New in v2.5.8 / v2.5.4 - The 'Quick Draw' Release</h2>
+            <ul>
+                <li><strong>⚡ RD Pack Pre-Check</strong> - Real-Debrid pack resolution now pre-checks instantAvailability before adding the magnet — uncached packs are skipped in ~100ms instead of 3-5 seconds each, dramatically speeding up source selection.</li>
+                <li><strong>⚡ RD Episode Verification</strong> - Pre-check also confirms the specific episode exists in a cached variant, fixing false positives where a torrent was marked cached but the target episode wasn't actually available.</li>
+                <li><strong>🔧 TV Show Artwork Fix</strong> - Fixed worker range bug that caused only every 40th show to get artwork fetched — all shows now get clearlogo/clearart correctly.</li>
+                <li><strong>🔧 clearlogo/clearart Fix</strong> - Artwork fetching now happens unconditionally, no longer blocked by the hq_artwork guard.</li>
+                <li><strong>🔧 Next Episodes Boot Fix</strong> - Fixed widget showing empty after cache clear on boot; added retry-once-after-3s for transient network failures at Kodi startup.</li>
+                <li><strong>🔧 Missing Language String</strong> - Added lang string #32500 'No results found' that was causing a blank infoDialog on empty episode lists.</li>
+            </ul>
         </div>
 
         <div class="features">
@@ -324,37 +336,6 @@
             </ul>
         </div>
 
-        <div class="features">
-            <h2>What's New in v2.5.5 - BUG FIX RELEASE</h2>
-            <ul>
-                <li><strong>📅 New TV Shows Sort Fixed</strong> - "New TV Shows" now sorted by actual air date (newest first) instead of popularity — the most frequently reported user issue.</li>
-                <li><strong>🔔 Trakt Auth Dialog Deduplication</strong> - Fixed double notification when Trakt authentication fails on the Next Episodes screen.</li>
-            </ul>
-        </div>
-
-        <div class="features">
-            <h2>What's New in v2.5.2 - BUG FIX RELEASE</h2>
-            <ul>
-                <li><strong>🐛 Episode Watched Status Fixed</strong> - Episodes now properly mark as watched after UpNext/TV Evening playback (fixed Trakt parameter bug + added container refresh).</li>
-                <li><strong>🛡️ Shield TV Scraper Status</strong> - Fixed scraper status display and error reporting on Android/Shield platforms.</li>
-                <li><strong>📤 Cross-Platform Log Uploads</strong> - Anonymous log upload now works on all platforms (was Windows-only).</li>
-                <li><strong>⏱️ UpNext Trigger Improved</strong> - Changed default trigger from 92% to 97% so users see more episode content before auto-play dialog.</li>
-            </ul>
-        </div>
-
-        <div class="features">
-            <h2>What's in v2.5.0/2.5.1 - COMPLETE MODERNIZATION</h2>
-            <ul>
-                <li><strong>🎬 TV Evening Feature</strong> - Revolutionary automatic playlist mode for binge-watching! Click once, watch your shows back-to-back with beautiful overlay between episodes. Detects near-end of episode, shows what's next, and auto-plays seamlessly.</li>
-                <li><strong>⚡ Massive Performance Gains</strong> - List loading improved from 30-45 seconds to 1-3 seconds (up to 95% faster). Widget loading times dramatically reduced. Scraping optimizations throughout.</li>
-                <li><strong>🎭 13 New Trakt Features</strong> - Personal Calendars (TV/Movies), Lists (Trending/Popular/Watched/Collected/Recommendations), Networks Discovery, Studios, Years, Search History, Anticipated, Watchlist - all fully modernized.</li>
-                <li><strong>🎥 5 New TMDB Features</strong> - People Search, Movies by Person, TV by Person, Personal Recommendations, Higher resolution artwork with proper fallbacks.</li>
-                <li><strong>🔧 Critical Fixes</strong> - Episode scraping accuracy fixed (was returning wrong episodes), Trakt token refresh working (was completely broken), Shield TV info dialog fixed, pagination bugs resolved, metadata processing bulletproofed.</li>
-                <li><strong>🐍 Python 3 Rewrite</strong> - Almost every line of code modernized from broken 2.0.6 codebase. Type hints, proper error handling, resource management.</li>
-                <li><strong>🏗️ Architecture Overhaul</strong> - Unified model system (MovieItem/TVItem/Episode), proper abstraction layers, consistent error handling, extensive logging for debugging.</li>
-                <li><strong>📦 Repository Optimization</strong> - Dev files excluded, package sizes reduced 99% (module: 317MB → 2.1MB), proper release automation.</li>
-            </ul>
-        </div>
 
         <div class="install-section">
             <h2>📥 Installation Instructions</h2>

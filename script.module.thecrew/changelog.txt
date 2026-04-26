@@ -3,6 +3,22 @@
 [COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
 
 =====================================================
+Version 2.5.8 / Plugin 2.5.4 (April 26, 2026) - Performance & Bug Fixes - [COLOR cyan][B]The 'Quick Draw' Release[/B][/COLOR]
+=====================================================
+[COLOR lime]Performance[/COLOR]
+- Real-Debrid pack resolution: pre-check instantAvailability before adding magnet - uncached packs now rejected in ~100ms instead of taking 3-5 seconds each, dramatically speeding up source selection when most packs are uncached
+- Pre-check also verifies the specific target episode exists in a cached variant, fixing false positives where debridcheck marked a torrent cached (any variant) but our episode wasn't actually cached
+
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed TV show artwork worker: range(0, total, 40) was only processing every 40th show - changed to range(total) so all shows get artwork
+- Fixed clearlogo/clearart not appearing: fetching now happens unconditionally outside the hq_artwork guard
+- Fixed Next Episodes widget showing empty after -ClearCache on boot: added retry-once-after-3s for transient network failures at Kodi startup
+- Added missing lang string #32500 'No results found' (was causing blank infoDialog text on empty episode lists)
+
+[COLOR cyan]Technical[/COLOR]
+- Bumped module to 2.5.8 / plugin to 2.5.4
+
+=====================================================
 Version 2.5.7 / Plugin 2.5.3 (April 25, 2026) - Bug Fixes and New Feature - [COLOR cyan][B]The 'Water Break' Release[/B][/COLOR]
 =====================================================
 [COLOR orange]Bug Fixes[/COLOR]
