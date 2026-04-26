@@ -320,6 +320,7 @@
                 <li><strong>🔧 clearlogo/clearart Fix</strong> - Artwork fetching now happens unconditionally, no longer blocked by the hq_artwork guard.</li>
                 <li><strong>🔧 Next Episodes Boot Fix</strong> - Fixed widget showing empty after cache clear on boot; added retry-once-after-3s for transient network failures at Kodi startup.</li>
                 <li><strong>🔧 Missing Language String</strong> - Added lang string #32500 'No results found' that was causing a blank infoDialog on empty episode lists.</li>
+                <li><strong>🎮 Xbox One Fix</strong> - Fixed broken HTTPS on Xbox One (Kodi UWP): SSL context now uses the UWP-compatible path instead of the restricted <code>_create_unverified_context()</code> call that silently failed, breaking all scrapers and debrid on Xbox.</li>
             </ul>
         </div>
 
