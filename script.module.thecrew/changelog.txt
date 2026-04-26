@@ -3,6 +3,15 @@
 [COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
 
 =====================================================
+Version 2.5.9 (April 26, 2026) - Bug Fix
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed Xbox One (Kodi UWP): HTTPS was silently broken due to ssl._create_unverified_context() being restricted in the UWP sandbox - all scrapers and debrid APIs failed with no error shown. Now uses UWP-compatible ssl.create_default_context() + CERT_NONE path on Xbox.
+
+[COLOR cyan]Technical[/COLOR]
+- Bumped module to 2.5.9
+
+=====================================================
 Version 2.5.8 / Plugin 2.5.4 (April 26, 2026) - Performance & Bug Fixes - [COLOR cyan][B]The 'Quick Draw' Release[/B][/COLOR]
 =====================================================
 [COLOR lime]Performance[/COLOR]
