@@ -284,7 +284,7 @@
         </div>
 
         <div class="alert">
-            <h3>🎉 Beta Release Available - Version 2.5.9</h3>
+            <h3>🎉 Beta Release Available - Version 2.5.10</h3>
             <p>This is a major beta release with complete Python 3 modernization. While stable, please <strong>backup your Kodi databases before installing</strong> as this is still in testing phase.</p>
         </div>
 
@@ -294,7 +294,7 @@
             <div class="version-grid">
                 <div class="version-item">
                     <h3>Module</h3>
-                    <div class="version-number">2.5.9</div>
+                    <div class="version-number">2.5.10</div>
                 </div>
                 <div class="version-item">
                     <h3>Plugin</h3>
@@ -309,6 +309,13 @@
                     <div class="version-number">1.0.10</div>
                 </div>
             </div>
+        </div>
+
+        <div class="features">
+            <h2>What's New in v2.5.10 - Real-Debrid Token Auto-Refresh</h2>
+            <ul>
+                <li><strong>🔑 RD Token Auto-Refresh</strong> - Fixed: when the Real-Debrid OAuth access token expires, every pack resolution API call returned 401 Unauthorized and no TV show episode could be played. The resolver now automatically refreshes the expired token using the stored refresh token + client credentials, then retries — no manual re-authentication required.</li>
+            </ul>
         </div>
 
         <div class="features">

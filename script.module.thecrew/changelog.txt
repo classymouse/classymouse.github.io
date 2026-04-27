@@ -3,6 +3,17 @@
 [COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
 
 =====================================================
+Version 2.5.10 (April 27, 2026) - Bug Fix
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed Real-Debrid pack resolution for TV show episodes: when the stored OAuth access token had expired, every API call returned 401 Unauthorized and no episode could be played. The resolver now automatically refreshes the access token using the stored refresh token and client credentials, then retries the failed request — no manual re-authentication required.
+
+[COLOR cyan]Technical[/COLOR]
+- Added _rd_refresh_access_token() helper that calls /oauth/v2/token with the refresh token and persists the new access token back to resolveurl settings
+- 401 handling added at both the instantAvailability pre-check and the addMagnet call
+- Bumped module to 2.5.10
+
+=====================================================
 Version 2.5.9 (April 26, 2026) - Bug Fix
 =====================================================
 [COLOR orange]Bug Fixes[/COLOR]
