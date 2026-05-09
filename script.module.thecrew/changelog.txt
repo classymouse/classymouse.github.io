@@ -3,6 +3,46 @@
 [COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
 
 =====================================================
+Version 2.6.0 (May 9, 2026) - Major Hardening Release - [COLOR cyan][B]The 'No More Spaghetti' Release[/B][/COLOR]
+=====================================================
+[COLOR lime]New Features[/COLOR]
+- Auto-disable slow scrapers: scrapers that time out twice in a session are automatically skipped for the remainder of the session, speeding up source selection for unreliable sources
+- Trakt health check on startup: distinct dialogs per failure type (network outage, token expired, account locked) instead of a generic error toast
+- Debrid unreachable notification: one-per-session toast when a debrid service cannot be contacted, instead of silent failure
+
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed random toast notifications appearing during playback: 'trakt collection updated' and scrobble notify dialogs are now suppressed while a video is playing
+- Fixed PACK false positives on movies: tightened regex patterns in is_pack_source() — movies with a year (e.g. Hunting.Season.2019) or resolution (e.g. Movie.2013.1080p) no longer get incorrectly tagged as season packs
+- Fixed missing filesize in source line 2 when torrent pack name is shown: size (e.g. '7.78 GB | WEB') is now always shown alongside the torrent filename
+- Fixed UpNext stale container bug: episode 2 was incorrectly shown as 'next episode' while already playing episode 2; prefetch container is now validated and discarded when stale
+- Fixed Trakt token refresh race condition: concurrent threads could both trigger a token refresh simultaneously; now guarded by a threading.Lock
+- Fixed stale Trakt refresh token cascade: _ensure_auth() now reloads credentials fresh from settings instead of using a cached copy; revoke() on refresh failure removed (was silently wiping tokens mid-session)
+- Fixed Real-Debrid pack resolution when OAuth access token had expired (401 → auto-refresh → retry, no re-authentication needed)
+- Fixed context menu doubling: replaceItems=True applied and duplicate 'Information' entry removed
+- Fixed Continue Watching stale cache: CACHE_TTL_REALTIME set to None (bypass) so the widget always reflects current play state
+- Fixed clear resume point falling back to Trakt API when local DB entry is absent
+
+[COLOR red]Removed[/COLOR]
+- IPTV / Live TV feature removed entirely (iptv/ directory, white/ scrapers, crewstreamer local overrides, all navigator/lists/crew references)
+- Adult pin dev backdoor key removed
+
+[COLOR lime]Performance[/COLOR]
+- SQLite WAL mode enabled on all cache databases: readers no longer block writers
+- All database connections now use a context manager (_db_cursor) guaranteeing close() in finally — no more connection leaks
+- requests.Session objects now closed via __del__ in all 7 affected scraper/API classes
+- Replaced blocking time.sleep() calls with threading.Event in crewservice.py, tvevening_monitor.py, tvevening_countdown.py, tvevening_complete.py
+- Added maxsize=1000 to scraper completion_queue to prevent unbounded memory growth
+
+[COLOR cyan]Technical[/COLOR]
+- cache.py: ALLOWED_TABLES whitelist added to prevent SQL table name injection
+- cache.py: Cache timeout semantics clarified: None = bypass, 0 = indefinite, n = hours
+- database.py: silent pass on DB open/commit/pragma failures replaced with proper logging
+- debrid_manager.py, progress.py: bare except: clauses narrowed to except Exception:
+- All network calls in realdebrid_api.py, debridcheck.py, docu.py, orion_api.py now have timeout=15
+- .bak files removed from repository
+- Bumped module to 2.6.0 / plugin to 2.6.0 / artwork to 2.6.0
+
+=====================================================
 Version 2.5.10 (April 27, 2026) - Bug Fix
 =====================================================
 [COLOR orange]Bug Fixes[/COLOR]
