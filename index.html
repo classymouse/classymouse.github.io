@@ -280,11 +280,11 @@
     <div class="container">
         <div class="logo">
             <h1>🎬 The Crew</h1>
-            <div class="subtitle">Version 2.6.0 — The 'No More Spaghetti' Release</div>
+            <div class="subtitle">Version 2.6.16 — The 'Remember Where We Left Off' Release</div>
         </div>
 
         <div class="alert">
-            <h3>🎉 Stable Release — Version 2.6.0</h3>
+            <h3>🎉 Stable Release — Version 2.6.16</h3>
             <p>The latest stable release of The Crew. As always, <strong>backing up your Kodi databases before updating</strong> is recommended.</p>
         </div>
 
@@ -294,7 +294,7 @@
             <div class="version-grid">
                 <div class="version-item">
                     <h3>Module</h3>
-                    <div class="version-number">2.6.0</div>
+                    <div class="version-number">2.6.16</div>
                 </div>
                 <div class="version-item">
                     <h3>Plugin</h3>
@@ -309,6 +309,18 @@
                     <div class="version-number">1.0.10</div>
                 </div>
             </div>
+        </div>
+
+        <div class="features">
+            <h2>What's New in v2.6.16 — The 'Remember Where We Left Off' Release</h2>
+            <ul>
+                <li><strong>💾 Resume now works</strong> — Fixed bookmarks/resume points never being saved. The playback monitor was waiting for a callback that Kodi only delivers on the main thread, so your position was always discarded. Now uses a polling loop that works from any thread.</li>
+                <li><strong>📉 Real-Debrid 451/429 cascade fixed</strong> — DMCA-blocked sources (451) no longer trigger a rate-limit storm that kills all remaining sources. Backoff window reduced from 15s to 3s after measuring RD's actual recovery time (~2.2s).</li>
+                <li><strong>⚡ No more wasted sources</strong> — Sources hitting an active RD backoff now wait out the remainder and proceed, instead of being immediately discarded.</li>
+                <li><strong>🏷️ Better source labels</strong> — Debrid service now appears before quality (e.g. RD | 1080p). Fixed missing debrid label in multiline mode.</li>
+                <li><strong>🔗 AllDebrid &amp; Premiumize overhaul</strong> — Updated to current API versions, fixed pack resolution crashes, added instant availability pre-checks to eliminate redundant API calls.</li>
+                <li><strong>📦 Pack source fixes</strong> — Fixed wrong episode playing from Torrentio pack sources; removed broken RD pre-check that was rejecting valid torrents.</li>
+            </ul>
         </div>
 
         <div class="features">
@@ -430,7 +442,7 @@
             <p>
                 <strong>The Crew</strong> - Many come, Many go. The true and dedicated are here.<br>
                 <a href="https://github.com/classymouse/script.module.thecrew" target="_blank">GitHub</a> |
-                Version 2.6.0 |
+                Version 2.6.16 |
                 May 2026
             </p>
         </div>

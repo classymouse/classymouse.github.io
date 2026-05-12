@@ -1,5 +1,107 @@
 [COLOR orchid][B]The Crew Addon - Release Notes[/B][/COLOR]
 
+=====================================================
+Version 2.6.16 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'Remember Where We Left Off' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed resume/bookmark never being saved. CrewMonitor-Worker created a _PlaybackWatcher(xbmc.Player) subclass on a background thread to detect playback start via onAVStarted. Kodi only delivers xbmc.Player callbacks to instances created on the main/service thread, so onAVStarted never fired, the 240s wait always timed out, and bm.reset() was never called. Replaced the callback with a 1s polling loop using isPlayingVideo() which works correctly from any thread.
+
+=====================================================
+Version 2.6.15 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'We Measured It' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Measured Real-Debrid's actual 429 rate-limit window using a probe script: RD recovers in ~2.2s. Our hardcoded backoff was 15s (7x too high). Reduced RD_RATE_LIMIT_BACKOFF from 15s to 3s, and raised the initial retry sleep from 2s to 3s (avoids the second 429 hit entirely in most cases). Per 429 event: saves up to 12s of unnecessary waiting.
+
+=====================================================
+Version 2.6.14 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'Stop Burning Sources' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed Real-Debrid sources being skipped en-masse during a rate-limit backoff (429). Previously, when RD set a 15s backoff, every subsequent source during that window was immediately discarded (return None). Now, the first source to hit an active backoff sleeps out the remainder, then proceeds — so at most one source causes a brief wait, and all remaining sources flow normally.
+
+=====================================================
+Version 2.6.13 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'It's Not Us, It's Them' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Improvements[/COLOR]
+- Improved failure message when all sources fail due to Real-Debrid DMCA blocks (451): instead of the generic 'No stream available', users now see 'Real-Debrid blocked sources (451 DMCA). This is a Real-Debrid issue — try a different title or check back later.' Only shown when RD actually returned 451 during the session; all other failures still show the standard message.
+
+=====================================================
+Version 2.6.12 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'Respect The Law (And The Rate Limiter)' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed 'No stream available' root cause: a DMCA-blocked hash (HTTP 451 from Real-Debrid) causes RD to aggressively rate-limit the very next API call (429). Fix: when RD returns 451, sleep 1 second before moving to the next source, giving RD's limiter time to reset. The 429 cascade is now prevented at the source.
+
+=====================================================
+Version 2.6.11 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'Stop Hammering The API' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed 'No stream available' for pack sources caused by Real-Debrid rate limiting (HTTP 429). When the addon tries many pack sources back-to-back, RD now rate-limits after the first few calls. Fix: on 429, sleep 2 seconds and retry once. If still 429, back off for 15 seconds — subsequent sources skip the API call immediately and the next attempt happens after the backoff window expires, giving RD time to recover.
+- Applied same 429-retry logic to Premiumize pack resolution.
+
+=====================================================
+Version 2.6.10 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'Debrid First, Quality Second' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Improvements[/COLOR]
+- Changed source label order: debrid service now appears before quality (e.g. '01 | RD | 1080p | Torrentio | PACK' instead of '01 | 1080p | RD | ...'). Applies to all label modes: multiline, single-line, and compact.
+
+=====================================================
+Version 2.6.9 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'Labels That Actually Make Sense' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed missing debrid service label (RD/PM/AD/TB) in the source selection list when the 'Multiline source list' setting is enabled. The multiline label was built without the debrid short code, so users with that setting saw the provider name but not which debrid service it came from.
+
+=====================================================
+Version 2.6.8 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'Most Friendly Debrid Client On The Planet' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Added AllDebrid instant availability pre-check (GET /v4/magnet/instant) before uploading magnets. Like the Premiumize cache/check fix in v2.6.7, this skips the expensive upload+status flow entirely for non-cached sources, reducing N heavy API calls to N lightweight hash lookups.
+
+=====================================================
+Version 2.6.7 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'Stop Poking Premiumize' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed Premiumize 429 rate-limit errors during pack resolution: the previous approach called transfer/create for every pack source (20+) to check if content was cached, which PM rate-limits aggressively. Now uses the dedicated cache/check endpoint first (a lightweight hash lookup designed for bulk checking), and only calls transfer/create for the one or two sources that are actually cached.
+
+=====================================================
+Version 2.6.6 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'magnets[] Is Not A List' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed AllDebrid pack resolution crashing with KeyError: 0 on every source: the v4.1 /magnet/status endpoint returns magnets as a dict keyed by magnet ID (e.g. {"12345": {...}}), not as a list — magnets[0] was looking for dict key 0 and always failing. Now handles both dict and list shapes correctly.
+
+=====================================================
+Version 2.6.5 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'Stop Spamming Premiumize' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed Premiumize pack resolution showing "Adding magnet to Premiumize..." dozens of times: the old flow called transfer/create + sleep + transfer/list for every pack source, even non-cached ones; the new flow checks for folder_id in the transfer/create response (present only when Premiumize already has the file cached) and returns immediately for non-cached magnets, eliminating the sleep, the redundant transfer/list call, and the dialog spam.
+
+=====================================================
+Version 2.6.4 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'AllDebrid Grows Up' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed AllDebrid pack resolution broken by their API migration: /v4/magnet/status was discontinued (Oct 2024); updated to POST /v4.1/magnet/status + separate POST /v4/magnet/files call to retrieve file links (the new endpoint no longer returns files inline).
+- Fixed KeyError crash when AllDebrid rejects an individual magnet on upload (e.g. MAGNET_INVALID_URI) — the response now has an error object instead of an id; this is now detected and skipped cleanly.
+- Switched all AllDebrid API calls to POST with Authorization Bearer header as required by the current API spec.
+
+=====================================================
+Version 2.6.3 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'Wrong Episode? Blame Torrentio' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed pack sources playing the wrong episode: Torrentio embeds its own episode number in the source metadata (e.g. episode=4), which was being used instead of the actual episode the user requested (e.g. episode=6). Resolution now uses the authoritative instance-level episode from the container metadata, falling back to the source dict only if unavailable.
+
+=====================================================
+Version 2.6.2 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'Endpoint? What Endpoint?' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed pack sources (magnet links) being incorrectly rejected as invalid: the Real-Debrid instantAvailability pre-check was silently discarding valid torrents because RD stopped returning cached file data from that endpoint. Pre-check removed — sources now resolve correctly.
+- Fixed resume points not being saved when stopping playback mid-episode: onPlayBackStopped fires after the player shuts down, so getTime() returns 0; the player now uses the last position polled by the monitoring loop instead, ensuring the bookmark is written correctly.
+
+=====================================================
+Version 2.6.1 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'Still Glowing After The Session' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed Trakt watched indicators showing only the first episode as watched when multiple episodes had been watched (e.g. Good Girls S03E01-E05 all showing checkmarks correctly now)
+- Fixed resume points not working for movies and TV shows: Trakt's in-progress percentage was being stored as raw seconds in the local DB, causing the player to seek to e.g. second 85 instead of 85% through the video; now correctly converted to seconds using the episode/movie runtime
+- Fixed bookmarks.get() falling back to local bookmarks when the Trakt progress table has no entry, restoring resume points for users whose progress table was empty due to a silent DB insert failure
+
 [COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
 
 =====================================================
