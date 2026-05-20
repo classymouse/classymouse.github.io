@@ -1,6 +1,12 @@
 [COLOR orchid][B]The Crew Addon - Release Notes[/B][/COLOR]
 
 =====================================================
+Version 2.6.18 (May 20, 2026) - Hotfix Release - [COLOR cyan][B]The 'Back In The Game' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed sports listings. Updated the_crew_list to restore correct sports sources.
+
+=====================================================
 Version 2.6.16 (May 12, 2026) - Hotfix Release - [COLOR cyan][B]The 'Remember Where We Left Off' Release[/B][/COLOR]
 =====================================================
 [COLOR orange]Bug Fixes[/COLOR]

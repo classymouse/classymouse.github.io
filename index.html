@@ -280,11 +280,11 @@
     <div class="container">
         <div class="logo">
             <h1>🎬 The Crew</h1>
-            <div class="subtitle">Version 2.6.16 — The 'Remember Where We Left Off' Release</div>
+            <div class="subtitle">Version 2.6.18 — The 'Back In The Game' Release</div>
         </div>
 
         <div class="alert">
-            <h3>🎉 Stable Release — Version 2.6.16</h3>
+            <h3>🎉 Stable Release — Version 2.6.18</h3>
             <p>The latest stable release of The Crew. As always, <strong>backing up your Kodi databases before updating</strong> is recommended.</p>
         </div>
 
@@ -294,7 +294,7 @@
             <div class="version-grid">
                 <div class="version-item">
                     <h3>Module</h3>
-                    <div class="version-number">2.6.16</div>
+                    <div class="version-number">2.6.18</div>
                 </div>
                 <div class="version-item">
                     <h3>Plugin</h3>
@@ -309,6 +309,13 @@
                     <div class="version-number">1.0.10</div>
                 </div>
             </div>
+        </div>
+
+        <div class="features">
+            <h2>What's New in v2.6.18 — The 'Back In The Game' Release</h2>
+            <ul>
+                <li><strong>🏆 Sports fixed</strong> — Manually updated the_crew_list to restore correct sports sources.</li>
+            </ul>
         </div>
 
         <div class="features">
@@ -337,44 +344,7 @@
             </ul>
         </div>
 
-        <div class="features">
-            <h2>What's New in v2.5.10 — Real-Debrid Token Auto-Refresh</h2>
-            <ul>
-                <li><strong>🔑 RD Token Auto-Refresh</strong> - Fixed: when the Real-Debrid OAuth access token expires, every pack resolution API call returned 401 Unauthorized and no TV show episode could be played. The resolver now automatically refreshes the expired token using the stored refresh token + client credentials, then retries — no manual re-authentication required.</li>
-            </ul>
-        </div>
 
-        <div class="features">
-            <h2>What's New in v2.5.9 - Xbox One Fix</h2>
-            <ul>
-                <li><strong>🎮 Xbox One / UWP Fix</strong> - Fixed completely broken HTTPS on Xbox One (Kodi UWP build): <code>ssl._create_unverified_context()</code> is restricted in the UWP sandbox, causing all scrapers and debrid APIs to silently fail. Now uses the UWP-compatible <code>create_default_context() + CERT_NONE</code> path on Xbox.</li>
-            </ul>
-        </div>
-
-        <div class="features">
-            <h2>What's New in v2.5.8 / v2.5.4 - The 'Quick Draw' Release</h2>
-            <ul>
-                <li><strong>⚡ RD Pack Pre-Check</strong> - Real-Debrid pack resolution now pre-checks instantAvailability before adding the magnet — uncached packs are skipped in ~100ms instead of 3-5 seconds each, dramatically speeding up source selection.</li>
-                <li><strong>⚡ RD Episode Verification</strong> - Pre-check also confirms the specific episode exists in a cached variant, fixing false positives where a torrent was marked cached but the target episode wasn't actually available.</li>
-                <li><strong>🔧 TV Show Artwork Fix</strong> - Fixed worker range bug that caused only every 40th show to get artwork fetched — all shows now get clearlogo/clearart correctly.</li>
-                <li><strong>🔧 clearlogo/clearart Fix</strong> - Artwork fetching now happens unconditionally, no longer blocked by the hq_artwork guard.</li>
-                <li><strong>🔧 Next Episodes Boot Fix</strong> - Fixed widget showing empty after cache clear on boot; added retry-once-after-3s for transient network failures at Kodi startup.</li>
-                <li><strong>🔧 Missing Language String</strong> - Added lang string #32500 'No results found' that was causing a blank infoDialog on empty episode lists.</li>
-            </ul>
-        </div>
-
-        <div class="features">
-            <h2>What's New in v2.5.7 / v2.5.3 - The 'Water Break' Release</h2>
-            <ul>
-                <li><strong>🔧 cdnImport Path Fix</strong> - Resolved module loading failures when Kodi is launched from certain working directories.</li>
-                <li><strong>🔧 Local Override Fix</strong> - Fixed NameError and accidental deletion bug when using local module overrides.</li>
-                <li><strong>🔧 Trakt Progress Fix</strong> - Episode watch progress now correctly matches by show + season/episode identifiers instead of episode imdb only.</li>
-                <li><strong>🔧 Trakt Delete Progress Fix</strong> - Fixed showimdb lookup when deleting episode progress.</li>
-                <li><strong>🔧 UpNext Prefetch Guard</strong> - Prevented crash when secondary episode is not yet available during prefetch.</li>
-                <li><strong>⭐ UpNext End Seconds</strong> - New setting to configure how many seconds before episode end UpNext dialog appears.</li>
-                <li><strong>🏗️ CrewService Module</strong> - Background service logic extracted to dedicated module for cleaner architecture.</li>
-            </ul>
-        </div>
 
 
         <div class="install-section">
@@ -442,7 +412,7 @@
             <p>
                 <strong>The Crew</strong> - Many come, Many go. The true and dedicated are here.<br>
                 <a href="https://github.com/classymouse/script.module.thecrew" target="_blank">GitHub</a> |
-                Version 2.6.16 |
+                Version 2.6.18 |
                 May 2026
             </p>
         </div>
