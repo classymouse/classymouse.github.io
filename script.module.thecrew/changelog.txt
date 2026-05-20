@@ -1,6 +1,12 @@
 [COLOR orchid][B]The Crew Addon - Release Notes[/B][/COLOR]
 
 =====================================================
+Version 2.6.19 (May 20, 2026) - Hotfix Release - [COLOR cyan][B]The 'No More Reruns' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed crewstreamer/crewschedule/crewreplays being cached in memory for the entire Kodi session. CDN modules are now always fetched fresh from posadka/xmls2 on each call, so live fixes to sports sources are picked up immediately without requiring a Kodi restart.
+
+=====================================================
 Version 2.6.18 (May 20, 2026) - Hotfix Release - [COLOR cyan][B]The 'Back In The Game' Release[/B][/COLOR]
 =====================================================
 [COLOR orange]Bug Fixes[/COLOR]
