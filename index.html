@@ -280,12 +280,12 @@
     <div class="container">
         <div class="logo">
             <h1>🎬 The Crew</h1>
-            <div class="subtitle">Version 2.6.20 — The '15 Months' Release</div>
+            <div class="subtitle">Version 2.6.22 — The 'Safety Net' Release</div>
         </div>
 
         <div class="alert">
-            <h3>🏆 Milestone Release — Version 2.6.20</h3>
-            <p><strong>15 months. 271 commits. 85,000+ lines rewritten.</strong> This release marks the completion of a comprehensive Python 2→3 and Kodi 17→21 modernization. From spaghetti to cathedral. As always, <strong>backing up your Kodi databases before updating</strong> is recommended.</p>
+            <h3>🛡️ Latest Release — Version 2.6.22 — The 'Safety Net' Release</h3>
+            <p>CDN resilience built in: the background service now keeps a fresh local copy of the sports stream sources updated every 15 minutes. If CDN hiccups during a live game, you stay connected instead of getting an immediate error. As always, <strong>backing up your Kodi databases before updating</strong> is recommended.</p>
         </div>
 
         <div class="version-info">
@@ -294,21 +294,43 @@
             <div class="version-grid">
                 <div class="version-item">
                     <h3>Module</h3>
-                    <div class="version-number">2.6.20</div>
+                    <div class="version-number">2.6.22</div>
                 </div>
                 <div class="version-item">
                     <h3>Plugin</h3>
-                    <div class="version-number">2.6.0</div>
+                    <div class="version-number">2.6.1</div>
                 </div>
                 <div class="version-item">
                     <h3>Artwork</h3>
-                    <div class="version-number">2.6.0</div>
+                    <div class="version-number">2.6.1</div>
                 </div>
                 <div class="version-item">
                     <h3>Repository</h3>
                     <div class="version-number">1.0.10</div>
                 </div>
             </div>
+        </div>
+
+        <div class="features" style="background: linear-gradient(135deg, #1a2332 0%, #2a1a3a 100%); border: 2px solid #ba68c8;">
+            <h2 style="color: #ba68c8;">🛡️ What's New in v2.6.22 — The 'Safety Net' Release</h2>
+            <ul>
+                <li><strong>🔄 CDN resilience for live sports</strong> — Background service now silently refreshes a local disk copy of crewstreamer, crewschedule and crewreplays every 15 minutes. If CDN goes down during a live game, users keep up to 15 minutes of working streams instead of an immediate error. CDN is still always fetched fresh on every user request when reachable.</li>
+                <li><strong>🧹 Cleanup</strong> — Removed legacy site.py compatibility shim and debridapis.py.old leftover.</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <h2>What's New in v2.6.21 — The 'No More Ghosts' Release</h2>
+            <ul>
+                <li><strong>👻 Fixed empty notification dialogs</strong> — Play Random no longer shows a confusing empty popup with just "The Crew" heading. The notification now only appears when there's actual content to display.</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <h2>What's New in v2.6.1 (Plugin &amp; Artwork) — Skin Cleanup</h2>
+            <ul>
+                <li><strong>🎨 Stylish skin removed</strong> — The unfinished 'stylish' skin option has been removed from the appearance settings. The final release skin is in development.</li>
+            </ul>
         </div>
 
         <div class="features" style="background: linear-gradient(135deg, #1a2332 0%, #2a1a3a 100%); border: 2px solid #ba68c8;">
@@ -430,7 +452,7 @@
             <p>
                 <strong>The Crew</strong> - Many come, Many go. The true and dedicated are here.<br>
                 <a href="https://github.com/classymouse/script.module.thecrew" target="_blank">GitHub</a> |
-                Version 2.6.20 |
+                Version 2.6.22 |
                 May 2026
             </p>
         </div>

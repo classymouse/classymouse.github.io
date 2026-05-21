@@ -1,6 +1,25 @@
 [COLOR orchid][B]The Crew Addon - Release Notes[/B][/COLOR]
 
 =====================================================
+Version 2.6.22 (May 21, 2026) - [COLOR cyan][B]The 'Safety Net' Release[/B][/COLOR]
+=====================================================
+[COLOR lime]Improvements[/COLOR]
+- CDN resilience: background service now silently refreshes a local disk copy of crewstreamer,
+  crewschedule and crewreplays every 15 minutes. If CDN goes down during a live game, users keep
+  up to 15 minutes of working streams instead of an immediate error. CDN is still always fetched
+  fresh on every user request when reachable - the local copy is purely the safety net.
+
+[COLOR orange]Cleanup[/COLOR]
+- Removed site.py compatibility shim - remote XML files now import client directly
+- Removed debridapis.py.old leftover backup file
+
+=====================================================
+Version 2.6.21 (May 21, 2026) - Hotfix Release - [COLOR cyan][B]The 'No More Ghosts' Release[/B][/COLOR]
+=====================================================
+[COLOR orange]Bug Fixes[/COLOR]
+- Fixed empty notification dialogs appearing when using Play Random. The addon now only shows the "Playing..." notification when there's actual content to display, preventing the confusing empty popup with just "The Crew" heading.
+
+=====================================================
 Version 2.6.20 (May 21, 2026) - Milestone Release - [COLOR cyan][B]The '15 Months' Release[/B][/COLOR]
 =====================================================
 
