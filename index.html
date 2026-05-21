@@ -280,12 +280,12 @@
     <div class="container">
         <div class="logo">
             <h1>🎬 The Crew</h1>
-            <div class="subtitle">Version 2.6.22 — The 'Safety Net' Release</div>
+            <div class="subtitle">Version 2.6.23 — The 'Quiet Please' Release</div>
         </div>
 
         <div class="alert">
-            <h3>🛡️ Latest Release — Version 2.6.22 — The 'Safety Net' Release</h3>
-            <p>CDN resilience built in: the background service now keeps a fresh local copy of the sports stream sources updated every 15 minutes. If CDN hiccups during a live game, you stay connected instead of getting an immediate error. As always, <strong>backing up your Kodi databases before updating</strong> is recommended.</p>
+            <h3>🤫 Latest Release — Version 2.6.23 — The 'Quiet Please' Release</h3>
+            <p>Background services now stay quiet unless you ask them to speak. Scheduled Trakt syncs and unconfigured OpenSubtitles no longer pop unexpected dialogs while you're browsing. As always, <strong>backing up your Kodi databases before updating</strong> is recommended.</p>
         </div>
 
         <div class="version-info">
@@ -294,7 +294,7 @@
             <div class="version-grid">
                 <div class="version-item">
                     <h3>Module</h3>
-                    <div class="version-number">2.6.22</div>
+                    <div class="version-number">2.6.23</div>
                 </div>
                 <div class="version-item">
                     <h3>Plugin</h3>
@@ -312,7 +312,15 @@
         </div>
 
         <div class="features" style="background: linear-gradient(135deg, #1a2332 0%, #2a1a3a 100%); border: 2px solid #ba68c8;">
-            <h2 style="color: #ba68c8;">🛡️ What's New in v2.6.22 — The 'Safety Net' Release</h2>
+            <h2 style="color: #ba68c8;">🤫 What's New in v2.6.23 — The 'Quiet Please' Release</h2>
+            <ul>
+                <li><strong>🔕 Silent background Trakt sync</strong> — Scheduled Trakt syncs (every few hours) no longer show a 'Syncing with Trakt Finished' popup. The dialog still appears for manual syncs and at startup if silent.boot is off.</li>
+                <li><strong>🔕 Silent OpenSubtitles skip</strong> — If you haven't configured OpenSubtitles credentials or API key, the addon now silently skips instead of popping an info dialog every time.</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <h2>🛡️ What's New in v2.6.22 — The 'Safety Net' Release</h2>
             <ul>
                 <li><strong>🔄 CDN resilience for live sports</strong> — Background service now silently refreshes a local disk copy of crewstreamer, crewschedule and crewreplays every 15 minutes. If CDN goes down during a live game, users keep up to 15 minutes of working streams instead of an immediate error. CDN is still always fetched fresh on every user request when reachable.</li>
                 <li><strong>🧹 Cleanup</strong> — Removed legacy site.py compatibility shim and debridapis.py.old leftover.</li>
