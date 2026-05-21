@@ -1,10 +1,42 @@
 [COLOR orchid][B]The Crew Addon - Release Notes[/B][/COLOR]
 
 =====================================================
+Version 2.6.20 (May 21, 2026) - Milestone Release - [COLOR cyan][B]The '15 Months' Release[/B][/COLOR]
+=====================================================
+
+[COLOR lime]=====================================================================[/COLOR]
+[COLOR lime][B]*** MILESTONE: 15-MONTH MODERNIZATION COMPLETE ***[/B][/COLOR]
+[COLOR lime]=====================================================================[/COLOR]
+
+[COLOR yellow]This release marks the completion of a comprehensive platform modernization:[/COLOR]
+
+[B]The Journey (Feb 2025 - May 2026):[/B]
+- 271 commits over 15 months
+- 283 files changed (essentially entire codebase)
+- 85,147 lines added, 38,292 deleted (net: +46,855 lines)
+- 60% of the 76,247-line codebase rewritten/modernized
+
+[B]What Was Rebuilt:[/B]
++ Python 2 -> Python 3 migration (complete compatibility overhaul)
++ Kodi 17 -> Kodi 21 support (4 major version jumps)
++ Modernized API architecture (TMDB, Trakt, Simkl, Fanart.tv)
++ Rebuilt debrid provider handling (RD, AD, PM, TB)
++ Rate limiting & retry logic across all APIs
++ Comprehensive error handling & logging
++ Test framework & automated coverage
++ Documentation & code organization
+
+[COLOR yellow]From spaghetti to cathedral. From legacy to modern. From fragile to rock-solid.[/COLOR]
+
+[COLOR yellow]Thank you to the community for your patience during this transformation.[/COLOR]
+
+[COLOR lime]=====================================================================[/COLOR]
+
+=====================================================
 Version 2.6.19 (May 20, 2026) - Hotfix Release - [COLOR cyan][B]The 'No More Reruns' Release[/B][/COLOR]
 =====================================================
 [COLOR orange]Bug Fixes[/COLOR]
-- Fixed crewstreamer/crewschedule/crewreplays being cached in memory for the entire Kodi session. CDN modules are now always fetched fresh from posadka/xmls2 on each call, so live fixes to sports sources are picked up immediately without requiring a Kodi restart.
+- Fixed crewstreamer/crewschedule/crewreplays being cached in memory for the entire Kodi session. CDN modules are now always fetched fresh on each call, so live fixes to sports sources are picked up immediately without requiring a Kodi restart.
 
 =====================================================
 Version 2.6.18 (May 20, 2026) - Hotfix Release - [COLOR cyan][B]The 'Back In The Game' Release[/B][/COLOR]
@@ -114,7 +146,7 @@ Version 2.6.1 (May 11, 2026) - Hotfix Release - [COLOR cyan][B]The 'Still Glowin
 - Fixed resume points not working for movies and TV shows: Trakt's in-progress percentage was being stored as raw seconds in the local DB, causing the player to seek to e.g. second 85 instead of 85% through the video; now correctly converted to seconds using the episode/movie runtime
 - Fixed bookmarks.get() falling back to local bookmarks when the Trakt progress table has no entry, restoring resume points for users whose progress table was empty due to a silent DB insert failure
 
-[COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew! - Classy
+[COLOR cyan]NOTE:[/COLOR] This release represents months of dedicated work completely rewriting and modernizing The Crew from the ground up. I have tried to keep this changelog clear but also detailed enough for users to understand the massive scope of changes. From a broken Python 2/3 hybrid with a a lot of non-functioning scrapers to a blazing-fast pure Python 3 powerhouse - almost every line has been touched. This is the release where many many months (and nights!) of work culminated, and I hope you enjoy it. As always, please, if you encounter any issues, report them to our GitHub repository. Your feedback is invaluable in helping us improve The Crew!
 
 =====================================================
 Version 2.6.0 (May 9, 2026) - Major Hardening Release - [COLOR cyan][B]The 'No More Spaghetti' Release[/B][/COLOR]
