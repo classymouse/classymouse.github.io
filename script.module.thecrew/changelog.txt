@@ -1,6 +1,26 @@
 [COLOR orchid][B]The Crew Addon - Release Notes[/B][/COLOR]
 
 =====================================================
+Version 2.6.24 (May 24, 2026) - [COLOR cyan][B]The 'Race Condition Fix' Release[/B][/COLOR]
+=====================================================
+[COLOR red]Critical Bug Fixes[/COLOR]
+- [COLOR yellow][B]RELEASE_BLOCKER FIXED:[/B][/COLOR] Trakt authentication race condition that caused tokens to 
+  expire after multiple Kodi reboots with widgets enabled. The issue occurred when startup 
+  maintenance and widget loads tried to refresh tokens simultaneously - Trakt would invalidate 
+  both tokens, forcing re-authorization. Now uses threading lock to serialize token refresh 
+  operations. Verified stable across 15+ consecutive reboots.
+- Fixed Trakt 429 rate limit handler checking wrong headers (was checking request instead of 
+  response headers for Retry-After value)
+- Fixed source cache not clearing when using "Clear All Cache" - the source_cache table in 
+  providers.13.db was missing from the clearing routine, causing rescraped content to use 
+  stale cached sources
+- Fixed SQLite VACUUM operations silently failing due to running inside transactions - now 
+  performs WAL checkpoint + commit, then VACUUM outside transaction for all 5 cache databases
+
+[COLOR lime]Improvements[/COLOR]
+- Added comprehensive logging with counters to cache clearing operations for better debugging
+
+=====================================================
 Version 2.6.23 (May 22, 2026) - [COLOR cyan][B]The 'Quiet Please' Release[/B][/COLOR]
 =====================================================
 [COLOR lime]Improvements[/COLOR]
