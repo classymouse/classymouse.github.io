@@ -280,12 +280,12 @@
     <div class="container">
         <div class="logo">
             <h1>🎬 The Crew</h1>
-            <div class="subtitle">Version 2.6.23 — The 'Quiet Please' Release</div>
+            <div class="subtitle">Version 2.6.24 — The 'Race Condition Fix' Release</div>
         </div>
 
         <div class="alert">
-            <h3>🤫 Latest Release — Version 2.6.23 — The 'Quiet Please' Release</h3>
-            <p>Background services now stay quiet unless you ask them to speak. Scheduled Trakt syncs and unconfigured OpenSubtitles no longer pop unexpected dialogs while you're browsing. As always, <strong>backing up your Kodi databases before updating</strong> is recommended.</p>
+            <h3>🔒 Latest Release — Version 2.6.24 — The 'Race Condition Fix' Release</h3>
+            <p>Critical Trakt authentication fix that prevents token expiration during startup with widgets enabled. Also fixes cache clearing issues and rate limit handling. <strong>Backing up your Kodi databases before updating is recommended.</strong></p>
         </div>
 
         <div class="version-info">
@@ -294,11 +294,11 @@
             <div class="version-grid">
                 <div class="version-item">
                     <h3>Module</h3>
-                    <div class="version-number">2.6.23</div>
+                    <div class="version-number">2.6.24</div>
                 </div>
                 <div class="version-item">
                     <h3>Plugin</h3>
-                    <div class="version-number">2.6.1</div>
+                    <div class="version-number">2.6.2</div>
                 </div>
                 <div class="version-item">
                     <h3>Artwork</h3>
@@ -312,7 +312,17 @@
         </div>
 
         <div class="features" style="background: linear-gradient(135deg, #1a2332 0%, #2a1a3a 100%); border: 2px solid #ba68c8;">
-            <h2 style="color: #ba68c8;">🤫 What's New in v2.6.23 — The 'Quiet Please' Release</h2>
+            <h2 style="color: #ba68c8;">🔒 What's New in v2.6.24 — The 'Race Condition Fix' Release</h2>
+            <ul>
+                <li><strong>🚨 CRITICAL: Trakt authentication race condition fixed</strong> — Eliminated token expiration bug that occurred when multiple Kodi reboots with widgets were performed. Startup maintenance and widget loads no longer compete for token refresh, preventing Trakt from invalidating both tokens. Verified stable across 15+ consecutive reboots.</li>
+                <li><strong>🗑️ Cache clearing now works properly</strong> — Fixed source_cache table not being cleared with "Clear All Cache", causing rescraped content to use stale cached sources.</li>
+                <li><strong>⚡ Rate limit handler fixed</strong> — Trakt 429 rate limit response now correctly reads Retry-After header from response instead of request.</li>
+                <li><strong>💾 SQLite VACUUM fixes</strong> — All cache databases now properly VACUUM outside transactions, eliminating silent failures.</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <h2>🤫 What's New in v2.6.23 — The 'Quiet Please' Release</h2>
             <ul>
                 <li><strong>🔕 Silent background Trakt sync</strong> — Scheduled Trakt syncs (every few hours) no longer show a 'Syncing with Trakt Finished' popup. The dialog still appears for manual syncs and at startup if silent.boot is off.</li>
                 <li><strong>🔕 Silent OpenSubtitles skip</strong> — If you haven't configured OpenSubtitles credentials or API key, the addon now silently skips instead of popping an info dialog every time.</li>
@@ -331,6 +341,13 @@
             <h2>What's New in v2.6.21 — The 'No More Ghosts' Release</h2>
             <ul>
                 <li><strong>👻 Fixed empty notification dialogs</strong> — Play Random no longer shows a confusing empty popup with just "The Crew" heading. The notification now only appears when there's actual content to display.</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <h2>What's New in v2.6.2 (Plugin) — Module Compatibility Update</h2>
+            <ul>
+                <li><strong>🔄 Version bump</strong> — Updated to require script.module.thecrew v2.6.24 with critical Trakt authentication and cache fixes.</li>
             </ul>
         </div>
 
