@@ -1,8 +1,8 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <addons>
-    <addon id="script.module.thecrew" name="[COLOR orchid]THE CREW MODULE[/COLOR]" version="2.6.24" provider-name="The Crew">
+    <addon id="script.module.thecrew" name="[COLOR orchid]THE CREW MODULE[/COLOR]" version="3.0.2" provider-name="The Crew">
         <requires>
-            <import addon="xbmc.python" version="3.0.0" />
+            <import addon="xbmc.python" version="3.0.1" />
             <import addon="script.module.beautifulsoup4" />
             <import addon="script.module.resolveurl" />
             <import addon="script.module.resolveurl.xxx" version="2.0.1" />
@@ -20,9 +20,9 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.thecrew" version="2.6.2" name="[COLOR orchid]THE CREW[/COLOR]" provider-name="The Crew">
+    <addon id="plugin.video.thecrew" version="3.0.1" name="[COLOR orchid]THE CREW[/COLOR]" provider-name="The Crew">
         <requires>
-            <import addon="xbmc.python" version="3.0.0" />
+            <import addon="xbmc.python" version="3.0.1" />
             <import addon="script.module.thecrew" />
             <import addon="script.thecrew.artwork" />
             <import addon="script.module.requests" />
@@ -55,9 +55,9 @@
             </assets>
         </extension>
     </addon>
-    <addon id="script.thecrew.artwork" version="2.6.1" name="[COLOR orchid]THE CREW ARTWORK[/COLOR]" provider-name="The Crew">
+    <addon id="script.thecrew.artwork" version="3.0.2" name="[COLOR orchid]THE CREW ARTWORK[/COLOR]" provider-name="The Crew">
         <requires>
-            <import addon="xbmc.python" version="3.0.0" />
+            <import addon="xbmc.python" version="3.0.1" />
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">
