@@ -13,3 +13,13 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Addon zips — only track the current release versions; old ones accumulate on disk but
+# should not be committed (too large, not needed in git history).
+# Update the !exceptions below when version numbers change.
+plugin.video.thecrew/*.zip
+script.module.thecrew/*.zip
+script.thecrew.artwork/*.zip
+!plugin.video.thecrew/plugin.video.thecrew-3.0.1.zip
+!script.module.thecrew/script.module.thecrew-3.0.2.zip
+!script.thecrew.artwork/script.thecrew.artwork-3.0.2.zip
