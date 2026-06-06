@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.thecrew.devs" name="The Crew Dev Repository" version="1.0.1" provider-name="The Crew">
+<addon id="repository.thecrew.devs" name="The Crew Dev Repository" version="1.0.2" provider-name="The Crew">
     <extension point="xbmc.addon.repository" name="The Crew Dev Repository">
         <dir>
             <info compressed="false">https://classymouse.github.io/addons.xml</info>
@@ -24,6 +24,6 @@
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
         </assets>
-        <news>v1.0.1 - Fixed repository URL paths for Kodi connectivity</news>
+        <news>v1.0.2 - Forced fresh repository zip to bypass stale URL cache</news>
     </extension>
 </addon>
