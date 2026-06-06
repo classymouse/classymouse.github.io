@@ -1,6 +1,25 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.0.3 - "Signal & Resolve" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Debrid cache checker: restored missing `DebridCheck` class declaration so `debridcheck.DebridCheck()` resolves correctly again
+- [COLOR orange]Fix[/COLOR] Source payload parsing: added defensive handling for payload types (string/list/dict) to prevent decode failures when a source object is already a dict
+- [COLOR orange]Fix[/COLOR] Source selection: strengthened pack candidate ordering to prioritize cached and exact episode matches before broader pack candidates
+- [COLOR orange]Fix[/COLOR] AllDebrid resolver loop: known repeated resolver failure path now marks AD unusable for the active session to prevent retry storms
+- [COLOR orange]Fix[/COLOR] AllDebrid pack auth: hardened API key retrieval across ResolveURL resolver settings and legacy fallbacks, with token normalization
+- [COLOR orange]Fix[/COLOR] TorBox resolver matching: normalized service-name matching (`Torbox`/`TorBox`) to prevent false "resolver not found" misses
+- [COLOR orange]Fix[/COLOR] Pack resolution flow: preserved no-fallback behavior for failed pack resolution to avoid wrong-episode playback
+
+=====================================================
+Version 3.0.2 - "Under the Hood" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Artwork: we fixed the size of the artwork, whe artwork directory is now roughly 15% of the previous directory. If you see the original artwork size, please clear the artwork cache in The Crew settings and restart Kodi to see the new smaller artwork size. This should reduce memory usage and speed up loading times, especially on lower-end devices.
+- [COLOR orange]Fix[/COLOR] Startup Maintenance: We fixed a check that was missing from the maintenance routine where some table (columns) weren't properly checked for existence before attempting to access them, which could lead to errors on first run or after a database reset. This should improve stability and prevent crashes related to database access during startup.
+- [COLOR orange]Fix[/COLOR] We fixed a bug in a shim file that was causing some (invisible) errors to appear in the logs caused by a removed file that was still being imported. This should clean up the logs and prevent confusion for users and developers when troubleshooting issues.
+
+
+=====================================================
 Version 3.0.2 - "Under the Hood" (June 2026)
 =====================================================
 - [COLOR orange]Fix[/COLOR] Next Episodes widget: missing endOfDirectory call when the list was empty caused Kodi to log "Error getting plugin://..." and leave the widget permanently broken until restart; now always closes the directory handle cleanly
