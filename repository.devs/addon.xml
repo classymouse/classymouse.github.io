@@ -2,9 +2,9 @@
 <addon id="repository.thecrew.devs" name="The Crew Dev Repository" version="1.0.1" provider-name="The Crew">
     <extension point="xbmc.addon.repository" name="The Crew Dev Repository">
         <dir>
-            <info compressed="false">https://classymouse.github.io/addons.xml</info>
-            <checksum>https://classymouse.github.io/addons.xml.md5</checksum>
-            <datadir zip="true">https://classymouse.github.io/</datadir>
+            <info compressed="false">https://classymouse.github.io/repository.devs/addons.xml</info>
+            <checksum>https://classymouse.github.io/repository.devs/addons.xml.md5</checksum>
+            <datadir zip="true">https://classymouse.github.io/repository.devs/</datadir>
         </dir>
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
