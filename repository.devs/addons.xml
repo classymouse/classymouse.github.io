@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.thecrew.devs" name="The Crew Dev Repository" version="1.0.2" provider-name="The Crew">
+    <extension point="xbmc.addon.repository" name="The Crew Dev Repository">
+        <dir>
+            <info compressed="false">https://classymouse.github.io/addons.xml</info>
+            <checksum>https://classymouse.github.io/addons.xml.md5</checksum>
+            <datadir zip="true">https://classymouse.github.io/</datadir>
+        </dir>
+        <dir>
+            <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
+        </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">The Crew development repository</summary>
+        <description lang="en">Development repository for The Crew side-project and refactor work. Contains dev/test builds that may change rapidly and are not intended for regular users.</description>
+        <disclaimer lang="en">This repository contains development software. Use at your own risk. Backup your Kodi data before installing.</disclaimer>
+        <platform>all</platform>
+        <license>GNU GENERAL PUBLIC LICENSE Version 3</license>
+        <website>https://classymouse.github.io/repository.devs/</website>
+        <source>https://github.com/classymouse/script.module.thecrew</source>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
+        </assets>
+        <news>v1.0.2 - Forced fresh repository zip to bypass stale URL cache</news>
+    </extension>
+</addon>
