@@ -1,0 +1,51 @@
+[COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
+
+=====================================================
+Version 3.0.2 - "Under the Hood" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Next Episodes widget: missing endOfDirectory call when the list was empty caused Kodi to log "Error getting plugin://..." and leave the widget permanently broken until restart; now always closes the directory handle cleanly
+- [COLOR orange]Fix[/COLOR] Next Episodes widget: suppressed "No results found" toast when running in widget context — dialogs are not appropriate there
+- [COLOR orange]Fix[/COLOR] Empty info dialog ("The Crew", no message): lang() was bound at module import time to whatever addon happened to be active; if script.module.thecrew was the active context (no strings.po) every string lookup returned "" — now always explicitly bound to plugin.video.thecrew
+- [COLOR lime]UX[/COLOR] My TV Evening: replaced the "Trakt required" error dialog with a setup prompt — users without a Trakt account can now authenticate directly via QR code and continue straight into TV Evening without a second click
+- [COLOR orange]Fix[/COLOR] "Trakt Authorization Required" dialog appearing for users without a Trakt account when stopping an episode: scrobble functions (scrobbleMovie, scrobbleEpisode, process_scrobble_queue) had no credentials check and always attempted an API call, receiving a 401 which triggered the re-auth dialog; all three now bail out immediately if no Trakt credentials are configured — same fix applied to the playback progress tracker (markEpisodeDuringPlayback)
+- [COLOR orange]Fix[/COLOR] TV Evening playlist dialog: episode badge (S01E01) truncated to "S01E..." — label width was 100px, too narrow for font12 at 1080i; increased to 200px in both skins
+- [COLOR orange]Fix[/COLOR] TV Evening playlist dialog: focused row background was transparent lavender (66E0B0FF) which rendered as bright pink/magenta on most TVs, making white text unreadable; replaced with dark indigo-purple at 80% opacity
+- [COLOR orange]Fix[/COLOR] TV Evening playlist dialog: clicking an episode item showed no info popup for users on the Modern skin — EpisodeInfo.xml was missing from that skin entirely, causing a silent exception; file added to Modern skin
+- [COLOR orange]Fix[/COLOR] Documentaries browser: topdocumentaryfilms.com listings were broken because the site is now heavily polluted with gambling/casino spam articles; the old link-based scraper could not reliably filter them out; rewritten to scrape WordPress &lt;article&gt; post cards directly, which are only present for real posts — nav, sidebar and footer noise is automatically excluded
+- [COLOR orange]Fix[/COLOR] TV Evening playlist: episodes could run 50%+ over the user's chosen duration because the validation pass selects with a 45-minute buffer but no trim-back step existed; playlist is now trimmed to the target duration (±15 min tolerance) after validation completes
+- [COLOR orange]Fix[/COLOR] Season boundary cache: two startup crashes prevented the cache from ever populating — a wrong module import (crewruntime module instead of the c instance) and a dead import of a non-existent tmdbscraper module; both removed
+- [COLOR orange]Fix[/COLOR] Cache layer: five functions (get_image, get_episode_details, get_season_artwork, get_show_artwork, get_diverse_backdrop_pool) called _get_connection_cursor() directly and received the context manager object instead of a cursor, causing "_GeneratorContextManager has no attribute execute" errors on every call
+- [COLOR orange]Fix[/COLOR] Debrid enabled/disabled state ignored until Kodi restart: ResolveURL resolver list and enabled flags were read once at module import time and frozen for the entire session; disabling or enabling a debrid service in ResolveURL had no effect until Kodi restarted — sources were still tagged for disabled services and disabled services were still used for resolution
+  -- three locations fixed: sourcesFilter() now builds the resolver list fresh on each scrape, debrid.status() now reads settings directly, and resolver() falls back to a live lookup instead of crashing when a service wasn't in the cached list
+- [COLOR red][B]IMPORTANT[/B][/COLOR] Kodi 19 (Matrix) and below are no longer supported. The minimum required version is now Kodi 20 (Nexus). Users on Kodi 19 or older will not receive this update or any future updates. If you are still running Kodi 19, it is time to update
+
+
+=====================================================
+Version 3.0.1 - "The Sorting Hat" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] AllDebrid pack resolver: replaced deprecated magnet/instant (404) with magnet/upload which returns ready=True for cached content, eliminating the broken pre-check and redundant magnet/status round-trip
+- [COLOR orange]Fix[/COLOR] AllDebrid pack resolver: auth was using Authorization: Bearer header. AD API requires ?apikey= query param; resolver now reads token directly from ResolveURL settings
+- [COLOR orange]Fix[/COLOR] Premiumize pack resolver: replaced transfer/create (rate-limited, creates queue entries) with transfer/directdl for cached content resolution
+- [COLOR orange]Fix[/COLOR] Trakt token expiry loop: cross-process race condition between plugin and TraktMonitor service caused both processes to use the same refresh token simultaneously; the second process received a 401 and wiped valid credentials
+  -- fixed with cross-process window property guard and pre-wipe token rotation
+- [COLOR orange]Fix[/COLOR] debridcheck thread blocking: thread.join() with no timeout could block indefinitely after the 20s progress dialog; added 35s timeout
+- [COLOR orange]Fix[/COLOR] debridcheck AllDebrid hash tracking: hashes absent from the API response (not cached) were never written to the local DB, causing repeated API lookups on every scrape
+  -- now all input hashes are recorded as True or False
+- [COLOR orange]Fix[/COLOR] Up Next auto-play setting: default value changed from True to False
+- [COLOR orange]Fix[/COLOR] YourBitTorrent scraper: HTTP requests had no timeout, causing the scraper to block the full 30s on unresponsive servers; added per-request timeouts (10s search, 8s detail), capped concurrent threads at 15, and fixed domain discovery check that never matched
+- [COLOR orange]Fix[/COLOR] In Progress Shows: fully-watched returning series were not filtered out because the watched >= aired check was restricted to ended/canceled shows; now any show where watched episodes >= aired episodes is removed regardless of status (will reappear automatically when new episodes air)
+- [COLOR orange]Fix[/COLOR] EasyNews scraper: sources were silently discarded because the source dict was missing the required 'debrid' key; sourcesResolve() uses a hard key access (not .get()) so the missing key caused a KeyError that was swallowed on every result
+  -- also changed source label from generic 'direct' to 'easynews' for correct attribution in the sources list
+- [COLOR orange]Fix[/COLOR] Trakt "session expired" dialog shown to users with no Trakt account: syncTrakt() was called unconditionally at every Kodi startup; it hit a 401 (no token) and triggered the re-auth dialog even for sports-only users who never configured Trakt
+  -- added credentials guard at the top of syncTrakt() so users with empty Trakt settings skip the sync entirely
+- [COLOR orange]Fix[/COLOR] Orion settings menu: all options silently did nothing because script.module.orion/lib was not on sys.path, causing import orion to fail silently; fixed with explicit path injection via xbmcvfs.translatePath
+  -- added try/except around Orion() constructor calls to prevent a RuntimeError (addon not in Kodi DB) from crashing the entire Crew module import
+- [COLOR orange]Fix[/COLOR] Movies collection and watchlist sort order: both lists were sorted by year (ascending/descending respectively); now sorted alphabetically by title (articles like "The" and "A" ignored)
+- [COLOR orange]Fix[/COLOR] TV shows watchlist sort order: list had no explicit sort and relied on Trakt's default return order; now sorted alphabetically by title
+- [COLOR orange]Fix[/COLOR] Adult section (HD & UHD Videos - WH): videos were always playing in SD (480p) because the resolver picked the first quality in the list, which is the lowest; qualities are now sorted descending by resolution so the highest available quality (1080p, 4K) is selected
+- [COLOR green]New[/COLOR] Adult section: added HD Blog Videos - NB scraper (naughtyblog.org); lists latest posts, filters out SITERIPs/Leaks/Collections, resolves Rapidgator download links via ResolveURL (requires Rapidgator premium account configured in ResolveURL)
+
+=====================================================
+Version 3.0.0 (June 2026)
+=====================================================
+- [COLOR green]Info[/COLOR] Initial release version 3.0.0
