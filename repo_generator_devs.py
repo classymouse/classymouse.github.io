@@ -35,7 +35,7 @@ SOURCE_ADDONS = [
 ]
 
 REPO_ADDON_ID = 'repository.thecrew.devs'
-REPO_ADDON_VERSION = '1.0.0'
+REPO_ADDON_VERSION = '1.0.2'
 REPO_ADDON_NAME = 'The Crew Dev Repository'
 REPO_ADDON_URL = 'https://classymouse.github.io/repository.devs/'
 DEFAULT_OUTPUT_DIR = Path(__file__).parent / 'repository.devs'
@@ -163,7 +163,7 @@ def build_addons_xml(source_root: Path, output_root: Path) -> Path:
     tree.write(addons_xml_path, encoding='UTF-8', xml_declaration=True)
 
     md5 = hashlib.md5(addons_xml_path.read_bytes()).hexdigest()
-    (output_root / 'addons.xml.md5').write_text(md5, encoding='utf-8')
+    (output_root / 'addons.xml.md5').write_text(md5, encoding='ascii')
     return addons_xml_path
 
 
@@ -197,7 +197,7 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
         </assets>
-        <news>v1.0.0 - Initial development repository bootstrap</news>
+        <news>v1.0.2 - Rebuilt as a self-contained development repository</news>
     </extension>
 </addon>
 '''
@@ -249,12 +249,10 @@ def build_root_index(output_root: Path) -> None:
 <head><title>The Crew Dev Repository</title></head>
 <body>
 <h1>The Crew Dev Repository</h1>
-<p>Development/bootstrap repository for The Crew side project.</p>
-<p>Kodi source URL: <code>{REPO_ADDON_URL}</code></p>
-<ul>
-  <li><a href="{REPO_DIR_NAME}/{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip">Install {REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip</a></li>
-  <li><a href="addons.xml">addons.xml</a></li>
-</ul>
+<p>Development repository for The Crew side project.</p>
+<p><strong>Note:</strong> To add this dev repo to Kodi File Manager, use: <code>{REPO_ADDON_URL}</code></p>
+<hr>
+<a href="{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip">{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip</a><br>
 </body>
 </html>
 '''
@@ -292,6 +290,7 @@ def main() -> int:
 
     addons_xml_path = build_addons_xml(source_root, output_root)
     repo_zip_path = build_repo_addon(output_root, source_root)
+    shutil.copy2(repo_zip_path, output_root / repo_zip_path.name)
     build_root_index(output_root)
 
     print('\nPackaged addons:')
