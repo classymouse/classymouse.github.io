@@ -35,9 +35,10 @@ SOURCE_ADDONS = [
 ]
 
 REPO_ADDON_ID = 'repository.thecrew.devs'
-REPO_ADDON_VERSION = '1.0.2'
+REPO_ADDON_VERSION = '1.0.3'
 REPO_ADDON_NAME = 'The Crew Dev Repository'
 REPO_ADDON_URL = 'https://classymouse.github.io/repository.devs/'
+RAW_REPO_BASE = 'https://raw.githubusercontent.com/classymouse/classymouse.github.io/main/repository.devs/'
 DEFAULT_OUTPUT_DIR = Path(__file__).parent / 'repository.devs'
 DEFAULT_SOURCE_ROOT = Path(KODI_ADDONS_PATH)
 REPO_DIR_NAME = REPO_ADDON_ID
@@ -100,15 +101,31 @@ def should_skip_path(path: Path, base_path: Path) -> bool:
     return False
 
 
-def copy_metadata_files(source_dir: Path, dest_dir: Path, include_index: bool = True) -> None:
+def copy_metadata_files(source_dir: Path, dest_dir: Path) -> None:
     for meta in ['addon.xml', 'icon.png', 'fanart.jpg', 'changelog.txt']:
         src = source_dir / meta
         if src.exists():
             shutil.copy2(src, dest_dir / meta)
-    if include_index:
-        src = source_dir / 'index.html'
-        if src.exists():
-            shutil.copy2(src, dest_dir / 'index.html')
+
+
+def write_dir_index_html(target_dir: Path, title: str) -> None:
+    """HTML index Kodi File Manager can parse — lists zips and subfolders."""
+    links = []
+    for entry in sorted(target_dir.iterdir()):
+        if entry.is_dir():
+            links.append(f'<a href="{entry.name}/">{entry.name}/</a>')
+        elif entry.suffix == '.zip':
+            links.append(f'<a href="{entry.name}">{entry.name}</a>')
+    body = '<br>\n'.join(links)
+    html = f'''<html>
+<head><title>Index of {title}</title></head>
+<body>
+<h1>Index of {title}</h1>
+{body}
+</body>
+</html>
+'''
+    (target_dir / 'index.html').write_text(html, encoding='utf-8')
 
 
 def create_addon_zip(addon_id: str, source_root: Path, output_root: Path) -> tuple[str, str, Path]:
@@ -136,6 +153,7 @@ def create_addon_zip(addon_id: str, source_root: Path, output_root: Path) -> tup
                 zf.write(file_path, arcname)
 
     copy_metadata_files(source_dir, addon_out_dir)
+    write_dir_index_html(addon_out_dir, addon_id)
 
     if addon_id == 'script.module.thecrew':
         with zipfile.ZipFile(zip_path, 'r') as zf:
@@ -168,7 +186,7 @@ def build_addons_xml(source_root: Path, output_root: Path) -> Path:
     addons_xml_path.write_bytes(xml_bytes)
 
     md5 = hashlib.md5(xml_bytes).hexdigest()
-    (output_root / 'addons.xml.md5').write_text(md5 + '\n', encoding='ascii')
+    (output_root / 'addons.xml.md5').write_text(md5, encoding='ascii')
 
     if hashlib.md5(addons_xml_path.read_bytes()).hexdigest() != md5:
         raise RuntimeError('addons.xml.md5 mismatch after build — line-ending normalization failed')
@@ -183,9 +201,9 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
 <addon id="{REPO_ADDON_ID}" name="{REPO_ADDON_NAME}" version="{REPO_ADDON_VERSION}" provider-name="The Crew">
     <extension point="xbmc.addon.repository" name="{REPO_ADDON_NAME}">
         <dir>
-            <info compressed="false">{REPO_ADDON_URL}addons.xml</info>
-            <checksum>{REPO_ADDON_URL}addons.xml.md5</checksum>
-            <datadir zip="true">{REPO_ADDON_URL}</datadir>
+            <info compressed="false">{RAW_REPO_BASE}addons.xml</info>
+            <checksum>{RAW_REPO_BASE}addons.xml.md5</checksum>
+            <datadir zip="true">{RAW_REPO_BASE}</datadir>
         </dir>
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
@@ -205,7 +223,7 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
         </assets>
-        <news>v1.0.2 - Rebuilt as a self-contained development repository</news>
+        <news>v1.0.3 - Use raw.githubusercontent.com for index/checksum/zips (reliable dev updates); fix addons.xml.md5 on Windows</news>
     </extension>
 </addon>
 '''
@@ -220,18 +238,6 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
         )
     shutil.copy2(repo_icon, repo_dir / 'icon.png')
     shutil.copy2(repo_fanart, repo_dir / 'fanart.jpg')
-
-    index_html = f'''<html>
-<head><title>Index of {REPO_DIR_NAME}</title></head>
-<body>
-<h1>Index of {REPO_DIR_NAME}</h1>
-<p><strong>Note:</strong> To add this dev repo to Kodi File Manager, use: <code>{REPO_ADDON_URL}</code></p>
-<hr>
-<a href="{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip">{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip</a><br>
-</body>
-</html>
-'''
-    (repo_dir / 'index.html').write_text(index_html, encoding='utf-8')
 
     zip_path = repo_dir / f'{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip'
     if zip_path.exists():
@@ -253,18 +259,27 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
 
 
 def build_root_index(output_root: Path) -> None:
+    links = [
+        f'<a href="{REPO_DIR_NAME}/{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip">{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip</a>',
+        f'<a href="{REPO_DIR_NAME}/">{REPO_DIR_NAME}/</a>',
+    ]
+    for addon_id in SOURCE_ADDONS:
+        links.append(f'<a href="{addon_id}/">{addon_id}/</a>')
+    body = '<br>\n'.join(links)
     index_html = f'''<html>
 <head><title>The Crew Dev Repository</title></head>
 <body>
 <h1>The Crew Dev Repository</h1>
 <p>Development repository for The Crew side project.</p>
-<p><strong>Note:</strong> To add this dev repo to Kodi File Manager, use: <code>{REPO_ADDON_URL}</code></p>
+<p><strong>File Manager source:</strong> <code>{REPO_ADDON_URL}</code></p>
+<p><strong>Repository index (Kodi):</strong> uses <code>{RAW_REPO_BASE}</code></p>
 <hr>
-<a href="{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip">{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip</a><br>
+{body}
 </body>
 </html>
 '''
     (output_root / 'index.html').write_text(index_html, encoding='utf-8')
+    write_dir_index_html(output_root / REPO_DIR_NAME, REPO_DIR_NAME)
 
 
 def main() -> int:
