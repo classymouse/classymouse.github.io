@@ -162,8 +162,16 @@ def build_addons_xml(source_root: Path, output_root: Path) -> Path:
     addons_xml_path = output_root / 'addons.xml'
     tree.write(addons_xml_path, encoding='UTF-8', xml_declaration=True)
 
-    md5 = hashlib.md5(addons_xml_path.read_bytes()).hexdigest()
-    (output_root / 'addons.xml.md5').write_text(md5, encoding='ascii')
+    # GitHub Pages serves LF; Windows checkout may CRLF the working tree.
+    # Normalize so addons.xml.md5 always matches the deployed bytes Kodi fetches.
+    xml_bytes = addons_xml_path.read_bytes().replace(b'\r\n', b'\n')
+    addons_xml_path.write_bytes(xml_bytes)
+
+    md5 = hashlib.md5(xml_bytes).hexdigest()
+    (output_root / 'addons.xml.md5').write_text(md5 + '\n', encoding='ascii')
+
+    if hashlib.md5(addons_xml_path.read_bytes()).hexdigest() != md5:
+        raise RuntimeError('addons.xml.md5 mismatch after build — line-ending normalization failed')
     return addons_xml_path
 
 
