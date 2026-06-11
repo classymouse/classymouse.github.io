@@ -36,6 +36,14 @@ REQUIRED_MODULE_FILES = [
     'lib/resources/lib/modules/sources_test.py',
 ]
 
+ARTWORK_MIN_MODERN_PNG = 170
+ARTWORK_MIN_MODERN_1080I_XML = 18
+ARTWORK_REQUIRED_PATHS = [
+    'resources/media/modern/main_movies.png',
+    'resources/skins/modern/1080i/ScraperStatus.xml',
+    'resources/skins/modern/1080i/EpisodeInfo.xml',
+]
+
 # Files and directories to exclude
 EXCLUDE_PATTERNS = [
     # Python cache and compiled
@@ -159,6 +167,27 @@ def get_addon_version(addon_path):
     root = tree.getroot()
     return root.get('version')
 
+def verify_artwork_zip(zip_path, addon_id='script.thecrew.artwork'):
+    prefix = f'{addon_id}/'
+    with zipfile.ZipFile(zip_path, 'r') as zf:
+        names = zf.namelist()
+    modern_png = [n for n in names if f'{prefix}resources/media/modern/' in n and n.endswith('.png')]
+    dialog_xml = [
+        n for n in names
+        if f'{prefix}resources/skins/modern/1080i/' in n and n.endswith('.xml')
+    ]
+    missing = [f'{prefix}{rel}' for rel in ARTWORK_REQUIRED_PATHS if f'{prefix}{rel}' not in names]
+    errors = []
+    if len(modern_png) < ARTWORK_MIN_MODERN_PNG:
+        errors.append(f'modern PNG count {len(modern_png)} < {ARTWORK_MIN_MODERN_PNG}')
+    if len(dialog_xml) < ARTWORK_MIN_MODERN_1080I_XML:
+        errors.append(f'modern 1080i XML count {len(dialog_xml)} < {ARTWORK_MIN_MODERN_1080I_XML}')
+    if missing:
+        errors.append('missing required paths: ' + ', '.join(missing))
+    if errors:
+        raise RuntimeError(f'Artwork zip failed integrity check: ' + '; '.join(errors))
+
+
 def create_addon_zip(addon_id):
     """Create a properly structured zip file for an addon."""
     source_path = Path(KODI_ADDONS_PATH) / addon_id
@@ -241,6 +270,16 @@ def create_addon_zip(addon_id):
                 zip_path.unlink()
                 return False
 
+        if addon_id == 'script.thecrew.artwork':
+            print(f"   🔍 Validating artwork theme assets...")
+            try:
+                verify_artwork_zip(zip_path, addon_id)
+            except RuntimeError as exc:
+                print(f"   ❌ {exc}")
+                zip_path.unlink()
+                return False
+            print(f"   ✅ Artwork zip integrity OK")
+
         return True
 
     except Exception as e:
@@ -269,16 +308,19 @@ def update_addons_xml():
 
     addons_xml_path = REPO_PATH / "addons.xml"
     tree.write(addons_xml_path, encoding='UTF-8', xml_declaration=True)
-    print(f"   ✅ Updated addons.xml")
 
-    # Create MD5 hash
-    with open(addons_xml_path, 'rb') as f:
-        md5_hash = hashlib.md5(f.read()).hexdigest()
+    # GitHub Pages serves LF; hash deployed bytes so Kodi checksum always matches.
+    xml_bytes = addons_xml_path.read_bytes().replace(b'\r\n', b'\n')
+    addons_xml_path.write_bytes(xml_bytes)
 
+    md5_hash = hashlib.md5(xml_bytes).hexdigest()
     md5_path = REPO_PATH / "addons.xml.md5"
-    with open(md5_path, 'w') as f:
-        f.write(md5_hash)
+    md5_path.write_text(md5_hash, encoding='ascii')
 
+    if hashlib.md5(addons_xml_path.read_bytes()).hexdigest() != md5_hash:
+        raise RuntimeError('addons.xml.md5 mismatch after build — line-ending normalization failed')
+
+    print(f"   ✅ Updated addons.xml")
     print(f"   ✅ Updated addons.xml.md5 ({md5_hash})")
 
 

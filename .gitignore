@@ -20,6 +20,6 @@ Thumbs.db
 plugin.video.thecrew/*.zip
 script.module.thecrew/*.zip
 script.thecrew.artwork/*.zip
-!plugin.video.thecrew/plugin.video.thecrew-3.0.1.zip
-!script.module.thecrew/script.module.thecrew-3.0.2.zip
-!script.thecrew.artwork/script.thecrew.artwork-3.0.2.zip
+!plugin.video.thecrew/plugin.video.thecrew-3.0.5.zip
+!script.module.thecrew/script.module.thecrew-3.0.5.zip
+!script.thecrew.artwork/script.thecrew.artwork-3.0.5.zip
