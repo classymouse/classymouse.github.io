@@ -1,6 +1,13 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.0.6 - "Dev distribution" (June 2026)
+=====================================================
+- [COLOR lime]New[/COLOR] Dev repo 1.0.5: one GitHub Pages URL for File Manager browse and Kodi repository index (drops raw.githubusercontent Crew datadir)
+- [COLOR orange]Fix[/COLOR] settings_repair: preserve original settings.xml.bak — never overwrite on repair or reboot
+- [COLOR orange]Fix[/COLOR] Upgrade health check bumped to v3.0.6 with version gate and artwork install integrity detection
+
+=====================================================
 Version 3.0.5 - "Settings & Scrapers" (June 2026)
 =====================================================
 - [COLOR lime]New[/COLOR] Scraper Maintenance (Tools menu, formerly Scraper Status): parallel connectivity tests (5–10 workers), per-scraper Enable/Disable for internal Crew and external pack scrapers (Coco/Gears/Viper), and Auto Disable Blocked for bulk turn-off of non-working sources

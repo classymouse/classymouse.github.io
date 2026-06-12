@@ -35,10 +35,15 @@ SOURCE_ADDONS = [
 ]
 
 REPO_ADDON_ID = 'repository.thecrew.devs'
-REPO_ADDON_VERSION = '1.0.3'
+REPO_ADDON_VERSION = '1.0.5'
+CLEAN_INSTALL_NOTE = (
+    'Clean Kodi? Update repositories, then install bs4, SimpleJSON, and InputStream Helper from the '
+    'built-in Kodi Add-on repository before module/plugin. ResolveURL comes from Gujal (bundled in this repo).'
+)
 REPO_ADDON_NAME = 'The Crew Dev Repository'
-REPO_ADDON_URL = 'https://classymouse.github.io/repository.devs/'
-RAW_REPO_BASE = 'https://raw.githubusercontent.com/classymouse/classymouse.github.io/main/repository.devs/'
+# One URL for File Manager browse, repo index, checksum, and zip datadir (same pattern as alpha repo).
+REPO_BASE_URL = 'https://classymouse.github.io/repository.devs/'
+REPO_ADDON_URL = REPO_BASE_URL
 DEFAULT_OUTPUT_DIR = Path(__file__).parent / 'repository.devs'
 DEFAULT_SOURCE_ROOT = Path(KODI_ADDONS_PATH)
 REPO_DIR_NAME = REPO_ADDON_ID
@@ -46,6 +51,15 @@ REPO_DIR_NAME = REPO_ADDON_ID
 REQUIRED_MODULE_FILES = [
     'lib/resources/lib/modules/scraper_test.py',
     'lib/resources/lib/modules/sources_test.py',
+]
+
+# Artwork zips must ship the full modern theme — partial installs break icons and dialogs.
+ARTWORK_MIN_MODERN_PNG = 170
+ARTWORK_MIN_MODERN_1080I_XML = 18
+ARTWORK_REQUIRED_PATHS = [
+    'resources/media/modern/main_movies.png',
+    'resources/skins/modern/1080i/ScraperStatus.xml',
+    'resources/skins/modern/1080i/EpisodeInfo.xml',
 ]
 
 EXCLUDE_DIRS = {
@@ -128,6 +142,28 @@ def write_dir_index_html(target_dir: Path, title: str) -> None:
     (target_dir / 'index.html').write_text(html, encoding='utf-8')
 
 
+def verify_artwork_zip(zip_path: Path, addon_id: str = 'script.thecrew.artwork') -> None:
+    """Fail the build if the artwork zip would produce hollow Shield installs."""
+    prefix = f'{addon_id}/'
+    with zipfile.ZipFile(zip_path, 'r') as zf:
+        names = zf.namelist()
+    modern_png = [n for n in names if f'{prefix}resources/media/modern/' in n and n.endswith('.png')]
+    dialog_xml = [
+        n for n in names
+        if f'{prefix}resources/skins/modern/1080i/' in n and n.endswith('.xml')
+    ]
+    missing = [f'{prefix}{rel}' for rel in ARTWORK_REQUIRED_PATHS if f'{prefix}{rel}' not in names]
+    errors = []
+    if len(modern_png) < ARTWORK_MIN_MODERN_PNG:
+        errors.append(f'modern PNG count {len(modern_png)} < {ARTWORK_MIN_MODERN_PNG}')
+    if len(dialog_xml) < ARTWORK_MIN_MODERN_1080I_XML:
+        errors.append(f'modern 1080i XML count {len(dialog_xml)} < {ARTWORK_MIN_MODERN_1080I_XML}')
+    if missing:
+        errors.append('missing required paths: ' + ', '.join(missing))
+    if errors:
+        raise RuntimeError(f'Artwork zip failed integrity check ({zip_path.name}): ' + '; '.join(errors))
+
+
 def create_addon_zip(addon_id: str, source_root: Path, output_root: Path) -> tuple[str, str, Path]:
     source_dir = source_root / addon_id
     if not source_dir.exists():
@@ -162,6 +198,9 @@ def create_addon_zip(addon_id: str, source_root: Path, output_root: Path) -> tup
             arcname = f'{addon_id}/{req}'
             if arcname not in names:
                 raise RuntimeError(f'Missing required module file in zip: {req}')
+
+    if addon_id == 'script.thecrew.artwork':
+        verify_artwork_zip(zip_path, addon_id)
 
     return addon_id, version, zip_path
 
@@ -201,9 +240,9 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
 <addon id="{REPO_ADDON_ID}" name="{REPO_ADDON_NAME}" version="{REPO_ADDON_VERSION}" provider-name="The Crew">
     <extension point="xbmc.addon.repository" name="{REPO_ADDON_NAME}">
         <dir>
-            <info compressed="false">{RAW_REPO_BASE}addons.xml</info>
-            <checksum>{RAW_REPO_BASE}addons.xml.md5</checksum>
-            <datadir zip="true">{RAW_REPO_BASE}</datadir>
+            <info compressed="false">{REPO_BASE_URL}addons.xml</info>
+            <checksum>{REPO_BASE_URL}addons.xml.md5</checksum>
+            <datadir zip="true">{REPO_BASE_URL}</datadir>
         </dir>
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
@@ -213,7 +252,7 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
     </extension>
     <extension point="xbmc.addon.metadata">
         <summary lang="en">The Crew development repository</summary>
-        <description lang="en">Development repository for The Crew side-project and refactor work. Contains dev/test builds that may change rapidly and are not intended for regular users.</description>
+        <description lang="en">Development repository for The Crew side-project and refactor work. Contains dev/test builds that may change rapidly and are not intended for regular users.[CR][CR]{CLEAN_INSTALL_NOTE}</description>
         <disclaimer lang="en">This repository contains development software. Use at your own risk. Backup your Kodi data before installing.</disclaimer>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE Version 3</license>
@@ -223,7 +262,7 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
         </assets>
-        <news>v1.0.3 - Use raw.githubusercontent.com for index/checksum/zips (reliable dev updates); fix addons.xml.md5 on Windows</news>
+        <news>v1.0.5 - Single GitHub Pages URL for browse + repo index (drop raw.githubusercontent datadir)[CR]v1.0.4 - Clean-install dependency note[CR]v1.0.3 - addons.xml.md5 LF fix on Windows</news>
     </extension>
 </addon>
 '''
@@ -271,8 +310,9 @@ def build_root_index(output_root: Path) -> None:
 <body>
 <h1>The Crew Dev Repository</h1>
 <p>Development repository for The Crew side project.</p>
-<p><strong>File Manager source:</strong> <code>{REPO_ADDON_URL}</code></p>
-<p><strong>Repository index (Kodi):</strong> uses <code>{RAW_REPO_BASE}</code></p>
+<p><strong>Kodi source (File Manager + repository index):</strong> <code>{REPO_BASE_URL}</code></p>
+<p><strong>Clean install:</strong> {CLEAN_INSTALL_NOTE}</p>
+<p><em>One URL only — do not use raw.githubusercontent.com (directories return HTTP 400).</em></p>
 <hr>
 {body}
 </body>
