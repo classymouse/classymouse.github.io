@@ -35,15 +35,16 @@ SOURCE_ADDONS = [
 ]
 
 REPO_ADDON_ID = 'repository.thecrew.devs'
-REPO_ADDON_VERSION = '1.0.7'
+REPO_ADDON_VERSION = '1.0.8'
 CLEAN_INSTALL_NOTE = (
     'Clean Kodi? Update repositories, then install bs4, SimpleJSON, and InputStream Helper from the '
     'built-in Kodi Add-on repository before module/plugin. ResolveURL comes from Gujal (bundled in this repo).'
 )
 REPO_ADDON_NAME = 'The Crew Dev Repository'
-# Pages: File Manager browse + zip datadir. Raw: addons.xml + md5 (Kodi/Android fails Pages .md5 reads).
+# Pages: File Manager browse only. Raw: index + md5 + zip datadir (Shield-safe; matches Gujal pattern).
 REPO_BASE_URL = 'https://classymouse.github.io/repository.devs/'
 REPO_RAW_BASE_URL = 'https://raw.githubusercontent.com/classymouse/classymouse.github.io/main/repository.devs/'
+REPO_DATADIR_URL = REPO_RAW_BASE_URL
 REPO_ADDON_URL = REPO_BASE_URL
 DEFAULT_OUTPUT_DIR = Path(__file__).parent / 'repository.devs'
 DEFAULT_SOURCE_ROOT = Path(KODI_ADDONS_PATH)
@@ -113,7 +114,7 @@ def should_skip_path(path: Path, base_path: Path) -> bool:
         return True
     if name.lower().startswith('todo'):
         return True
-    if name.lower().startswith('changelog'):
+    if name.lower().endswith('.md'):
         return True
     return False
 
@@ -245,7 +246,7 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
         <dir>
             <info compressed="false">{REPO_RAW_BASE_URL}addons.xml</info>
             <checksum>{REPO_RAW_BASE_URL}addons.xml.md5</checksum>
-            <datadir zip="true">{REPO_BASE_URL}</datadir>
+            <datadir zip="true">{REPO_DATADIR_URL}</datadir>
         </dir>
         <dir>
             <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
@@ -265,7 +266,7 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
         </assets>
-        <news>v1.0.7 - Fix repo icon (use repository artwork, not module icon)[CR]v1.0.6 - Hybrid URLs: raw index/md5 + Pages datadir[CR]v1.0.5 - Single Pages URL (broke Shield repo index)</news>
+        <news>v1.0.8 - All-raw datadir (index + md5 + zips); Pages for File Manager browse only[CR]v1.0.7 - Fix repo icon (use repository artwork, not module icon)[CR]v1.0.6 - Hybrid URLs: raw index/md5 + Pages datadir (broke Shield install UX)</news>
     </extension>
 </addon>
 '''
@@ -312,9 +313,9 @@ def build_root_index(output_root: Path) -> None:
 <body>
 <h1>The Crew Dev Repository</h1>
 <p>Development repository for The Crew side project.</p>
-<p><strong>Kodi source (File Manager + repository index):</strong> <code>{REPO_BASE_URL}</code></p>
+<p><strong>Kodi File Manager (install repo zip):</strong> <code>{REPO_BASE_URL}</code></p>
+<p><strong>Operational URLs (index + zips):</strong> raw.githubusercontent.com — do not browse in File Manager.</p>
 <p><strong>Clean install:</strong> {CLEAN_INSTALL_NOTE}</p>
-<p><em>File Manager: use the Pages URL above. Do not browse raw.githubusercontent.com (directories return HTTP 400).</em></p>
 <hr>
 {body}
 </body>
