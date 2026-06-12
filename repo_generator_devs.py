@@ -35,7 +35,7 @@ SOURCE_ADDONS = [
 ]
 
 REPO_ADDON_ID = 'repository.thecrew.devs'
-REPO_ADDON_VERSION = '1.0.6'
+REPO_ADDON_VERSION = '1.0.7'
 CLEAN_INSTALL_NOTE = (
     'Clean Kodi? Update repositories, then install bs4, SimpleJSON, and InputStream Helper from the '
     'built-in Kodi Add-on repository before module/plugin. ResolveURL comes from Gujal (bundled in this repo).'
@@ -48,6 +48,8 @@ REPO_ADDON_URL = REPO_BASE_URL
 DEFAULT_OUTPUT_DIR = Path(__file__).parent / 'repository.devs'
 DEFAULT_SOURCE_ROOT = Path(KODI_ADDONS_PATH)
 REPO_DIR_NAME = REPO_ADDON_ID
+# Dedicated repo branding (not module/plugin icon). Same artwork family as repository.thecrew.alpha.
+REPO_ARTWORK_SOURCE = Path(__file__).parent / 'repository.thecrew.alpha'
 
 REQUIRED_MODULE_FILES = [
     'lib/resources/lib/modules/scraper_test.py',
@@ -263,15 +265,15 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
         </assets>
-        <news>v1.0.6 - Hybrid URLs: raw index/md5 + Pages datadir (fix Kodi Android md5 read)[CR]v1.0.5 - Single Pages URL (broke Shield repo index)[CR]v1.0.4 - Clean-install dependency note</news>
+        <news>v1.0.7 - Fix repo icon (use repository artwork, not module icon)[CR]v1.0.6 - Hybrid URLs: raw index/md5 + Pages datadir[CR]v1.0.5 - Single Pages URL (broke Shield repo index)</news>
     </extension>
 </addon>
 '''
     (repo_dir / 'addon.xml').write_text(addon_xml, encoding='utf-8')
 
-    # Keep artwork source local and explicit; never fall back to another repository.
-    repo_icon = source_root / 'script.module.thecrew' / 'icon.png'
-    repo_fanart = source_root / 'script.module.thecrew' / 'fanart.jpg'
+    # Dedicated repo icon/fanart — never copy module or plugin artwork.
+    repo_icon = REPO_ARTWORK_SOURCE / 'icon.png'
+    repo_fanart = REPO_ARTWORK_SOURCE / 'fanart.jpg'
     if not repo_icon.exists() or not repo_fanart.exists():
         raise FileNotFoundError(
             f'Missing repository artwork source files: {repo_icon} / {repo_fanart}'
