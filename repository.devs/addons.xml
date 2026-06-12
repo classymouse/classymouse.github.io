@@ -23,8 +23,8 @@
     <addon id="plugin.video.thecrew" version="3.0.6" name="[COLOR orchid]THE CREW[/COLOR]" provider-name="The Crew">
         <requires>
             <import addon="xbmc.python" version="3.0.1" />
-            <import addon="script.module.thecrew" />
-            <import addon="script.thecrew.artwork" />
+            <import addon="script.module.thecrew" version="3.0.6" />
+            <import addon="script.thecrew.artwork" version="3.0.6" />
             <import addon="script.module.requests" />
             <import addon="script.module.resolveurl" />
             <import addon="script.module.resolveurl.xxx" version="2.0.1" />
