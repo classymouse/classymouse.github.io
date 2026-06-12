@@ -35,7 +35,7 @@ SOURCE_ADDONS = [
 ]
 
 REPO_ADDON_ID = 'repository.thecrew.devs'
-REPO_ADDON_VERSION = '1.0.8'
+REPO_ADDON_VERSION = '1.0.9'
 CLEAN_INSTALL_NOTE = (
     'Clean Kodi? Update repositories, then install bs4, SimpleJSON, and InputStream Helper from the '
     'built-in Kodi Add-on repository before module/plugin. ResolveURL comes from Gujal (bundled in this repo).'
@@ -49,8 +49,9 @@ REPO_ADDON_URL = REPO_BASE_URL
 DEFAULT_OUTPUT_DIR = Path(__file__).parent / 'repository.devs'
 DEFAULT_SOURCE_ROOT = Path(KODI_ADDONS_PATH)
 REPO_DIR_NAME = REPO_ADDON_ID
-# Dedicated repo branding (not module/plugin icon). Same artwork family as repository.thecrew.alpha.
-REPO_ARTWORK_SOURCE = Path(__file__).parent / 'repository.thecrew.alpha'
+# Purple DEV hat repo icon (script.module.thecrew/icon_dev_repo.png) — not alpha/green repo artwork.
+REPO_ARTWORK_DIR = Path(__file__).parent / 'repository.devs' / 'artwork'
+FANART_FALLBACK = Path(__file__).parent / 'repository.thecrew.alpha' / 'fanart.jpg'
 
 REQUIRED_MODULE_FILES = [
     'lib/resources/lib/modules/scraper_test.py',
@@ -236,6 +237,26 @@ def build_addons_xml(source_root: Path, output_root: Path) -> Path:
     return addons_xml_path
 
 
+def ensure_repo_artwork(source_root: Path) -> None:
+    """Sync dev repo icon from icon_dev_repo.png; keep committed artwork/ as fallback."""
+    REPO_ARTWORK_DIR.mkdir(parents=True, exist_ok=True)
+    dev_icon_src = source_root / 'script.module.thecrew' / 'icon_dev_repo.png'
+    icon_dest = REPO_ARTWORK_DIR / 'icon.png'
+    fanart_dest = REPO_ARTWORK_DIR / 'fanart.jpg'
+
+    if dev_icon_src.exists():
+        shutil.copy2(dev_icon_src, icon_dest)
+    elif not icon_dest.exists():
+        raise FileNotFoundError(
+            f'Missing dev repo icon: {dev_icon_src} (and no committed fallback at {icon_dest})'
+        )
+
+    if FANART_FALLBACK.exists() and not fanart_dest.exists():
+        shutil.copy2(FANART_FALLBACK, fanart_dest)
+    if not fanart_dest.exists():
+        raise FileNotFoundError(f'Missing dev repo fanart: {fanart_dest}')
+
+
 def build_repo_addon(output_root: Path, source_root: Path) -> Path:
     repo_dir = output_root / REPO_DIR_NAME
     repo_dir.mkdir(parents=True, exist_ok=True)
@@ -266,15 +287,15 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
         </assets>
-        <news>v1.0.8 - All-raw datadir (index + md5 + zips); Pages for File Manager browse only[CR]v1.0.7 - Fix repo icon (use repository artwork, not module icon)[CR]v1.0.6 - Hybrid URLs: raw index/md5 + Pages datadir (broke Shield install UX)</news>
+        <news>v1.0.9 - Dev repo icon: purple DEV hat (icon_dev_repo), not alpha artwork[CR]v1.0.8 - All-raw datadir (index + md5 + zips); Pages for File Manager browse only[CR]v1.0.7 - Fix repo icon (use repository artwork, not module icon)[CR]v1.0.6 - Hybrid URLs: raw index/md5 + Pages datadir (broke Shield install UX)</news>
     </extension>
 </addon>
 '''
     (repo_dir / 'addon.xml').write_text(addon_xml, encoding='utf-8')
 
-    # Dedicated repo icon/fanart — never copy module or plugin artwork.
-    repo_icon = REPO_ARTWORK_SOURCE / 'icon.png'
-    repo_fanart = REPO_ARTWORK_SOURCE / 'fanart.jpg'
+    ensure_repo_artwork(source_root)
+    repo_icon = REPO_ARTWORK_DIR / 'icon.png'
+    repo_fanart = REPO_ARTWORK_DIR / 'fanart.jpg'
     if not repo_icon.exists() or not repo_fanart.exists():
         raise FileNotFoundError(
             f'Missing repository artwork source files: {repo_icon} / {repo_fanart}'
