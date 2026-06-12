@@ -298,12 +298,11 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
 
 
 def build_root_index(output_root: Path) -> None:
+    # Flat zip link in the source root — same pattern as repository.thecrew.alpha.
+    # Kodi File Manager parses simple same-directory hrefs reliably; nested paths often fail on Android.
     links = [
-        f'<a href="{REPO_DIR_NAME}/{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip">{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip</a>',
-        f'<a href="{REPO_DIR_NAME}/">{REPO_DIR_NAME}/</a>',
+        f'<a href="{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip">{REPO_DIR_NAME}-{REPO_ADDON_VERSION}.zip</a>',
     ]
-    for addon_id in SOURCE_ADDONS:
-        links.append(f'<a href="{addon_id}/">{addon_id}/</a>')
     body = '<br>\n'.join(links)
     index_html = f'''<html>
 <head><title>The Crew Dev Repository</title></head>
