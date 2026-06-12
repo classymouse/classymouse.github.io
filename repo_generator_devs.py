@@ -35,14 +35,15 @@ SOURCE_ADDONS = [
 ]
 
 REPO_ADDON_ID = 'repository.thecrew.devs'
-REPO_ADDON_VERSION = '1.0.5'
+REPO_ADDON_VERSION = '1.0.6'
 CLEAN_INSTALL_NOTE = (
     'Clean Kodi? Update repositories, then install bs4, SimpleJSON, and InputStream Helper from the '
     'built-in Kodi Add-on repository before module/plugin. ResolveURL comes from Gujal (bundled in this repo).'
 )
 REPO_ADDON_NAME = 'The Crew Dev Repository'
-# One URL for File Manager browse, repo index, checksum, and zip datadir (same pattern as alpha repo).
+# Pages: File Manager browse + zip datadir. Raw: addons.xml + md5 (Kodi/Android fails Pages .md5 reads).
 REPO_BASE_URL = 'https://classymouse.github.io/repository.devs/'
+REPO_RAW_BASE_URL = 'https://raw.githubusercontent.com/classymouse/classymouse.github.io/main/repository.devs/'
 REPO_ADDON_URL = REPO_BASE_URL
 DEFAULT_OUTPUT_DIR = Path(__file__).parent / 'repository.devs'
 DEFAULT_SOURCE_ROOT = Path(KODI_ADDONS_PATH)
@@ -240,8 +241,8 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
 <addon id="{REPO_ADDON_ID}" name="{REPO_ADDON_NAME}" version="{REPO_ADDON_VERSION}" provider-name="The Crew">
     <extension point="xbmc.addon.repository" name="{REPO_ADDON_NAME}">
         <dir>
-            <info compressed="false">{REPO_BASE_URL}addons.xml</info>
-            <checksum>{REPO_BASE_URL}addons.xml.md5</checksum>
+            <info compressed="false">{REPO_RAW_BASE_URL}addons.xml</info>
+            <checksum>{REPO_RAW_BASE_URL}addons.xml.md5</checksum>
             <datadir zip="true">{REPO_BASE_URL}</datadir>
         </dir>
         <dir>
@@ -262,7 +263,7 @@ def build_repo_addon(output_root: Path, source_root: Path) -> Path:
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>
         </assets>
-        <news>v1.0.5 - Single GitHub Pages URL for browse + repo index (drop raw.githubusercontent datadir)[CR]v1.0.4 - Clean-install dependency note[CR]v1.0.3 - addons.xml.md5 LF fix on Windows</news>
+        <news>v1.0.6 - Hybrid URLs: raw index/md5 + Pages datadir (fix Kodi Android md5 read)[CR]v1.0.5 - Single Pages URL (broke Shield repo index)[CR]v1.0.4 - Clean-install dependency note</news>
     </extension>
 </addon>
 '''
@@ -311,7 +312,7 @@ def build_root_index(output_root: Path) -> None:
 <p>Development repository for The Crew side project.</p>
 <p><strong>Kodi source (File Manager + repository index):</strong> <code>{REPO_BASE_URL}</code></p>
 <p><strong>Clean install:</strong> {CLEAN_INSTALL_NOTE}</p>
-<p><em>One URL only — do not use raw.githubusercontent.com (directories return HTTP 400).</em></p>
+<p><em>File Manager: use the Pages URL above. Do not browse raw.githubusercontent.com (directories return HTTP 400).</em></p>
 <hr>
 {body}
 </body>
