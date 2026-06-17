@@ -1,14 +1,73 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
-Version 3.0.6 - "Dev distribution" (June 2026)
+Version 3.0.9.2 - "Module hotfix" (June 2026)
 =====================================================
-- [COLOR lime]New[/COLOR] Dev repo 1.0.5: one GitHub Pages URL for File Manager browse and Kodi repository index (drops raw.githubusercontent Crew datadir)
+- [COLOR orange]Fix[/COLOR] Trakt: TOCTOU race on concurrent token refresh — second process now detects cross-process rotation via fresh settings read instead of wiping credentials
+- [COLOR orange]Fix[/COLOR] Trakt: missing tokens with user still configured now surfaces as auth_dead (startup dialog) instead of silent empty lists
+- [COLOR orange]Fix[/COLOR] Trakt: one-time corner toast notification when Trakt is disconnected mid-session (non-blocking, suppressed during playback)
+- [COLOR orange]Fix[/COLOR] Cache: empty results no longer cached — prevents stale auth failure poisoning lists for hours
+- [COLOR orange]Fix[/COLOR] Settings repair: remove non-existent chainscrapers; pre-check addon existence before instantiating to suppress Kodi log spam
+- [COLOR limegreen]Add[/COLOR] External scraper packs (Coco/Gears/Viper) now route HTTP through Crew client (SSL fix, cfscrape, Xbox UWP)
+
+=====================================================
+Version 3.0.9.1 - "Module hotfix" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] TV Evening zombie monitor: play gate + AV timeout recovery; regular Crew play no longer blocked by stale session
+- [COLOR orange]Fix[/COLOR] Debrid: `debrid_names` matcher (TorBox/Torbox); TB cache labels during scrape; resolve pre-check + timeout backoff
+- [COLOR orange]Fix[/COLOR] Smart resolve: ResolveStatus overlay only (no legacy pack progress dialog)
+- [COLOR orange]Fix[/COLOR] RD cache check: skip disabled instantAvailability API (TorBox/PM/AD still checked)
+
+=====================================================
+Version 3.0.9 - "Dev only distribution" (June 2026)
+=====================================================
+- [COLOR lime]New[/COLOR] Knaben native torrent scraper: JSON meta-search via `api.knaben.org` — broad indexer coverage for movies and TV; lighter title matching and no scrape-time min-seeder drop (aligns with torrentio)
+- [COLOR lime]New[/COLOR] Bitsearch native torrent scraper: DHT HTML search on `bitsearch.to` — supplements torrentio/Knaben with de-centralized swarm results
+- [COLOR orange]Fix[/COLOR] Source loader: failed scraper imports now log traceback (was silently skipped)
+- [COLOR orange]Fix[/COLOR] TV/movie search history: new terms missing until re-entering menu — `cacheToDisc=False` on history folder + refresh after save; `endDirectory` passes `cacheToDisc` as keyword (was setting `succeeded=False`, causing Kodi GetDirectory failed)
+- [COLOR orange]Fix[/COLOR] Legacy internal scrapers (2ddl, scenerls, etc.): dict metadata from unified wrapper no longer hits `parse_qs` decode errors — `_parse_data()` accepts dict or query string
+- [COLOR orange]Fix[/COLOR] Orion/provider cache: JSON write + legacy `repr()` read fallback — stops corrupt cache rows and noisy decode tracebacks on TV/movie scrape
+- [COLOR orange]Fix[/COLOR] scenerls error reporting: correct `scraper_error()` argument order
+- [COLOR orange]Fix[/COLOR] Upgrade health check: suite version follows installed module (addon.xml) — no manual constant; version mismatches across plugin/module/artwork are logged only, install integrity checks still run
+- [COLOR orange]Fix[/COLOR] TV Evening no-sources: failure text routes to fullscreen overlay (not Kodi infoDialog); `ready` state no longer shows “0 sources found!”
+- [COLOR orange]Fix[/COLOR] TV Evening no-sources: failed plugin play calls `setResolvedUrl(False)` so Kodi does not keep a stuck busy cursor (PC)
+- [COLOR orange]Fix[/COLOR] TV Evening scrape failures: monitor detects `source_failure` immediately (no 45s wait), marks episode skipped, and recovery advances past slots that failed twice
+- [COLOR orange]Fix[/COLOR] TV Evening air-date filter: robust date parsing + user dialog when 48h minimum-air-age rejects all candidates (Shield)
+- [COLOR orange]Fix[/COLOR] TV Evening Stop: soft pause — playlist + resume points kept for recovery; mid-episode Stop no longer advances to next show
+
+=====================================================
+Version 3.0.7/3.0.8 - "Dev only distribution" (June 2026)
+=====================================================
+- [COLOR lime]New[/COLOR] Unified smart resolve: list-click, autoplay, and source dialog share one queue — full visible source list (not 40-row cap), quality/debrid-aware ordering, RD 451/429 cooldown while PM/AD/TorBox continue
+- [COLOR lime]New[/COLOR] Resolve status overlay (`ResolveStatus.xml`): fanart background, live status (“Trying 1080p · Premiumize…”, RD cooldown), link counter, Cancel — replaces silent resolve + easy-to-miss toast
+- [COLOR orange]Fix[/COLOR] AllDebrid token diagnostics: log masked candidate sources + AD rejection codes; clear session “unusable” flag when a newly validated ResolveURL key passes `/v4/user`
+- [COLOR orange]Fix[/COLOR] Next Episodes home widget after settings/debrid save: detect widget routes via `reload=` in plugin URL; transient Trakt failure shows Loading… + scheduled refresh instead of empty row and blank “The Crew” toast (string #32500 was empty in en_us)
+- [COLOR orange]Fix[/COLOR] ResolveURL settings return: dialog-only route (`ResolveUrlTorrent`) now closes the plugin handle after `Addon.OpenSettings`; debounced `onSettingsChanged` (2s) stops 6× debrid cache clears + repeated widget reload busy storms
+- [COLOR orange]Fix[/COLOR] Navigator dialog-only routes: `is_folder: False` + `finish_dialog_route()` on Trakt auth, person/advanced search, cache/tools, views, adult PIN gate, and related handlers — stops stuck busy cursor after cancel or dialog-only actions
+- [COLOR orange]Fix[/COLOR] Debrid expiry startup toast: Crew `icon.png`, heading `[COLOR orchid]The Crew[/COLOR] - [COLOR orange]Debrid manager[/COLOR]`, single-line body — no generic Kodi INFO icon or multi-line text that skins truncate
+- [COLOR lime]New[/COLOR] Settings backup: auto-copy `settings.xml` to `Kodi/thecrew_settings_backup/` (outside `addon_data`) on boot and after save — survives plugin uninstall; restored on reinstall via health check
+- [COLOR lime]New[/COLOR] TV Evening session layer (`tvevening_session`): DB-backed state, play gate, resumable recovery after Kodi restart/crash, and unit tests for gate/resume logic
+- [COLOR orange]Fix[/COLOR] TV Evening completion screen: stays visible the full 30s on last episode (completing gate + ordered teardown; blocks rogue plugin replay from stealing focus)
+- [COLOR orange]Fix[/COLOR] TV Evening play gate: current playlist slot always allowed during gap/countdown/scrape — fixes false 45s startup skip and blocked first episode
+- [COLOR orange]Fix[/COLOR] TV Evening recovery: rewind to first unwatched after false startup skip; dialog shows resume episode title; startup-timeout skips no longer mark episode skipped in DB
+- [COLOR orange]Fix[/COLOR] TV Evening too-recent replacement toast deferred until after preview Play (not during pause countdown)
+- [COLOR orange]Fix[/COLOR] TV Evening monitor: cross-process AV-start signal, reserve swap vs visible skip, UpNext prefetch suppressed during session, player owner guard on multi-process play
+- [COLOR orange]Fix[/COLOR] My TV Evening playlist dialog: full episode row text, episode info popup on list click, readable hover contrast on bright accents
+- [COLOR orange]Fix[/COLOR] Debrid services disabled in ResolveURL are respected in Crew (`debrid.status()` reads fresh `_enabled` flags — no restart needed)
+- [COLOR orange]Fix[/COLOR] AllDebrid auth hint when device approval is pending — don’t DENY your own test connection from a foreign CF edge IP
+- [COLOR orange]Fix[/COLOR] Documentaries menu: empty/error paths call `close_directory` — no stuck busy cursor
+- [COLOR orange]Fix[/COLOR] Trakt prompts suppressed for non-Trakt users after TV Evening / normal playback when Trakt is not configured
+- [COLOR orange]Fix[/COLOR] Upgrade health check bumped to v3.0.7 (settings backup restore, schema repair, scraper registry migration)
+
+=====================================================
+Version 3.0.6 - "Dev only distribution" (June 2026)
+=====================================================
+- [COLOR lime]New[/COLOR] Dev repo 1.0.9: one GitHub Pages URL for File Manager browse and Kodi repository index (drops raw.githubusercontent Crew datadir)
 - [COLOR orange]Fix[/COLOR] settings_repair: preserve original settings.xml.bak — never overwrite on repair or reboot
 - [COLOR orange]Fix[/COLOR] Upgrade health check bumped to v3.0.6 with version gate and artwork install integrity detection
 
 =====================================================
-Version 3.0.5 - "Settings & Scrapers" (June 2026)
+Version 3.0.5 - "Dev only distribution" (June 2026)
 =====================================================
 - [COLOR lime]New[/COLOR] Scraper Maintenance (Tools menu, formerly Scraper Status): parallel connectivity tests (5–10 workers), per-scraper Enable/Disable for internal Crew and external pack scrapers (Coco/Gears/Viper), and Auto Disable Blocked for bulk turn-off of non-working sources
 - [COLOR lime]New[/COLOR] ScraperRegistry: SQLite-backed enable/disable with `user_disabled` column; legacy `provider.*` Kodi toggles retired from settings schema and migrated into the registry on first load

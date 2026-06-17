@@ -252,6 +252,9 @@ def create_addon_zip(addon_id):
 
         print(f"   ✅ Created {zip_filename} ({zip_path.stat().st_size // 1024} KB)")
 
+        write_dir_index_html(addon_id, version, dest_dir)
+        print(f"   ✅ Updated index.html -> {zip_filename}")
+
         # Validate required production modules are present
         if addon_id == 'script.module.thecrew':
             print(f"   🔍 Validating required production modules...")
@@ -287,6 +290,20 @@ def create_addon_zip(addon_id):
         import traceback
         traceback.print_exc()
         return False
+
+def write_dir_index_html(addon_id: str, version: str, dest_dir: Path) -> None:
+    """Write a simple index.html listing the current zip for Kodi File Manager."""
+    zip_name = f'{addon_id}-{version}.zip'
+    html = f'''<html>
+<head><title>Index of {addon_id}</title></head>
+<body>
+<h1>Index of {addon_id}</h1>
+<a href="{zip_name}">{zip_name}</a><br>
+</body>
+</html>
+'''
+    (dest_dir / 'index.html').write_text(html, encoding='utf-8')
+
 
 def update_addons_xml():
     """Update addons.xml and addons.xml.md5 in repo root."""
