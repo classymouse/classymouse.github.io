@@ -1,0 +1,20 @@
+# Force LF line endings for all text files so addons.xml.md5 always matches
+# the bytes GitHub Pages serves — Windows autocrlf must not mangle these.
+* text=auto
+
+# Critical Kodi repo files — always LF, never CRLF
+*.xml   text eol=lf
+*.md5   text eol=lf
+*.html  text eol=lf
+*.txt   text eol=lf
+*.py    text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+
+# Binary files — no line-ending conversion
+*.zip   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
