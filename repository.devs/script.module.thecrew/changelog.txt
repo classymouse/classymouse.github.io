@@ -1,6 +1,14 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.0.9.1 - "Module hotfix" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] TV Evening zombie monitor: play gate + AV timeout recovery; regular Crew play no longer blocked by stale session
+- [COLOR orange]Fix[/COLOR] Debrid: `debrid_names` matcher (TorBox/Torbox); TB cache labels during scrape; resolve pre-check + timeout backoff
+- [COLOR orange]Fix[/COLOR] Smart resolve: ResolveStatus overlay only (no legacy pack progress dialog)
+- [COLOR orange]Fix[/COLOR] RD cache check: skip disabled instantAvailability API (TorBox/PM/AD still checked)
+
+=====================================================
 Version 3.0.9 - "Native indexers" (June 2026)
 =====================================================
 - [COLOR lime]New[/COLOR] Knaben native torrent scraper: JSON meta-search via `api.knaben.org` — broad indexer coverage for movies and TV; lighter title matching and no scrape-time min-seeder drop (aligns with torrentio)
@@ -11,9 +19,14 @@ Version 3.0.9 - "Native indexers" (June 2026)
 - [COLOR orange]Fix[/COLOR] Orion/provider cache: JSON write + legacy `repr()` read fallback — stops corrupt cache rows and noisy decode tracebacks on TV/movie scrape
 - [COLOR orange]Fix[/COLOR] scenerls error reporting: correct `scraper_error()` argument order
 - [COLOR orange]Fix[/COLOR] Upgrade health check: suite version follows installed module (addon.xml) — no manual constant; version mismatches across plugin/module/artwork are logged only, install integrity checks still run
+- [COLOR orange]Fix[/COLOR] TV Evening no-sources: failure text routes to fullscreen overlay (not Kodi infoDialog); `ready` state no longer shows “0 sources found!”
+- [COLOR orange]Fix[/COLOR] TV Evening no-sources: failed plugin play calls `setResolvedUrl(False)` so Kodi does not keep a stuck busy cursor (PC)
+- [COLOR orange]Fix[/COLOR] TV Evening scrape failures: monitor detects `source_failure` immediately (no 45s wait), marks episode skipped, and recovery advances past slots that failed twice
+- [COLOR orange]Fix[/COLOR] TV Evening air-date filter: robust date parsing + user dialog when 48h minimum-air-age rejects all candidates (Shield)
+- [COLOR orange]Fix[/COLOR] TV Evening Stop: soft pause — playlist + resume points kept for recovery; mid-episode Stop no longer advances to next show
 
 =====================================================
-Version 3.0.7 - "Dev only distribution" (June 2026)
+Version 3.0.7/3.0.8 - "Dev only distribution" (June 2026)
 =====================================================
 - [COLOR lime]New[/COLOR] Unified smart resolve: list-click, autoplay, and source dialog share one queue — full visible source list (not 40-row cap), quality/debrid-aware ordering, RD 451/429 cooldown while PM/AD/TorBox continue
 - [COLOR lime]New[/COLOR] Resolve status overlay (`ResolveStatus.xml`): fanart background, live status (“Trying 1080p · Premiumize…”, RD cooldown), link counter, Cancel — replaces silent resolve + easy-to-miss toast
