@@ -1,6 +1,16 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.0.9.2 - "Module hotfix" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Trakt: TOCTOU race on concurrent token refresh — second process now detects cross-process rotation via fresh settings read instead of wiping credentials
+- [COLOR orange]Fix[/COLOR] Trakt: missing tokens with user still configured now surfaces as auth_dead (startup dialog) instead of silent empty lists
+- [COLOR orange]Fix[/COLOR] Trakt: one-time corner toast notification when Trakt is disconnected mid-session (non-blocking, suppressed during playback)
+- [COLOR orange]Fix[/COLOR] Cache: empty results no longer cached — prevents stale auth failure poisoning lists for hours
+- [COLOR orange]Fix[/COLOR] Settings repair: remove non-existent chainscrapers; pre-check addon existence before instantiating to suppress Kodi log spam
+- [COLOR limegreen]Add[/COLOR] External scraper packs (Coco/Gears/Viper) now route HTTP through Crew client (SSL fix, cfscrape, Xbox UWP)
+
+=====================================================
 Version 3.0.9.1 - "Module hotfix" (June 2026)
 =====================================================
 - [COLOR orange]Fix[/COLOR] TV Evening zombie monitor: play gate + AV timeout recovery; regular Crew play no longer blocked by stale session
@@ -9,7 +19,7 @@ Version 3.0.9.1 - "Module hotfix" (June 2026)
 - [COLOR orange]Fix[/COLOR] RD cache check: skip disabled instantAvailability API (TorBox/PM/AD still checked)
 
 =====================================================
-Version 3.0.9 - "Native indexers" (June 2026)
+Version 3.0.9 - "Dev only distribution" (June 2026)
 =====================================================
 - [COLOR lime]New[/COLOR] Knaben native torrent scraper: JSON meta-search via `api.knaben.org` — broad indexer coverage for movies and TV; lighter title matching and no scrape-time min-seeder drop (aligns with torrentio)
 - [COLOR lime]New[/COLOR] Bitsearch native torrent scraper: DHT HTML search on `bitsearch.to` — supplements torrentio/Knaben with de-centralized swarm results
@@ -57,7 +67,7 @@ Version 3.0.6 - "Dev only distribution" (June 2026)
 - [COLOR orange]Fix[/COLOR] Upgrade health check bumped to v3.0.6 with version gate and artwork install integrity detection
 
 =====================================================
-Version 3.0.5 - "Settings & Scrapers" (June 2026)
+Version 3.0.5 - "Dev only distribution" (June 2026)
 =====================================================
 - [COLOR lime]New[/COLOR] Scraper Maintenance (Tools menu, formerly Scraper Status): parallel connectivity tests (5–10 workers), per-scraper Enable/Disable for internal Crew and external pack scrapers (Coco/Gears/Viper), and Auto Disable Blocked for bulk turn-off of non-working sources
 - [COLOR lime]New[/COLOR] ScraperRegistry: SQLite-backed enable/disable with `user_disabled` column; legacy `provider.*` Kodi toggles retired from settings schema and migrated into the registry on first load
