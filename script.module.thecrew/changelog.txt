@@ -1,5 +1,30 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
+[COLOR white]After 18 months of relentless work — rebuilding, fixing, rethinking, and refining — I am
+stepping away from development of The Crew. What started as a maintenance pass turned into a full architectural
+overhaul: a new debrid layer, TV Evening, a resolve overlay, a global TV calendar, scraper
+tooling, performance rewrites, and more fixes than anyone should reasonably count.
+
+The Crew is in good shape. Whoever picks it up from here has a solid foundation to build on.
+
+To the users who reported bugs patiently, tested late at night, and kept pushing — thank you.
+It was worth every hour.
+
+  — Classy x[/COLOR]
+
+=====================================================
+Version 3.0.9.3 - "The My Final Goodbye version" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Disney+ movies category empty: TMDB URL had literal %s before cache fetch; poisoned empty result cached forever
+- [COLOR orange]Fix[/COLOR] cache.get_with_etag: no longer caches empty results arrays (same guard as cache.get)
+- [COLOR limegreen]Add[/COLOR] One-time startup cache purge (v3.0.9.3): removes all empty/poisoned entries so lists reload cleanly on first boot
+- [COLOR orange]Fix[/COLOR] metacache (meta.5.db): insert used repr() but fetch used json.loads() — format mismatch caused every item to miss the cache every time; all lists re-ran full TMDB lookups on every open (first and second load equally slow); fixed by storing with json.dumps() and adding repr/eval fallback for old entries
+- [COLOR orange]Fix[/COLOR] metacache.fetch: replaced 200 individual per-item SQLite queries with 2 batch IN(...) lookups — eliminates N×query overhead on large lists
+- [COLOR orange]Fix[/COLOR] metacache.fetch: show-level cache entry was overwriting episode-specific season/episode/title/premiered on all episodes of the same show — binge-drop releases (e.g. 8-episode drop) showed every entry as the same episode; fixed by preserving episode-specific fields across the show-cache update
+- [COLOR orange]Fix[/COLOR] worker(): ThreadPoolExecutor capped at min(total, 20) threads — was spawning up to 200 simultaneous threads for large lists
+- [COLOR orange]Fix[/COLOR] Documentaries -> Top 100: page uses <ol>/<li> layout instead of WordPress <article> tags — scraper now falls back to <ol> link-scan when no articles are found; also removed /top-100/ from skip_slugs (was harmless but incorrect)
+- [COLOR limegreen]Add[/COLOR] "What's On" global TV calendar (TV Shows menu): Today / This Week / This Month — fetches Trakt's /calendars/all/ endpoint, deduplicates regional entries across 6 layers (title, TMDB ID, episode Trakt/TMDB ID, air-slot, S/E), sorts by air date, caches 2h, paginates 50 per page; shows your Trakt "following" marker (★) on episodes from shows you track; warm-cache page opens in ~93ms
+
 =====================================================
 Version 3.0.9.2 - "Module hotfix" (June 2026)
 =====================================================
@@ -80,7 +105,7 @@ Version 3.0.5 - "Dev only distribution" (June 2026)
 - [COLOR orange]Fix[/COLOR] Airing Today calendar: empty list no longer leaves `Cursor.busy()` spinning — `endOfDirectory` always called; grey placeholder row when nothing airs today; local calendar dates aligned with Trakt `date[N]` URLs
 - [COLOR orange]Fix[/COLOR] Empty directory safety net across indexers: movies, TV shows, episodes, and progress views now call `endOfDirectory` on empty/error paths (matches 3.0.3 widget fixes)
 - [COLOR orange]Fix[/COLOR] Home widgets (Trending, Next Episodes, In Progress): fast path still avoids the full TMDB worker stampede — Trending lists pull posters from SQLite metacache first, then capped TMDB fetch (6 workers) for cache misses; episode widgets now sync-fetch artwork (6 workers), reuse cached show posters for icon/thumb when episode stills are missing, and accept any-age SQLite episode cache on widgets; empty widget routes show a Loading placeholder instead of a permanently blank row
-- [COLOR orange]Fix[/COLOR] Next Episodes startup 404 storm: progress indexer now honours `next_episode_cache` (batch-loaded SQLite) — known TMDB 404s skip HTTP on boot, are persisted immediately, negative cache no longer invalidates when you watch other episodes, and Trakt next-ep guesses advance past cached gaps (e.g. S01E04 missing → S02E01)
+- [COLOR orange]Fix[/COLOR] Next Episodes startup 404 storm: progress indexer now honours `next_episode_cache` (batch-loaded SQLite) — known TMDB 404s skip HTTP on boot, are persisted immediately, negative cache no longer invalidates when you watch other episodes, and Trakt next-ep guesses advance past cached gaps (e.g. S01E04 missing -> S02E01)
 - [COLOR orange]Fix[/COLOR] Busy cursor after saving ResolveURL/debrid settings: `onSettingsChanged` clears debrid session caches (so a new API key is picked up immediately), dismisses the busy spinner, and skips legacy Crew `alldebridtoken` when ResolveURL already has a token
 - [COLOR orange]Fix[/COLOR] AllDebrid startup log spam: cloud/manager/debridcheck paths now use the same validated ResolveURL token as the pack resolver — dead `AllDebridResolver_token` values are not sent repeatedly; `AUTH_BAD_APIKEY` marks AllDebrid unusable for the session after one notice
 - [COLOR lime]New[/COLOR] One-time v3.0.5 upgrade health check at Kodi startup: notifies you while it runs, repairs userdata settings.xml, verifies databases/tables/columns (metacache, cache, scraper_status, bookmarks, Trakt), migrates legacy `provider.*` toggles, and marks completion in `health_check_3.0.5.done` (retries next boot if settings still fail to load)
@@ -92,10 +117,10 @@ Version 3.0.5 - "Dev only distribution" (June 2026)
 - [COLOR orange]Fix[/COLOR] Trakt Manager watchlist: live fetch on open (no 30-day stale cache), cache invalidation on add/remove, imdb+tmdb POST IDs, and `added: 0` error when Trakt rejects the item
 - [COLOR orange]Fix[/COLOR] Disney+ movies menu: TMDb discover now uses `with_watch_providers=337` + `watch_region` (streaming catalog) instead of invalid `with_networks` on movie discover — was showing unrelated studios (Lionsgate, etc.)
 - [COLOR orange]Fix[/COLOR] Caching Tools (Clear All Cache, Clear Cache, Meta, Search, Sources): `is_folder: False` + `control.idle()` in `finally` — no stuck busy cursor after confirm/cancel
-- [COLOR orange]Fix[/COLOR] Episode widgets (Next Episodes / In Progress): fetch episode still before poster→thumb fallback — avoids show posters masquerading as widget icons after cache clear
+- [COLOR orange]Fix[/COLOR] Episode widgets (Next Episodes / In Progress): fetch episode still before poster->thumb fallback — avoids show posters masquerading as widget icons after cache clear
 - [COLOR orange]Fix[/COLOR] Scraper Maintenance Usenet tab: unchecking the empty Usenet filter now restores Direct/Torrent scrapers instead of leaving the list blank
 - [COLOR orange]Fix[/COLOR] Trakt pause scrobble (movies + tmdb-only titles): service player now syncs playback metadata from player.run()/window properties before pause/stop; scrobble uses tmdb when imdb is 0/missing; episode scrobble no longer fires without season/episode
-- [COLOR orange]Fix[/COLOR] Trakt Lists → This Weeks Top 10 Movies: dead private giladg list (403) no longer blanks the menu — uses Trakt `/movies/boxoffice`; dead-list replacement fallback no longer returns None and crashes sorting
+- [COLOR orange]Fix[/COLOR] Trakt Lists -> This Weeks Top 10 Movies: dead private giladg list (403) no longer blanks the menu — uses Trakt `/movies/boxoffice`; dead-list replacement fallback no longer returns None and crashes sorting
 - [COLOR orange]Fix[/COLOR] Trakt curated lists: paginate all pages (limit=100), preserve list rank order, and stop treating list slugs containing “collection” as your personal Trakt collection (e.g. Quentin Tarantino collection showed watchlist); dead giladg cinematography/stand-up menus fall back to TMDb discover
 
 
