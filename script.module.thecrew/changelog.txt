@@ -1,16 +1,26 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
-[COLOR white]After 18 months of relentless work — rebuilding, fixing, rethinking, and refining — I am
-stepping away from development of The Crew. What started as a maintenance pass turned into a full architectural
-overhaul: a new debrid layer, TV Evening, a resolve overlay, a global TV calendar, scraper
-tooling, performance rewrites, and more fixes than anyone should reasonably count.
+=====================================================
+Version 3.0.9.6 - (July 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] various
 
-The Crew is in good shape. Whoever picks it up from here has a solid foundation to build on.
+=====================================================
+Version 3.0.9.5 - "Progress hotfix" (July 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Trakt #775: progress widgets now fetch `/sync/watched/shows?extended=progress` with pagination — `extended=full` no longer includes season/episode rows on live Trakt API (root cause of Next Episodes / In Progress showing S01E01)
+- [COLOR orange]Fix[/COLOR] Watched-show cache validates season/episode detail; poisoned pre-#775 cache is rejected and refetched
+- [COLOR orange]Fix[/COLOR] Progress scan: skip shows with no watched episode detail instead of defaulting to S01E01
+- [COLOR orange]Fix[/COLOR] Startup batch sync (`fill_trakt_watched`) and TV indicators use the same paginated progress fetch
+- [COLOR limegreen]Add[/COLOR] One-time startup purge (v3.0.9.5): clears stale `trakt_watched_shows_extended` rows and batch ETag validators
+- [COLOR limegreen]Add[/COLOR] Sources: fix busy spinner on user cancel (PlayMedia/STRM) — landed since 3.0.9.4
 
-To the users who reported bugs patiently, tested late at night, and kept pushing — thank you.
-It was worth every hour.
-
-  — Classy x[/COLOR]
+=====================================================
+Version 3.0.9.4 - "The quietly good housekeeping version" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Movies -> Genres: switched from Trakt /movies/trending (tiny pool, 1–2 pages) to TMDB /discover/movie with English-language/country filters — now returns many pages of results, same approach as TV Shows genres
+- [COLOR orange]Fix[/COLOR] Watchlist truncation: movies and TV shows watchlist limit raised from 250 to 2000 — VIP users with large watchlists no longer get silently cut off
+- [COLOR orange]Fix[/COLOR] movies.py: collection_link (dead code) used limit={self.count} which would have capped at the page-item setting; collection display uses the local SQLite mirror (no cap) so this was harmless but clarified
 
 =====================================================
 Version 3.0.9.3 - "The My Final Goodbye version" (June 2026)

@@ -1,0 +1,12 @@
+[COLOR orchid][B]The Crew Plugin - Changelog[/B][/COLOR]
+
+=====================================================
+Version 3.0.10 - "Progress hotfix companion" (July 2026)
+=====================================================
+- [COLOR limegreen]Release[/COLOR] Paired with script.module.thecrew 3.0.9.5 (Trakt #775 progress / Next Episodes hotfix)
+- [COLOR orange]Fix[/COLOR] Disable Language Invoker (`reuselanguageinvoker=false`) — avoids widget/boot instability on some platforms
+
+=====================================================
+Version 3.0.9.2 - "Plugin hotfix" (June 2026)
+=====================================================
+- [COLOR limegreen]Add[/COLOR] What's On global TV calendar menu entries (strings + icons; logic in module)
