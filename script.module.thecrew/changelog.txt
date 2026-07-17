@@ -1,6 +1,13 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.0.9.8 - "Welcome stays gone" (July 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Settings repair: profile backup no longer full-overwrites userdata (was stomping last_version → welcome dialog every boot)
+- [COLOR orange]Fix[/COLOR] Emergency .bak restore preserves forward-only markers (last_version, module_base, plugin_base)
+- [COLOR limegreen]Add[/COLOR] Refresh emergency profile backup on module/plugin version change
+
+=====================================================
 Version 3.0.9.7 - "Tokens + welcome" (July 2026)
 =====================================================
 - [COLOR orange]Fix[/COLOR] Version announcement: persist last_version to disk AND setSetting so boot setSetting flushes cannot stomp it back
