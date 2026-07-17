@@ -1,19 +1,27 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
-Version 3.0.9.6 - (July 2026)
+Version 3.0.9.7 - "Tokens + welcome" (July 2026)
 =====================================================
-- [COLOR orange]Fix[/COLOR] various
+- [COLOR orange]Fix[/COLOR] Version announcement: persist last_version to disk AND setSetting so boot setSetting flushes cannot stomp it back
+- [COLOR orange]Fix[/COLOR] Trakt: stop clearing tokens on HTTP 400/401 (avoids empty default="true" settings poison / endless re-auth)
+- [COLOR orange]Fix[/COLOR] Settings repair: strip default= on sensitive keys; restore empty auth keys from backups on boot
+- [COLOR limegreen]Add[/COLOR] ssl unverified default HTTPS context for hosts with broken certificates (White ;))
+- [COLOR deepskyblue]Tweak[/COLOR] New TV Shows: sort by popularity, fixed UK -> GB (cleaner list, ~3 pages)
 
 =====================================================
-Version 3.0.9.5 - "Progress hotfix" (July 2026)
+Version 3.0.9.6 - "Progress + cleanup" (July 2026)
 =====================================================
-- [COLOR orange]Fix[/COLOR] Trakt #775: progress widgets now fetch `/sync/watched/shows?extended=progress` with pagination — `extended=full` no longer includes season/episode rows on live Trakt API (root cause of Next Episodes / In Progress showing S01E01)
+- [COLOR orange]Fix[/COLOR] Trakt #775: progress widgets fetch `/sync/watched/shows?extended=progress` with pagination — `extended=full` no longer includes season/episode rows (root cause of Next Episodes / In Progress showing S01E01)
 - [COLOR orange]Fix[/COLOR] Watched-show cache validates season/episode detail; poisoned pre-#775 cache is rejected and refetched
-- [COLOR orange]Fix[/COLOR] Progress scan: skip shows with no watched episode detail instead of defaulting to S01E01
-- [COLOR orange]Fix[/COLOR] Startup batch sync (`fill_trakt_watched`) and TV indicators use the same paginated progress fetch
-- [COLOR limegreen]Add[/COLOR] One-time startup purge (v3.0.9.5): clears stale `trakt_watched_shows_extended` rows and batch ETag validators
-- [COLOR limegreen]Add[/COLOR] Sources: fix busy spinner on user cancel (PlayMedia/STRM) — landed since 3.0.9.4
+- [COLOR orange]Fix[/COLOR] Progress / TV Evening: skip shows without watched episode detail instead of defaulting to S01E01
+- [COLOR orange]Fix[/COLOR] Startup batch sync, TV indicators, and TV Evening backdrop use the same paginated progress fetch
+- [COLOR orange]Fix[/COLOR] In-progress widget: enrich TMDB posters before listing (no posterless deferred rows)
+- [COLOR orange]Fix[/COLOR] Next Episodes widget: stop infinite "Loading..." refresh loop when Trakt auth has failed
+- [COLOR orange]Fix[/COLOR] Sources: busy spinner stuck after user cancel on PlayMedia/STRM routes
+- [COLOR orange]Fix[/COLOR] Settings repair: normalize empty `adult_pin` userdata for Kodi 21/Omega settings load
+- [COLOR limegreen]Add[/COLOR] One-time startup purge (v3.0.9.5 flag): clears stale `trakt_watched_shows_extended` / next-episode cache and Trakt ETag validators
+- [COLOR orange]Remove[/COLOR] IPTV/whitehat: bundled `whitehat.xml`, list route, actionlist handler, and dead navigator wiring
 
 =====================================================
 Version 3.0.9.4 - "The quietly good housekeeping version" (June 2026)

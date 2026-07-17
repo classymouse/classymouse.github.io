@@ -69,6 +69,7 @@ EXCLUDE_PATTERNS = [
     ".github",
 
     # IDEs and editors
+    ".cursor",
     ".idea",
     ".vscode",
     ".vs",
