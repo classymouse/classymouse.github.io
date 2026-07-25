@@ -1,3 +1,6 @@
+[B]1.0.1[/B]
+- Few fixes (help viewer over settings, Crew orchid branding, torrent info text)
+
 [B]1.0.0[/B]
 - Initial Classy Scrapers release
 - Base: Viper Scrapers 1.5.0 (Coco-compatible layout + working TGX/cfscrape)

@@ -1,50 +1,57 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
-Version 3.0.9.11 - the "Hey there SIMKL" release (July 2026)
+Version 3.2.0 - the "Hey there SIMKL while trakt tracker tracks" release (July 2026)
 =====================================================
-- [COLOR deepskyblue]Tweak[/COLOR] Menus: Movie/TV calendars moved up (after premieres / popular — not buried above Search)
-- [COLOR orange]Fix[/COLOR] Widget Mark Watched: Aeon Nox reload via Home widgetreload* props (Container.Refresh is a no-op on home)
-- [COLOR orange]Fix[/COLOR] Widget Mark Watched: refresh home Next Episodes / Progress lists (redirect + service refresh)
-- [COLOR orange]Fix[/COLOR] Mark movie watched: no more fake 00:01 resume hiding the checkmark (bookmark insert used sentinel time)
-- [COLOR orange]Fix[/COLOR] Source cache: stop returning another episode's links on miss/expiry (UpNext "same episode" / wrong scrape)
-- [COLOR orange]Fix[/COLOR] Trakt clear/revoke: purge tokens from all settings backups + stamp revoked (no more hand-deleting .bak for QR)
-- [COLOR orange]Fix[/COLOR] Episode scrobble/resume: stamp play URL imdb/tmdb into container meta when meta ids are "0"
-- [COLOR orange]Fix[/COLOR] Trakt: dead tokens no longer resurrect from settings.xml.bak
+
+Simkl
+- [COLOR limegreen]Add[/COLOR] Simkl as an alternate tracker (lists, continue watching, ratings, calendars, playcount)
+- [COLOR limegreen]Add[/COLOR] TV Evening: Simkl next-to-watch pool (same idea as Next Episodes)
+- [COLOR orange]Fix[/COLOR] Switch Trakt <-> Simkl mid-session: scrobble follows the new tracker right away
+- [COLOR orange]Fix[/COLOR] Simkl Mark Watched: skip bad IDs; toast on context menu
+
+Trakt & accounts
+- [COLOR limegreen]Add[/COLOR] Revoke Trakt (Tools + Settings) - stays revoked (no surprise re-login from backups)
+- [COLOR limegreen]Add[/COLOR] Trakt usage vs limits (Tools): lists, list items, watchlist, library
+- [COLOR limegreen]Add[/COLOR] Clear toast when you hit a Trakt account/list limit
+- [COLOR orange]Fix[/COLOR] Trakt revoke clears tokens from settings backups too (no more deleting .bak by hand)
+- [COLOR orange]Fix[/COLOR] Dead Trakt tokens no longer come back from backups
+- [COLOR orange]Fix[/COLOR] Re-authorize starts a fresh device/QR flow (no silent "already done")
+- [COLOR orange]Fix[/COLOR] Trakt Manager: errors toast instead of failing silently
+- [COLOR orange]Fix[/COLOR] Startup no longer freezes Kodi with a Trakt dialog - one toast only
+- [COLOR orange]Fix[/COLOR] Trending lists still work with a dead/revoked Trakt login (public catalogs)
+- [COLOR orange]Fix[/COLOR] New Episodes lives under My TV Shows (Trakt) so it does not error when logged out
+- [COLOR deepskyblue]Tweak[/COLOR] Tools: Auth Trakt / Auth Simkl only when that tracker is selected and not yet linked - reauth/revoke stay in Settings
+
+Watch, widgets & play
+- [COLOR orange]Fix[/COLOR] Widget Mark Watched refreshes home Next Episodes / Progress (incl. Aeon Nox)
+- [COLOR orange]Fix[/COLOR] Mark movie watched: checkmark shows correctly (no fake 00:01 resume)
+- [COLOR orange]Fix[/COLOR] Source cache no longer serves links from a different episode (UpNext / wrong scrape)
+- [COLOR orange]Fix[/COLOR] Episode scrobble/resume when episode IDs were missing
+- [COLOR orange]Fix[/COLOR] Play Random episode no longer fails silently
+- [COLOR orange]Fix[/COLOR] TV Auto Play from context menu scrapes again
+- [COLOR deepskyblue]Tweak[/COLOR] Play Random can autoplay the best source (on by default)
+- [COLOR deepskyblue]Tweak[/COLOR] Find Similar uses TMDB (not Trakt)
+
+Menus, search & calendars
 - [COLOR orange]Fix[/COLOR] New Search runs immediately (no extra click on history)
-- [COLOR limegreen]Add[/COLOR] Simkl XOR tracker (lists, CW, ratings, calendars, playcount)
-- [COLOR orange]Fix[/COLOR] Simkl mark watched: skip bogus tt0; toast on CM
-- [COLOR deepskyblue]Tweak[/COLOR] Simkl TV indicators still too heavy on big libs (lighten later)
-- [COLOR deepskyblue]Tweak[/COLOR] Find Similar CM uses TMDB (not Trakt)
-- [COLOR orange]Fix[/COLOR] Play Random episode: pass imdb_id/tmdb_id (was silent TypeError)
-- [COLOR deepskyblue]Tweak[/COLOR] Play Random autoplays best source (setting; on by default)
-- [COLOR orange]Fix[/COLOR] Calendar Browse Series → seasons (was empty episodes&season; missing on single-show Today)
-- [COLOR orange]Fix[/COLOR] Browse Season: empty list when episode meta lacked status (Progress CM)
-- [COLOR orange]Fix[/COLOR] TV Auto Play CM: alterSources → alter_sources (was Unhandled, no scrape)
-- [COLOR limegreen]Add[/COLOR] TV Evening: Simkl XOR next-to-watch pool (same as Next Episodes)
+- [COLOR orange]Fix[/COLOR] Calendar -> Browse Series opens seasons correctly
+- [COLOR orange]Fix[/COLOR] Browse Season from Progress no longer empty when status is missing
+- [COLOR deepskyblue]Tweak[/COLOR] Movie/TV calendars moved up in the menus (easier to find)
 
+Documentaries & genres
+- [COLOR limegreen]Add[/COLOR] Documentaries hub: Movie + TV Documentaries (TMDB)
+- [COLOR limegreen]Add[/COLOR] TV genres: Thriller, Detective, Cop Shows
+- [COLOR crimson]Removed[/COLOR] Top Documentary Films (TDF) browser
+- [COLOR deepskyblue]Tweak[/COLOR] TV Sci-Fi & Fantasy: better English + international mix
 
-=====================================================
-Version 3.0.9.10 - "Tracking trakt tracks"  (July 2026)
-=====================================================
-- [COLOR orange]Fix[/COLOR] settings_repair: stop adding <?xml to userdata settings.xml (Kodi Omega strips it / can wipe the file)
-- [COLOR orange]Fix[/COLOR] Empty Trending list: revoked/dead Bearer no longer blocks public Trakt catalogs (retry without auth)
-- [COLOR orange]Fix[/COLOR] New Episodes: moved under My TV Shows (Trakt-gated) so it does not error when logged out
-- [COLOR orange]Fix[/COLOR] Trakt Authorize: Re-authorize clears tokens and starts device/QR flow (no silent return)
-- [COLOR orange]Fix[/COLOR] Trakt Manager: no silent fail on empty lists; auth/errors toast instead of vanishing
-- [COLOR orange]Fix[/COLOR] Stop proactive Trakt okDialog from service/startup (was freezing all of Kodi); toast once only
-- [COLOR limegreen]Add[/COLOR] Revoke Trakt authorization (Tools + Settings); sticks via trakt.revoked (no sibling/Classy re-adopt)
-- [COLOR limegreen]Add[/COLOR] Trakt list usage vs limits (Tools): lists, list items, watchlist, digital library (same bars as trakt.tv)
-- [COLOR limegreen]Add[/COLOR] Clear toast on Trakt HTTP 420 account/list/collection limit
-- [COLOR deepskyblue]Tweak[/COLOR] Test Scrapers: real scrape (Inception / Breaking Bad S01E01) instead of domain GET false "Blocked"
-- [COLOR deepskyblue]Tweak[/COLOR] Health check: name each repair in toast/log (or All good) - no phantom "1 repair"
-- [COLOR deepskyblue]Tweak[/COLOR] String #32042: "No Trakt account found" (IMDb wording removed; Trakt-only check)
-- [COLOR limegreen]Add[/COLOR] Documentaries hub: Movie Documentaries + TV Documentaries via TMDB genre 99 (Classy-style; ~15y date floor + vote floors)
-- [COLOR crimson]Remove[/COLOR] Top Documentary Films (TDF) browser — deleted docu.py / docuHeaven scrapers
-- [COLOR deepskyblue]Tweak[/COLOR] TV Sci-Fi & Fantasy: dual discover (EN/US|UK|AU vote>=25 + intl vote>=100), exclude Animation/Kids/Docu, merge by id, keep popularity order
-- [COLOR limegreen]Add[/COLOR] TV Genres: Thriller (Crime|Mystery), Detective (Crime+Mystery), Cop Shows (police/cop keywords) — TMDB has no TV Thriller genre
-
-
+Tools & health
+- [COLOR limegreen]Add[/COLOR] Classy Scrapers support (script.module.classyscrapers)
+- [COLOR orange]Fix[/COLOR] Downloads: folder paths belong under Downloads (not Library labels); Download appears in source CM when enabled + path set
+- [COLOR orange]Fix[/COLOR] Settings repair no longer corrupts userdata settings on Kodi Omega
+- [COLOR deepskyblue]Tweak[/COLOR] Test Scrapers runs a real scrape (not a fake "Blocked" domain check)
+- [COLOR deepskyblue]Tweak[/COLOR] Health check names each repair (or "All good") - no phantom "1 repair"
+- [COLOR deepskyblue]Tweak[/COLOR] Clearer "No Trakt account found" message
 
 =====================================================
 Version 3.0.9.9 - "Sports HLS hold" (July 2026)
@@ -54,7 +61,7 @@ Version 3.0.9.9 - "Sports HLS hold" (July 2026)
 =====================================================
 Version 3.0.9.8 - "Welcome stays gone" (July 2026)
 =====================================================
-- [COLOR orange]Fix[/COLOR] Settings repair: profile backup no longer full-overwrites userdata (was stomping last_version → welcome dialog every boot)
+- [COLOR orange]Fix[/COLOR] Settings repair: profile backup no longer full-overwrites userdata (was stomping last_version -> welcome dialog every boot)
 - [COLOR orange]Fix[/COLOR] Emergency .bak restore preserves forward-only markers (last_version, module_base, plugin_base)
 - [COLOR limegreen]Add[/COLOR] Refresh emergency profile backup on module/plugin version change
 
@@ -70,7 +77,7 @@ Version 3.0.9.7 - "Tokens + welcome" (July 2026)
 =====================================================
 Version 3.0.9.6 - "Progress + cleanup" (July 2026)
 =====================================================
-- [COLOR orange]Fix[/COLOR] Trakt #775: progress widgets fetch `/sync/watched/shows?extended=progress` with pagination — `extended=full` no longer includes season/episode rows (root cause of Next Episodes / In Progress showing S01E01)
+- [COLOR orange]Fix[/COLOR] Trakt #775: progress widgets fetch `/sync/watched/shows?extended=progress` with pagination - `extended=full` no longer includes season/episode rows (root cause of Next Episodes / In Progress showing S01E01)
 - [COLOR orange]Fix[/COLOR] Watched-show cache validates season/episode detail; poisoned pre-#775 cache is rejected and refetched
 - [COLOR orange]Fix[/COLOR] Progress / TV Evening: skip shows without watched episode detail instead of defaulting to S01E01
 - [COLOR orange]Fix[/COLOR] Startup batch sync, TV indicators, and TV Evening backdrop use the same paginated progress fetch
@@ -84,8 +91,8 @@ Version 3.0.9.6 - "Progress + cleanup" (July 2026)
 =====================================================
 Version 3.0.9.4 - "The quietly good housekeeping version" (June 2026)
 =====================================================
-- [COLOR orange]Fix[/COLOR] Movies -> Genres: switched from Trakt /movies/trending (tiny pool, 1–2 pages) to TMDB /discover/movie with English-language/country filters — now returns many pages of results, same approach as TV Shows genres
-- [COLOR orange]Fix[/COLOR] Watchlist truncation: movies and TV shows watchlist limit raised from 250 to 2000 — VIP users with large watchlists no longer get silently cut off
+- [COLOR orange]Fix[/COLOR] Movies -> Genres: switched from Trakt /movies/trending (tiny pool, 1-2 pages) to TMDB /discover/movie with English-language/country filters - now returns many pages of results, same approach as TV Shows genres
+- [COLOR orange]Fix[/COLOR] Watchlist truncation: movies and TV shows watchlist limit raised from 250 to 2000 - VIP users with large watchlists no longer get silently cut off
 - [COLOR orange]Fix[/COLOR] movies.py: collection_link (dead code) used limit={self.count} which would have capped at the page-item setting; collection display uses the local SQLite mirror (no cap) so this was harmless but clarified
 
 =====================================================
@@ -94,20 +101,20 @@ Version 3.0.9.3 - "The My Final Goodbye version" (June 2026)
 - [COLOR orange]Fix[/COLOR] Disney+ movies category empty: TMDB URL had literal %s before cache fetch; poisoned empty result cached forever
 - [COLOR orange]Fix[/COLOR] cache.get_with_etag: no longer caches empty results arrays (same guard as cache.get)
 - [COLOR limegreen]Add[/COLOR] One-time startup cache purge (v3.0.9.3): removes all empty/poisoned entries so lists reload cleanly on first boot
-- [COLOR orange]Fix[/COLOR] metacache (meta.5.db): insert used repr() but fetch used json.loads() — format mismatch caused every item to miss the cache every time; all lists re-ran full TMDB lookups on every open (first and second load equally slow); fixed by storing with json.dumps() and adding repr/eval fallback for old entries
-- [COLOR orange]Fix[/COLOR] metacache.fetch: replaced 200 individual per-item SQLite queries with 2 batch IN(...) lookups — eliminates N×query overhead on large lists
-- [COLOR orange]Fix[/COLOR] metacache.fetch: show-level cache entry was overwriting episode-specific season/episode/title/premiered on all episodes of the same show — binge-drop releases (e.g. 8-episode drop) showed every entry as the same episode; fixed by preserving episode-specific fields across the show-cache update
-- [COLOR orange]Fix[/COLOR] worker(): ThreadPoolExecutor capped at min(total, 20) threads — was spawning up to 200 simultaneous threads for large lists
-- [COLOR orange]Fix[/COLOR] Documentaries -> Top 100: page uses <ol>/<li> layout instead of WordPress <article> tags — scraper now falls back to <ol> link-scan when no articles are found; also removed /top-100/ from skip_slugs (was harmless but incorrect)
-- [COLOR limegreen]Add[/COLOR] "What's On" global TV calendar (TV Shows menu): Today / This Week / This Month — fetches Trakt's /calendars/all/ endpoint, deduplicates regional entries across 6 layers (title, TMDB ID, episode Trakt/TMDB ID, air-slot, S/E), sorts by air date, caches 2h, paginates 50 per page; shows your Trakt "following" marker (★) on episodes from shows you track; warm-cache page opens in ~93ms
+- [COLOR orange]Fix[/COLOR] metacache (meta.5.db): insert used repr() but fetch used json.loads() - format mismatch caused every item to miss the cache every time; all lists re-ran full TMDB lookups on every open (first and second load equally slow); fixed by storing with json.dumps() and adding repr/eval fallback for old entries
+- [COLOR orange]Fix[/COLOR] metacache.fetch: replaced 200 individual per-item SQLite queries with 2 batch IN(...) lookups - eliminates Nxquery overhead on large lists
+- [COLOR orange]Fix[/COLOR] metacache.fetch: show-level cache entry was overwriting episode-specific season/episode/title/premiered on all episodes of the same show - binge-drop releases (e.g. 8-episode drop) showed every entry as the same episode; fixed by preserving episode-specific fields across the show-cache update
+- [COLOR orange]Fix[/COLOR] worker(): ThreadPoolExecutor capped at min(total, 20) threads - was spawning up to 200 simultaneous threads for large lists
+- [COLOR orange]Fix[/COLOR] Documentaries -> Top 100: page uses <ol>/<li> layout instead of WordPress <article> tags - scraper now falls back to <ol> link-scan when no articles are found; also removed /top-100/ from skip_slugs (was harmless but incorrect)
+- [COLOR limegreen]Add[/COLOR] "What's On" global TV calendar (TV Shows menu): Today / This Week / This Month - fetches Trakt's /calendars/all/ endpoint, deduplicates regional entries across 6 layers (title, TMDB ID, episode Trakt/TMDB ID, air-slot, S/E), sorts by air date, caches 2h, paginates 50 per page; shows your Trakt "following" marker (*) on episodes from shows you track; warm-cache page opens in ~93ms
 
 =====================================================
 Version 3.0.9.2 - "Module hotfix" (June 2026)
 =====================================================
-- [COLOR orange]Fix[/COLOR] Trakt: TOCTOU race on concurrent token refresh — second process now detects cross-process rotation via fresh settings read instead of wiping credentials
+- [COLOR orange]Fix[/COLOR] Trakt: TOCTOU race on concurrent token refresh - second process now detects cross-process rotation via fresh settings read instead of wiping credentials
 - [COLOR orange]Fix[/COLOR] Trakt: missing tokens with user still configured now surfaces as auth_dead (startup dialog) instead of silent empty lists
 - [COLOR orange]Fix[/COLOR] Trakt: one-time corner toast notification when Trakt is disconnected mid-session (non-blocking, suppressed during playback)
-- [COLOR orange]Fix[/COLOR] Cache: empty results no longer cached — prevents stale auth failure poisoning lists for hours
+- [COLOR orange]Fix[/COLOR] Cache: empty results no longer cached - prevents stale auth failure poisoning lists for hours
 - [COLOR orange]Fix[/COLOR] Settings repair: remove non-existent chainscrapers; pre-check addon existence before instantiating to suppress Kodi log spam
 - [COLOR limegreen]Add[/COLOR] External scraper packs (Coco/Gears/Viper) now route HTTP through Crew client (SSL fix, cfscrape, Xbox UWP)
 
@@ -122,41 +129,41 @@ Version 3.0.9.1 - "Module hotfix" (June 2026)
 =====================================================
 Version 3.0.9 - "Dev only distribution" (June 2026)
 =====================================================
-- [COLOR lime]New[/COLOR] Knaben native torrent scraper: JSON meta-search via `api.knaben.org` — broad indexer coverage for movies and TV; lighter title matching and no scrape-time min-seeder drop (aligns with torrentio)
-- [COLOR lime]New[/COLOR] Bitsearch native torrent scraper: DHT HTML search on `bitsearch.to` — supplements torrentio/Knaben with de-centralized swarm results
+- [COLOR lime]New[/COLOR] Knaben native torrent scraper: JSON meta-search via `api.knaben.org` - broad indexer coverage for movies and TV; lighter title matching and no scrape-time min-seeder drop (aligns with torrentio)
+- [COLOR lime]New[/COLOR] Bitsearch native torrent scraper: DHT HTML search on `bitsearch.to` - supplements torrentio/Knaben with de-centralized swarm results
 - [COLOR orange]Fix[/COLOR] Source loader: failed scraper imports now log traceback (was silently skipped)
-- [COLOR orange]Fix[/COLOR] TV/movie search history: new terms missing until re-entering menu — `cacheToDisc=False` on history folder + refresh after save; `endDirectory` passes `cacheToDisc` as keyword (was setting `succeeded=False`, causing Kodi GetDirectory failed)
-- [COLOR orange]Fix[/COLOR] Legacy internal scrapers (2ddl, scenerls, etc.): dict metadata from unified wrapper no longer hits `parse_qs` decode errors — `_parse_data()` accepts dict or query string
-- [COLOR orange]Fix[/COLOR] Orion/provider cache: JSON write + legacy `repr()` read fallback — stops corrupt cache rows and noisy decode tracebacks on TV/movie scrape
+- [COLOR orange]Fix[/COLOR] TV/movie search history: new terms missing until re-entering menu - `cacheToDisc=False` on history folder + refresh after save; `endDirectory` passes `cacheToDisc` as keyword (was setting `succeeded=False`, causing Kodi GetDirectory failed)
+- [COLOR orange]Fix[/COLOR] Legacy internal scrapers (2ddl, scenerls, etc.): dict metadata from unified wrapper no longer hits `parse_qs` decode errors - `_parse_data()` accepts dict or query string
+- [COLOR orange]Fix[/COLOR] Orion/provider cache: JSON write + legacy `repr()` read fallback - stops corrupt cache rows and noisy decode tracebacks on TV/movie scrape
 - [COLOR orange]Fix[/COLOR] scenerls error reporting: correct `scraper_error()` argument order
-- [COLOR orange]Fix[/COLOR] Upgrade health check: suite version follows installed module (addon.xml) — no manual constant; version mismatches across plugin/module/artwork are logged only, install integrity checks still run
-- [COLOR orange]Fix[/COLOR] TV Evening no-sources: failure text routes to fullscreen overlay (not Kodi infoDialog); `ready` state no longer shows “0 sources found!”
+- [COLOR orange]Fix[/COLOR] Upgrade health check: suite version follows installed module (addon.xml) - no manual constant; version mismatches across plugin/module/artwork are logged only, install integrity checks still run
+- [COLOR orange]Fix[/COLOR] TV Evening no-sources: failure text routes to fullscreen overlay (not Kodi infoDialog); `ready` state no longer shows "0 sources found!"
 - [COLOR orange]Fix[/COLOR] TV Evening no-sources: failed plugin play calls `setResolvedUrl(False)` so Kodi does not keep a stuck busy cursor (PC)
 - [COLOR orange]Fix[/COLOR] TV Evening scrape failures: monitor detects `source_failure` immediately (no 45s wait), marks episode skipped, and recovery advances past slots that failed twice
 - [COLOR orange]Fix[/COLOR] TV Evening air-date filter: robust date parsing + user dialog when 48h minimum-air-age rejects all candidates (Shield)
-- [COLOR orange]Fix[/COLOR] TV Evening Stop: soft pause — playlist + resume points kept for recovery; mid-episode Stop no longer advances to next show
+- [COLOR orange]Fix[/COLOR] TV Evening Stop: soft pause - playlist + resume points kept for recovery; mid-episode Stop no longer advances to next show
 
 =====================================================
 Version 3.0.7/3.0.8 - "Dev only distribution" (June 2026)
 =====================================================
-- [COLOR lime]New[/COLOR] Unified smart resolve: list-click, autoplay, and source dialog share one queue — full visible source list (not 40-row cap), quality/debrid-aware ordering, RD 451/429 cooldown while PM/AD/TorBox continue
-- [COLOR lime]New[/COLOR] Resolve status overlay (`ResolveStatus.xml`): fanart background, live status (“Trying 1080p · Premiumize…”, RD cooldown), link counter, Cancel — replaces silent resolve + easy-to-miss toast
-- [COLOR orange]Fix[/COLOR] AllDebrid token diagnostics: log masked candidate sources + AD rejection codes; clear session “unusable” flag when a newly validated ResolveURL key passes `/v4/user`
-- [COLOR orange]Fix[/COLOR] Next Episodes home widget after settings/debrid save: detect widget routes via `reload=` in plugin URL; transient Trakt failure shows Loading… + scheduled refresh instead of empty row and blank “The Crew” toast (string #32500 was empty in en_us)
-- [COLOR orange]Fix[/COLOR] ResolveURL settings return: dialog-only route (`ResolveUrlTorrent`) now closes the plugin handle after `Addon.OpenSettings`; debounced `onSettingsChanged` (2s) stops 6× debrid cache clears + repeated widget reload busy storms
-- [COLOR orange]Fix[/COLOR] Navigator dialog-only routes: `is_folder: False` + `finish_dialog_route()` on Trakt auth, person/advanced search, cache/tools, views, adult PIN gate, and related handlers — stops stuck busy cursor after cancel or dialog-only actions
-- [COLOR orange]Fix[/COLOR] Debrid expiry startup toast: Crew `icon.png`, heading `[COLOR orchid]The Crew[/COLOR] - [COLOR orange]Debrid manager[/COLOR]`, single-line body — no generic Kodi INFO icon or multi-line text that skins truncate
-- [COLOR lime]New[/COLOR] Settings backup: auto-copy `settings.xml` to `Kodi/thecrew_settings_backup/` (outside `addon_data`) on boot and after save — survives plugin uninstall; restored on reinstall via health check
+- [COLOR lime]New[/COLOR] Unified smart resolve: list-click, autoplay, and source dialog share one queue - full visible source list (not 40-row cap), quality/debrid-aware ordering, RD 451/429 cooldown while PM/AD/TorBox continue
+- [COLOR lime]New[/COLOR] Resolve status overlay (`ResolveStatus.xml`): fanart background, live status ("Trying 1080p - Premiumize...", RD cooldown), link counter, Cancel - replaces silent resolve + easy-to-miss toast
+- [COLOR orange]Fix[/COLOR] AllDebrid token diagnostics: log masked candidate sources + AD rejection codes; clear session "unusable" flag when a newly validated ResolveURL key passes `/v4/user`
+- [COLOR orange]Fix[/COLOR] Next Episodes home widget after settings/debrid save: detect widget routes via `reload=` in plugin URL; transient Trakt failure shows Loading... + scheduled refresh instead of empty row and blank "The Crew" toast (string #32500 was empty in en_us)
+- [COLOR orange]Fix[/COLOR] ResolveURL settings return: dialog-only route (`ResolveUrlTorrent`) now closes the plugin handle after `Addon.OpenSettings`; debounced `onSettingsChanged` (2s) stops 6x debrid cache clears + repeated widget reload busy storms
+- [COLOR orange]Fix[/COLOR] Navigator dialog-only routes: `is_folder: False` + `finish_dialog_route()` on Trakt auth, person/advanced search, cache/tools, views, adult PIN gate, and related handlers - stops stuck busy cursor after cancel or dialog-only actions
+- [COLOR orange]Fix[/COLOR] Debrid expiry startup toast: Crew `icon.png`, heading `[COLOR orchid]The Crew[/COLOR] - [COLOR orange]Debrid manager[/COLOR]`, single-line body - no generic Kodi INFO icon or multi-line text that skins truncate
+- [COLOR lime]New[/COLOR] Settings backup: auto-copy `settings.xml` to `Kodi/thecrew_settings_backup/` (outside `addon_data`) on boot and after save - survives plugin uninstall; restored on reinstall via health check
 - [COLOR lime]New[/COLOR] TV Evening session layer (`tvevening_session`): DB-backed state, play gate, resumable recovery after Kodi restart/crash, and unit tests for gate/resume logic
 - [COLOR orange]Fix[/COLOR] TV Evening completion screen: stays visible the full 30s on last episode (completing gate + ordered teardown; blocks rogue plugin replay from stealing focus)
-- [COLOR orange]Fix[/COLOR] TV Evening play gate: current playlist slot always allowed during gap/countdown/scrape — fixes false 45s startup skip and blocked first episode
+- [COLOR orange]Fix[/COLOR] TV Evening play gate: current playlist slot always allowed during gap/countdown/scrape - fixes false 45s startup skip and blocked first episode
 - [COLOR orange]Fix[/COLOR] TV Evening recovery: rewind to first unwatched after false startup skip; dialog shows resume episode title; startup-timeout skips no longer mark episode skipped in DB
 - [COLOR orange]Fix[/COLOR] TV Evening too-recent replacement toast deferred until after preview Play (not during pause countdown)
 - [COLOR orange]Fix[/COLOR] TV Evening monitor: cross-process AV-start signal, reserve swap vs visible skip, UpNext prefetch suppressed during session, player owner guard on multi-process play
 - [COLOR orange]Fix[/COLOR] My TV Evening playlist dialog: full episode row text, episode info popup on list click, readable hover contrast on bright accents
-- [COLOR orange]Fix[/COLOR] Debrid services disabled in ResolveURL are respected in Crew (`debrid.status()` reads fresh `_enabled` flags — no restart needed)
-- [COLOR orange]Fix[/COLOR] AllDebrid auth hint when device approval is pending — don’t DENY your own test connection from a foreign CF edge IP
-- [COLOR orange]Fix[/COLOR] Documentaries menu: empty/error paths call `close_directory` — no stuck busy cursor
+- [COLOR orange]Fix[/COLOR] Debrid services disabled in ResolveURL are respected in Crew (`debrid.status()` reads fresh `_enabled` flags - no restart needed)
+- [COLOR orange]Fix[/COLOR] AllDebrid auth hint when device approval is pending - don't DENY your own test connection from a foreign CF edge IP
+- [COLOR orange]Fix[/COLOR] Documentaries menu: empty/error paths call `close_directory` - no stuck busy cursor
 - [COLOR orange]Fix[/COLOR] Trakt prompts suppressed for non-Trakt users after TV Evening / normal playback when Trakt is not configured
 - [COLOR orange]Fix[/COLOR] Upgrade health check bumped to v3.0.7 (settings backup restore, schema repair, scraper registry migration)
 
@@ -164,60 +171,60 @@ Version 3.0.7/3.0.8 - "Dev only distribution" (June 2026)
 Version 3.0.6 - "Dev only distribution" (June 2026)
 =====================================================
 - [COLOR lime]New[/COLOR] Dev repo 1.0.9: one GitHub Pages URL for File Manager browse and Kodi repository index (drops raw.githubusercontent Crew datadir)
-- [COLOR orange]Fix[/COLOR] settings_repair: preserve original settings.xml.bak — never overwrite on repair or reboot
+- [COLOR orange]Fix[/COLOR] settings_repair: preserve original settings.xml.bak - never overwrite on repair or reboot
 - [COLOR orange]Fix[/COLOR] Upgrade health check bumped to v3.0.6 with version gate and artwork install integrity detection
 
 =====================================================
 Version 3.0.5 - "Dev only distribution" (June 2026)
 =====================================================
-- [COLOR lime]New[/COLOR] Scraper Maintenance (Tools menu, formerly Scraper Status): parallel connectivity tests (5–10 workers), per-scraper Enable/Disable for internal Crew and external pack scrapers (Coco/Gears/Viper), and Auto Disable Blocked for bulk turn-off of non-working sources
+- [COLOR lime]New[/COLOR] Scraper Maintenance (Tools menu, formerly Scraper Status): parallel connectivity tests (5-10 workers), per-scraper Enable/Disable for internal Crew and external pack scrapers (Coco/Gears/Viper), and Auto Disable Blocked for bulk turn-off of non-working sources
 - [COLOR lime]New[/COLOR] ScraperRegistry: SQLite-backed enable/disable with `user_disabled` column; legacy `provider.*` Kodi toggles retired from settings schema and migrated into the registry on first load
 - [COLOR orange]Fix[/COLOR] Kodi 21 `failed to load addon settings`: automatic userdata repair prunes orphan setting IDs and restores missing XML headers on Kodi startup (service), on every Crew menu open, and again after you close native Settings (`onSettingsChanged`)
-- [COLOR orange]Fix[/COLOR] Settings schema durable IDs: stable `id` on all separator/action/text rows (no auto-generated `labelN` orphans); removed placeholder `label1`–`label50` rows that caused native crash ~5s after opening Crew Settings on Kodi 21
+- [COLOR orange]Fix[/COLOR] Settings schema durable IDs: stable `id` on all separator/action/text rows (no auto-generated `labelN` orphans); removed placeholder `label1`-`label50` rows that caused native crash ~5s after opening Crew Settings on Kodi 21
 - [COLOR orange]Fix[/COLOR] Retired per-scraper `provider.*` categories from `settings.xml`; external packs keep master toggles only (`cocoscrapers.enabled`, etc.)
-- [COLOR orange]Fix[/COLOR] `the_crew.log` on Windows: append via native `open()` (`crew_file_write`) — `xbmcvfs.File` has no append mode and failed with `CWin32File::Write`
-- [COLOR orange]Fix[/COLOR] `the_crew.log` on macOS: same class of bug as Android/Shield — Python `open()` and `xbmcvfs.File(..., 'a')` fail under Kodi sandbox; writes go through `crew_file_write` + `xbmcvfs` with fallback to profile/addon_data when `Library/Logs` is not writable; failed file writes mirror to `kodi.log`
+- [COLOR orange]Fix[/COLOR] `the_crew.log` on Windows: append via native `open()` (`crew_file_write`) - `xbmcvfs.File` has no append mode and failed with `CWin32File::Write`
+- [COLOR orange]Fix[/COLOR] `the_crew.log` on macOS: same class of bug as Android/Shield - Python `open()` and `xbmcvfs.File(..., 'a')` fail under Kodi sandbox; writes go through `crew_file_write` + `xbmcvfs` with fallback to profile/addon_data when `Library/Logs` is not writable; failed file writes mirror to `kodi.log`
 - [COLOR orange]Fix[/COLOR] Fanart quality cache stamp moved off retired `fanart.quality.old` Kodi setting to module profile file (survives schema cleanup)
-- [COLOR orange]Fix[/COLOR] Airing Today calendar: empty list no longer leaves `Cursor.busy()` spinning — `endOfDirectory` always called; grey placeholder row when nothing airs today; local calendar dates aligned with Trakt `date[N]` URLs
+- [COLOR orange]Fix[/COLOR] Airing Today calendar: empty list no longer leaves `Cursor.busy()` spinning - `endOfDirectory` always called; grey placeholder row when nothing airs today; local calendar dates aligned with Trakt `date[N]` URLs
 - [COLOR orange]Fix[/COLOR] Empty directory safety net across indexers: movies, TV shows, episodes, and progress views now call `endOfDirectory` on empty/error paths (matches 3.0.3 widget fixes)
-- [COLOR orange]Fix[/COLOR] Home widgets (Trending, Next Episodes, In Progress): fast path still avoids the full TMDB worker stampede — Trending lists pull posters from SQLite metacache first, then capped TMDB fetch (6 workers) for cache misses; episode widgets now sync-fetch artwork (6 workers), reuse cached show posters for icon/thumb when episode stills are missing, and accept any-age SQLite episode cache on widgets; empty widget routes show a Loading placeholder instead of a permanently blank row
-- [COLOR orange]Fix[/COLOR] Next Episodes startup 404 storm: progress indexer now honours `next_episode_cache` (batch-loaded SQLite) — known TMDB 404s skip HTTP on boot, are persisted immediately, negative cache no longer invalidates when you watch other episodes, and Trakt next-ep guesses advance past cached gaps (e.g. S01E04 missing -> S02E01)
+- [COLOR orange]Fix[/COLOR] Home widgets (Trending, Next Episodes, In Progress): fast path still avoids the full TMDB worker stampede - Trending lists pull posters from SQLite metacache first, then capped TMDB fetch (6 workers) for cache misses; episode widgets now sync-fetch artwork (6 workers), reuse cached show posters for icon/thumb when episode stills are missing, and accept any-age SQLite episode cache on widgets; empty widget routes show a Loading placeholder instead of a permanently blank row
+- [COLOR orange]Fix[/COLOR] Next Episodes startup 404 storm: progress indexer now honours `next_episode_cache` (batch-loaded SQLite) - known TMDB 404s skip HTTP on boot, are persisted immediately, negative cache no longer invalidates when you watch other episodes, and Trakt next-ep guesses advance past cached gaps (e.g. S01E04 missing -> S02E01)
 - [COLOR orange]Fix[/COLOR] Busy cursor after saving ResolveURL/debrid settings: `onSettingsChanged` clears debrid session caches (so a new API key is picked up immediately), dismisses the busy spinner, and skips legacy Crew `alldebridtoken` when ResolveURL already has a token
-- [COLOR orange]Fix[/COLOR] AllDebrid startup log spam: cloud/manager/debridcheck paths now use the same validated ResolveURL token as the pack resolver — dead `AllDebridResolver_token` values are not sent repeatedly; `AUTH_BAD_APIKEY` marks AllDebrid unusable for the session after one notice
+- [COLOR orange]Fix[/COLOR] AllDebrid startup log spam: cloud/manager/debridcheck paths now use the same validated ResolveURL token as the pack resolver - dead `AllDebridResolver_token` values are not sent repeatedly; `AUTH_BAD_APIKEY` marks AllDebrid unusable for the session after one notice
 - [COLOR lime]New[/COLOR] One-time v3.0.5 upgrade health check at Kodi startup: notifies you while it runs, repairs userdata settings.xml, verifies databases/tables/columns (metacache, cache, scraper_status, bookmarks, Trakt), migrates legacy `provider.*` toggles, and marks completion in `health_check_3.0.5.done` (retries next boot if settings still fail to load)
-- [COLOR orange]Fix[/COLOR] Lists, Adult, Documentaries, season picker, and source-picker empty paths: `control.close_directory()` helper + audit (`tools/audit_directory_closure.py`) — no more stuck busy spinner when a scraper/list returns nothing
+- [COLOR orange]Fix[/COLOR] Lists, Adult, Documentaries, season picker, and source-picker empty paths: `control.close_directory()` helper + audit (`tools/audit_directory_closure.py`) - no more stuck busy spinner when a scraper/list returns nothing
 - [COLOR orange]Fix[/COLOR] Navigator account gate: failed Trakt/IMDb check now closes the directory handle instead of leaving a stuck list
-- [COLOR orange]Fix[/COLOR] Trakt Manager collection: full mirror resync from Trakt (DELETE + re-insert), HTTP status validation, instant `Container.Refresh` after add/remove — fixes removed titles lingering in My Collection
+- [COLOR orange]Fix[/COLOR] Trakt Manager collection: full mirror resync from Trakt (DELETE + re-insert), HTTP status validation, instant `Container.Refresh` after add/remove - fixes removed titles lingering in My Collection
 - [COLOR orange]Fix[/COLOR] Trakt Manager custom lists: invalidate 720h-cached Movie/TV user-list menus after create/add/remove so new lists (e.g. via Add to new List) show up in Userlists immediately
-- [COLOR orange]Fix[/COLOR] Trakt My Ratings / resume display: single-line health-check toasts; ≥92% progress no longer shows resume arrow + “min remaining” on history; anticipated movies with `duration: None` no longer spam `movieDirectory`
+- [COLOR orange]Fix[/COLOR] Trakt My Ratings / resume display: single-line health-check toasts; >=92% progress no longer shows resume arrow + "min remaining" on history; anticipated movies with `duration: None` no longer spam `movieDirectory`
 - [COLOR orange]Fix[/COLOR] Trakt Manager watchlist: live fetch on open (no 30-day stale cache), cache invalidation on add/remove, imdb+tmdb POST IDs, and `added: 0` error when Trakt rejects the item
-- [COLOR orange]Fix[/COLOR] Disney+ movies menu: TMDb discover now uses `with_watch_providers=337` + `watch_region` (streaming catalog) instead of invalid `with_networks` on movie discover — was showing unrelated studios (Lionsgate, etc.)
-- [COLOR orange]Fix[/COLOR] Caching Tools (Clear All Cache, Clear Cache, Meta, Search, Sources): `is_folder: False` + `control.idle()` in `finally` — no stuck busy cursor after confirm/cancel
-- [COLOR orange]Fix[/COLOR] Episode widgets (Next Episodes / In Progress): fetch episode still before poster->thumb fallback — avoids show posters masquerading as widget icons after cache clear
+- [COLOR orange]Fix[/COLOR] Disney+ movies menu: TMDb discover now uses `with_watch_providers=337` + `watch_region` (streaming catalog) instead of invalid `with_networks` on movie discover - was showing unrelated studios (Lionsgate, etc.)
+- [COLOR orange]Fix[/COLOR] Caching Tools (Clear All Cache, Clear Cache, Meta, Search, Sources): `is_folder: False` + `control.idle()` in `finally` - no stuck busy cursor after confirm/cancel
+- [COLOR orange]Fix[/COLOR] Episode widgets (Next Episodes / In Progress): fetch episode still before poster->thumb fallback - avoids show posters masquerading as widget icons after cache clear
 - [COLOR orange]Fix[/COLOR] Scraper Maintenance Usenet tab: unchecking the empty Usenet filter now restores Direct/Torrent scrapers instead of leaving the list blank
 - [COLOR orange]Fix[/COLOR] Trakt pause scrobble (movies + tmdb-only titles): service player now syncs playback metadata from player.run()/window properties before pause/stop; scrobble uses tmdb when imdb is 0/missing; episode scrobble no longer fires without season/episode
-- [COLOR orange]Fix[/COLOR] Trakt Lists -> This Weeks Top 10 Movies: dead private giladg list (403) no longer blanks the menu — uses Trakt `/movies/boxoffice`; dead-list replacement fallback no longer returns None and crashes sorting
-- [COLOR orange]Fix[/COLOR] Trakt curated lists: paginate all pages (limit=100), preserve list rank order, and stop treating list slugs containing “collection” as your personal Trakt collection (e.g. Quentin Tarantino collection showed watchlist); dead giladg cinematography/stand-up menus fall back to TMDb discover
+- [COLOR orange]Fix[/COLOR] Trakt Lists -> This Weeks Top 10 Movies: dead private giladg list (403) no longer blanks the menu - uses Trakt `/movies/boxoffice`; dead-list replacement fallback no longer returns None and crashes sorting
+- [COLOR orange]Fix[/COLOR] Trakt curated lists: paginate all pages (limit=100), preserve list rank order, and stop treating list slugs containing "collection" as your personal Trakt collection (e.g. Quentin Tarantino collection showed watchlist); dead giladg cinematography/stand-up menus fall back to TMDb discover
 
 
 
 =====================================================
 Version 3.0.4 - "Silence the noise" (June 2026)
 =====================================================
-- [COLOR cyan]info[/COLOR] We have been searching for a long time for a bug that caused Trakt to fail re-authentication at startup, invalidating both keys and forcing users to re-authorize. Our first assumption was always that our own code was at fault. After careful investigation and log tracking, we found the real culprit: race conditions and startup stampedes from other addons that treat themselves as the only Trakt client and leave no room for anything else. During those first 90 seconds to 2 minutes after Kodi boot, Trakt can be so saturated that even a single call may not get through. The Crew now defers background Trakt until that rush eases. If we detect addons that run immediate background Trakt sync from their startup service, a one-time neutral notice is written to kodi.log per session (no popup, no addon names in the user-visible lines). We could fight or block those addons — we chose to coexist and respect that users run more than one addon.
-- [COLOR orange]Fix[/COLOR] Trakt startup stampede: Crew defers background Trakt work for 90–120s after Kodi boot (longer when other addons hit Trakt immediately at startup, or when script.trakt is installed) so competing oauth/token refresh can finish first — TraktMonitor, scrobble queue, and silent sync wait through boot quiet
+- [COLOR cyan]info[/COLOR] We have been searching for a long time for a bug that caused Trakt to fail re-authentication at startup, invalidating both keys and forcing users to re-authorize. Our first assumption was always that our own code was at fault. After careful investigation and log tracking, we found the real culprit: race conditions and startup stampedes from other addons that treat themselves as the only Trakt client and leave no room for anything else. During those first 90 seconds to 2 minutes after Kodi boot, Trakt can be so saturated that even a single call may not get through. The Crew now defers background Trakt until that rush eases. If we detect addons that run immediate background Trakt sync from their startup service, a one-time neutral notice is written to kodi.log per session (no popup, no addon names in the user-visible lines). We could fight or block those addons - we chose to coexist and respect that users run more than one addon.
+- [COLOR orange]Fix[/COLOR] Trakt startup stampede: Crew defers background Trakt work for 90-120s after Kodi boot (longer when other addons hit Trakt immediately at startup, or when script.trakt is installed) so competing oauth/token refresh can finish first - TraktMonitor, scrobble queue, and silent sync wait through boot quiet
 - [COLOR orange]Fix[/COLOR] Trakt rate limits: 429 responses arm a shared cross-process backoff (`Retry-After` when present); oauth/token refresh no longer wipes credentials on rate limit; API calls and health checks are skipped until backoff ends
 - [COLOR orange]Fix[/COLOR] Trakt token refresh: 5xx/gateway errors treated as transient (credentials preserved); cross-process refresh lock uses named window properties consistently
 - [COLOR orange]Fix[/COLOR] Trakt idle/sleep: scrobble flush before device sleep now uses `force=True` so it still runs during boot quiet; wake `last_activities` reconcile respects boot quiet and rate-limit backoff
 - [COLOR orange]Fix[/COLOR] Trakt `sync_last_activities`: guard against non-dict API responses so a bad payload cannot crash the sync path
-- [COLOR lime]UX[/COLOR] Trakt startup conflict: one kodi.log notice per session (after boot quiet) when other installed addons run immediate background Trakt sync at startup — neutral copy at WARNING level, no popup, no addon names in the user-visible lines
-- [COLOR orange]Fix[/COLOR] TV Evening XML dialogs (duration, numeric input, playlist, recovery, countdown, complete): `super().__init__`, explicit `1080i` resolution, and `thecrew` skin fallback when appearance is unset — fixes blank or missing dialogs on Shield/Android
+- [COLOR lime]UX[/COLOR] Trakt startup conflict: one kodi.log notice per session (after boot quiet) when other installed addons run immediate background Trakt sync at startup - neutral copy at WARNING level, no popup, no addon names in the user-visible lines
+- [COLOR orange]Fix[/COLOR] TV Evening XML dialogs (duration, numeric input, playlist, recovery, countdown, complete): `super().__init__`, explicit `1080i` resolution, and `thecrew` skin fallback when appearance is unset - fixes blank or missing dialogs on Shield/Android
 - [COLOR orange]Fix[/COLOR] TV Evening recovery dialog: load skin from `c.get_artwork_path()` instead of a stale artwork path reference
 - [COLOR orange]Fix[/COLOR] Debug logging on Android/Shield: `the_crew.log` writes via `xbmcvfs` (not plain `open()`); log rotation in the service uses `xbmcvfs` rename/delete; runtime always binds settings to `plugin.video.thecrew` so debug toggles read correctly under reuse language invoker; debug on/off and log destination are read fresh each call (were frozen at import); when set to Kodi log, lines mirror to `kodi.log`
 - [COLOR lime]Perf[/COLOR] Debrid token lookup: session cache (window property + in-memory) so pack/scrape loops do not re-read ResolveURL settings on every source attempt
 - [COLOR orange]Fix[/COLOR] Scraper Status dialog: respect appearance skin (`thecrew`/`modern`/`stylish`) with fallback when XML is missing; adds missing `ScraperStatus.xml` to thecrew skin and `EpisodeInfo.xml` to stylish skin
-- [COLOR orange]Fix[/COLOR] Adult section: removed HD Blog Videos scraper (naughtyblog) — integration never worked reliably; menu entry and scraper code dropped
-- [COLOR orange]Fix[/COLOR] TorBox cache check: use `format=object` (key present = cached), batch hashes in groups of 10 with short delay, and fall back to single-hash requests on batch timeout — fixes false “not cached” results and timeouts on large scrapes
+- [COLOR orange]Fix[/COLOR] Adult section: removed HD Blog Videos scraper (naughtyblog) - integration never worked reliably; menu entry and scraper code dropped
+- [COLOR orange]Fix[/COLOR] TorBox cache check: use `format=object` (key present = cached), batch hashes in groups of 10 with short delay, and fall back to single-hash requests on batch timeout - fixes false "not cached" results and timeouts on large scrapes
 
 
 
@@ -227,11 +234,11 @@ Version 3.0.3 - "Signal & Resolve" (June 2026)
 - [COLOR lime]UX[/COLOR] TV Evening playlist build: quiet progress copy with simple "X of Y" counters (no show names or service jargon) while the lineup is prepared
 - [COLOR orange]Fix[/COLOR] New TV Shows list: TMDB discover uses `region` + en/US/UK/AU filters and preserves `first_air_date.desc` order (parallel fetch had scrambled results); dropped `vote_count.gte=10` so genuinely new series are not capped at ~2 pages
 - [COLOR orange]Fix[/COLOR] TV Evening cancel/back: `endOfDirectory` + `idle` on exit so Kodi dismisses the busy spinner (menu item is now `is_folder: false` like other dialog-only actions)
-- [COLOR orange]Fix[/COLOR] TV Evening build dialog went blank after duration selection — Kodi re-fired `onInit` after `show()` and hid the progress controls; building state is now preserved across re-init
-- [COLOR orange]Fix[/COLOR] Debrid cloud browser: empty/error listings now call `endOfDirectory` before the info toast — fixes stuck busy spinner after "no magnets" (and same pattern for RD/PM/TorBox cloud)
+- [COLOR orange]Fix[/COLOR] TV Evening build dialog went blank after duration selection - Kodi re-fired `onInit` after `show()` and hid the progress controls; building state is now preserved across re-init
+- [COLOR orange]Fix[/COLOR] Debrid cloud browser: empty/error listings now call `endOfDirectory` before the info toast - fixes stuck busy spinner after "no magnets" (and same pattern for RD/PM/TorBox cloud)
 - [COLOR orange]Fix[/COLOR] Up Next dialog: call `WindowXMLDialog.__init__` so `UpNext.xml` loads; queue dialog on window properties and dispatch from CrewMonitor service loop (`RunPlugin` is blocked during fullscreen playback)
-- [COLOR orange]Fix[/COLOR] Up Next poster missing when using pre-fetched container path — fetch show poster from TMDb before opening dialog
-- [COLOR orange]Fix[/COLOR] RD 451 / resolve failure: close scraper and resolving overlays plus shared progress dialog before error toast — prevents stuck “Resolving…” UI and Kodi freeze; cooperative cancel watcher + interruptible sleeps so resolve can abort between RD API calls (in-flight HTTP still waits for timeout)
+- [COLOR orange]Fix[/COLOR] Up Next poster missing when using pre-fetched container path - fetch show poster from TMDb before opening dialog
+- [COLOR orange]Fix[/COLOR] RD 451 / resolve failure: close scraper and resolving overlays plus shared progress dialog before error toast - prevents stuck "Resolving..." UI and Kodi freeze; cooperative cancel watcher + interruptible sleeps so resolve can abort between RD API calls (in-flight HTTP still waits for timeout)
 - [COLOR orange]Fix[/COLOR] Debrid cache checker: restored missing `DebridCheck` class declaration so `debridcheck.DebridCheck()` resolves correctly again
 - [COLOR orange]Fix[/COLOR] Source payload parsing: added defensive handling for payload types (string/list/dict) to prevent decode failures when a source object is already a dict
 - [COLOR orange]Fix[/COLOR] Source selection: strengthened pack candidate ordering to prioritize cached and exact episode matches before broader pack candidates
@@ -247,8 +254,8 @@ Version 3.0.3 - "Signal & Resolve" (June 2026)
 - [COLOR orange]Fix[/COLOR] Startup Maintenance: We fixed a check that was missing from the maintenance routine where some table (columns) weren't properly checked for existence before attempting to access them, which could lead to errors on first run or after a database reset. This should improve stability and prevent crashes related to database access during startup.
 - [COLOR orange]Fix[/COLOR] We fixed a bug in a shim file that was causing some (invisible) errors to appear in the logs caused by a removed file that was still being imported. This should clean up the logs and prevent confusion for users and developers when troubleshooting issues.
 - [COLOR orange]Fix[/COLOR] We fixed the torbox/resolveURL overlay dialog that was doubling and essentially showing the same info as our own dialog. The resolveURL dialogs are now surpressed.
-- [COLOR orange]Fix[/COLOR] Documentaries (Vimeo): Vimeo embeds no longer hit "Unknown Host" — playback is deferred to the ResolveURL Vimeo resolver (`player.vimeo.com` / `vimeo.com`); Vimeo URL detection added to the embed scan fallback
-- [COLOR orange]Fix[/COLOR] Documentaries playback: YouTube/Vimeo hand off via `setResolvedUrl(True)` only (trailer.py contract) — `setResolvedUrl(False)` + `player.play` caused Kodi to retry the same item and flash YouTube open/close; warns if `plugin.video.youtube` is missing
+- [COLOR orange]Fix[/COLOR] Documentaries (Vimeo): Vimeo embeds no longer hit "Unknown Host" - playback is deferred to the ResolveURL Vimeo resolver (`player.vimeo.com` / `vimeo.com`); Vimeo URL detection added to the embed scan fallback
+- [COLOR orange]Fix[/COLOR] Documentaries playback: YouTube/Vimeo hand off via `setResolvedUrl(True)` only (trailer.py contract) - `setResolvedUrl(False)` + `player.play` caused Kodi to retry the same item and flash YouTube open/close; warns if `plugin.video.youtube` is missing
 - [COLOR orange]Fix[/COLOR] Documentaries: moved `DAILYMOTION_PLUGIN` constant out of `__del__` into `__init__` where it belongs (session cleanup in `__del__` is unchanged)
 - [COLOR orange]Fix[/COLOR] Trakt activity gate: added `playback` activity type (`movies.paused_at` + `episodes.paused_at`) and `getPlaybackActivity_from_db()` for resume freshness; scrobble now bumps the local activity mirror instead of invalidating the ETag cache
 - [COLOR orange]Fix[/COLOR] Device idle detection: screensaver, CEC TV standby (`System.OnSleep`), and wake events flush the scrobble queue before the box sleeps and reconcile `last_activities` on wake (`thecrew.device.sleeping` window property)
@@ -256,9 +263,9 @@ Version 3.0.3 - "Signal & Resolve" (June 2026)
   -- air-date filtering is now centralized and also applied during validation and replacement selection
   -- episodes with missing, invalid, or future air dates are excluded (respects `tvevening.min_episode_age`, default 48h)
   -- validated episodes now carry TMDB `first_aired` into the playlist dict before the final eligibility check
-- [COLOR orange]Fix[/COLOR] Kodi plugin lifecycle: removed runtime `sys.exit()` calls from sources, indexers, libtools, playcount, and debridcheck — empty directories and abort paths now return cleanly (required for `reuselanguageinvoker` and correct directory handling)
-- [COLOR lime]Perf[/COLOR] Menu navigation: stopped eagerly importing `sources.py` on every plugin entry — `crew.py` now lazy-loads sources only for download actions (playback already used lazy routing)
-- [COLOR lime]Perf[/COLOR] Devmode profiling: added `@timed` / `[Perf]` logging for plugin entry, router, module imports, and handler calls — enter dev password in settings, reproduce slow clicks, read `the_crew.log`
+- [COLOR orange]Fix[/COLOR] Kodi plugin lifecycle: removed runtime `sys.exit()` calls from sources, indexers, libtools, playcount, and debridcheck - empty directories and abort paths now return cleanly (required for `reuselanguageinvoker` and correct directory handling)
+- [COLOR lime]Perf[/COLOR] Menu navigation: stopped eagerly importing `sources.py` on every plugin entry - `crew.py` now lazy-loads sources only for download actions (playback already used lazy routing)
+- [COLOR lime]Perf[/COLOR] Devmode profiling: added `@timed` / `[Perf]` logging for plugin entry, router, module imports, and handler calls - enter dev password in settings, reproduce slow clicks, read `the_crew.log`
 
 
 
@@ -266,18 +273,18 @@ Version 3.0.3 - "Signal & Resolve" (June 2026)
 Version 3.0.2 - "Under the Hood" (June 2026)
 =====================================================
 - [COLOR orange]Fix[/COLOR] Next Episodes widget: missing endOfDirectory call when the list was empty caused Kodi to log "Error getting plugin://..." and leave the widget permanently broken until restart; now always closes the directory handle cleanly
-- [COLOR orange]Fix[/COLOR] Next Episodes widget: suppressed "No results found" toast when running in widget context — dialogs are not appropriate there
-- [COLOR orange]Fix[/COLOR] Empty info dialog ("The Crew", no message): lang() was bound at module import time to whatever addon happened to be active; if script.module.thecrew was the active context (no strings.po) every string lookup returned "" — now always explicitly bound to plugin.video.thecrew
-- [COLOR lime]UX[/COLOR] My TV Evening: replaced the "Trakt required" error dialog with a setup prompt — users without a Trakt account can now authenticate directly via QR code and continue straight into TV Evening without a second click
-- [COLOR orange]Fix[/COLOR] "Trakt Authorization Required" dialog appearing for users without a Trakt account when stopping an episode: scrobble functions (scrobbleMovie, scrobbleEpisode, process_scrobble_queue) had no credentials check and always attempted an API call, receiving a 401 which triggered the re-auth dialog; all three now bail out immediately if no Trakt credentials are configured — same fix applied to the playback progress tracker (markEpisodeDuringPlayback)
-- [COLOR orange]Fix[/COLOR] TV Evening playlist dialog: episode badge (S01E01) truncated to "S01E..." — label width was 100px, too narrow for font12 at 1080i; increased to 200px in both skins
+- [COLOR orange]Fix[/COLOR] Next Episodes widget: suppressed "No results found" toast when running in widget context - dialogs are not appropriate there
+- [COLOR orange]Fix[/COLOR] Empty info dialog ("The Crew", no message): lang() was bound at module import time to whatever addon happened to be active; if script.module.thecrew was the active context (no strings.po) every string lookup returned "" - now always explicitly bound to plugin.video.thecrew
+- [COLOR lime]UX[/COLOR] My TV Evening: replaced the "Trakt required" error dialog with a setup prompt - users without a Trakt account can now authenticate directly via QR code and continue straight into TV Evening without a second click
+- [COLOR orange]Fix[/COLOR] "Trakt Authorization Required" dialog appearing for users without a Trakt account when stopping an episode: scrobble functions (scrobbleMovie, scrobbleEpisode, process_scrobble_queue) had no credentials check and always attempted an API call, receiving a 401 which triggered the re-auth dialog; all three now bail out immediately if no Trakt credentials are configured - same fix applied to the playback progress tracker (markEpisodeDuringPlayback)
+- [COLOR orange]Fix[/COLOR] TV Evening playlist dialog: episode badge (S01E01) truncated to "S01E..." - label width was 100px, too narrow for font12 at 1080i; increased to 200px in both skins
 - [COLOR orange]Fix[/COLOR] TV Evening playlist dialog: focused row background was transparent lavender (66E0B0FF) which rendered as bright pink/magenta on most TVs, making white text unreadable; replaced with dark indigo-purple at 80% opacity
-- [COLOR orange]Fix[/COLOR] TV Evening playlist dialog: clicking an episode item showed no info popup for users on the Modern skin — EpisodeInfo.xml was missing from that skin entirely, causing a silent exception; file added to Modern skin
-- [COLOR orange]Fix[/COLOR] Documentaries browser: topdocumentaryfilms.com listings were broken because the site is now heavily polluted with gambling/casino spam articles; the old link-based scraper could not reliably filter them out; rewritten to scrape WordPress &lt;article&gt; post cards directly, which are only present for real posts — nav, sidebar and footer noise is automatically excluded
-- [COLOR orange]Fix[/COLOR] TV Evening playlist: episodes could run 50%+ over the user's chosen duration because the validation pass selects with a 45-minute buffer but no trim-back step existed; playlist is now trimmed to the target duration (±15 min tolerance) after validation completes
-- [COLOR orange]Fix[/COLOR] Season boundary cache: two startup crashes prevented the cache from ever populating — a wrong module import (crewruntime module instead of the c instance) and a dead import of a non-existent tmdbscraper module; both removed
+- [COLOR orange]Fix[/COLOR] TV Evening playlist dialog: clicking an episode item showed no info popup for users on the Modern skin - EpisodeInfo.xml was missing from that skin entirely, causing a silent exception; file added to Modern skin
+- [COLOR orange]Fix[/COLOR] Documentaries browser: topdocumentaryfilms.com listings were broken because the site is now heavily polluted with gambling/casino spam articles; the old link-based scraper could not reliably filter them out; rewritten to scrape WordPress &lt;article&gt; post cards directly, which are only present for real posts - nav, sidebar and footer noise is automatically excluded
+- [COLOR orange]Fix[/COLOR] TV Evening playlist: episodes could run 50%+ over the user's chosen duration because the validation pass selects with a 45-minute buffer but no trim-back step existed; playlist is now trimmed to the target duration (+/- 15 min tolerance) after validation completes
+- [COLOR orange]Fix[/COLOR] Season boundary cache: two startup crashes prevented the cache from ever populating - a wrong module import (crewruntime module instead of the c instance) and a dead import of a non-existent tmdbscraper module; both removed
 - [COLOR orange]Fix[/COLOR] Cache layer: five functions (get_image, get_episode_details, get_season_artwork, get_show_artwork, get_diverse_backdrop_pool) called _get_connection_cursor() directly and received the context manager object instead of a cursor, causing "_GeneratorContextManager has no attribute execute" errors on every call
-- [COLOR orange]Fix[/COLOR] Debrid enabled/disabled state ignored until Kodi restart: ResolveURL resolver list and enabled flags were read once at module import time and frozen for the entire session; disabling or enabling a debrid service in ResolveURL had no effect until Kodi restarted — sources were still tagged for disabled services and disabled services were still used for resolution
+- [COLOR orange]Fix[/COLOR] Debrid enabled/disabled state ignored until Kodi restart: ResolveURL resolver list and enabled flags were read once at module import time and frozen for the entire session; disabling or enabling a debrid service in ResolveURL had no effect until Kodi restarted - sources were still tagged for disabled services and disabled services were still used for resolution
   -- three locations fixed: sourcesFilter() now builds the resolver list fresh on each scrape, debrid.status() now reads settings directly, and resolver() falls back to a live lookup instead of crashing when a service wasn't in the cached list
 - [COLOR red][B]IMPORTANT[/B][/COLOR] Kodi 19 (Matrix) and below are no longer supported. The minimum required version is now Kodi 20 (Nexus). Users on Kodi 19 or older will not receive this update or any future updates. If you are still running Kodi 19, it is time to update
 

@@ -1,6 +1,6 @@
 <addon id="script.module.classyscrapers"
 		name="Classy Scrapers"
-		version="1.0.0"
+		version="1.0.1"
 		provider-name="Classy">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0" />
@@ -22,6 +22,6 @@
 			<icon>icon.png</icon>
 			<fanart>fanart.jpg</fanart>
 		</assets>
-		<news>1.0.0 - Initial Classy Scrapers</news>
+		<news>1.0.1 - Few fixes (help viewer, branding)</news>
 	</extension>
 </addon>
