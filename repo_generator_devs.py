@@ -32,6 +32,7 @@ SOURCE_ADDONS = [
     'script.module.thecrew',
     'plugin.video.thecrew',
     'script.thecrew.artwork',
+    'script.module.classyscrapers',
 ]
 
 REPO_ADDON_ID = 'repository.thecrew.devs'

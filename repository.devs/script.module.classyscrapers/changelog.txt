@@ -1,0 +1,5 @@
+[B]1.0.0[/B]
+- Initial Classy Scrapers release
+- Base: Viper Scrapers 1.5.0 (Coco-compatible layout + working TGX/cfscrape)
+- Added hardened DMM provider (no KeyError on missing `results`)
+- Hardened Mediafusion (IndexError guards) and Torrentio (empty/invalid JSON)

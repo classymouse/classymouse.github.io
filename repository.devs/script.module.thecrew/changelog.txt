@@ -1,16 +1,92 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
-[COLOR white]After 18 months of relentless work — rebuilding, fixing, rethinking, and refining — I am
-stepping away from development of The Crew. What started as a maintenance pass turned into a full architectural
-overhaul: a new debrid layer, TV Evening, a resolve overlay, a global TV calendar, scraper
-tooling, performance rewrites, and more fixes than anyone should reasonably count.
+=====================================================
+Version 3.0.9.11 - the "Hey there SIMKL" release (July 2026)
+=====================================================
+- [COLOR deepskyblue]Tweak[/COLOR] Menus: Movie/TV calendars moved up (after premieres / popular — not buried above Search)
+- [COLOR orange]Fix[/COLOR] Widget Mark Watched: Aeon Nox reload via Home widgetreload* props (Container.Refresh is a no-op on home)
+- [COLOR orange]Fix[/COLOR] Widget Mark Watched: refresh home Next Episodes / Progress lists (redirect + service refresh)
+- [COLOR orange]Fix[/COLOR] Mark movie watched: no more fake 00:01 resume hiding the checkmark (bookmark insert used sentinel time)
+- [COLOR orange]Fix[/COLOR] Source cache: stop returning another episode's links on miss/expiry (UpNext "same episode" / wrong scrape)
+- [COLOR orange]Fix[/COLOR] Trakt clear/revoke: purge tokens from all settings backups + stamp revoked (no more hand-deleting .bak for QR)
+- [COLOR orange]Fix[/COLOR] Episode scrobble/resume: stamp play URL imdb/tmdb into container meta when meta ids are "0"
+- [COLOR orange]Fix[/COLOR] Trakt: dead tokens no longer resurrect from settings.xml.bak
+- [COLOR orange]Fix[/COLOR] New Search runs immediately (no extra click on history)
+- [COLOR limegreen]Add[/COLOR] Simkl XOR tracker (lists, CW, ratings, calendars, playcount)
+- [COLOR orange]Fix[/COLOR] Simkl mark watched: skip bogus tt0; toast on CM
+- [COLOR deepskyblue]Tweak[/COLOR] Simkl TV indicators still too heavy on big libs (lighten later)
+- [COLOR deepskyblue]Tweak[/COLOR] Find Similar CM uses TMDB (not Trakt)
+- [COLOR orange]Fix[/COLOR] Play Random episode: pass imdb_id/tmdb_id (was silent TypeError)
+- [COLOR deepskyblue]Tweak[/COLOR] Play Random autoplays best source (setting; on by default)
+- [COLOR orange]Fix[/COLOR] Calendar Browse Series → seasons (was empty episodes&season; missing on single-show Today)
+- [COLOR orange]Fix[/COLOR] Browse Season: empty list when episode meta lacked status (Progress CM)
+- [COLOR orange]Fix[/COLOR] TV Auto Play CM: alterSources → alter_sources (was Unhandled, no scrape)
+- [COLOR limegreen]Add[/COLOR] TV Evening: Simkl XOR next-to-watch pool (same as Next Episodes)
 
-The Crew is in good shape. Whoever picks it up from here has a solid foundation to build on.
 
-To the users who reported bugs patiently, tested late at night, and kept pushing — thank you.
-It was worth every hour.
+=====================================================
+Version 3.0.9.10 - "Tracking trakt tracks"  (July 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] settings_repair: stop adding <?xml to userdata settings.xml (Kodi Omega strips it / can wipe the file)
+- [COLOR orange]Fix[/COLOR] Empty Trending list: revoked/dead Bearer no longer blocks public Trakt catalogs (retry without auth)
+- [COLOR orange]Fix[/COLOR] New Episodes: moved under My TV Shows (Trakt-gated) so it does not error when logged out
+- [COLOR orange]Fix[/COLOR] Trakt Authorize: Re-authorize clears tokens and starts device/QR flow (no silent return)
+- [COLOR orange]Fix[/COLOR] Trakt Manager: no silent fail on empty lists; auth/errors toast instead of vanishing
+- [COLOR orange]Fix[/COLOR] Stop proactive Trakt okDialog from service/startup (was freezing all of Kodi); toast once only
+- [COLOR limegreen]Add[/COLOR] Revoke Trakt authorization (Tools + Settings); sticks via trakt.revoked (no sibling/Classy re-adopt)
+- [COLOR limegreen]Add[/COLOR] Trakt list usage vs limits (Tools): lists, list items, watchlist, digital library (same bars as trakt.tv)
+- [COLOR limegreen]Add[/COLOR] Clear toast on Trakt HTTP 420 account/list/collection limit
+- [COLOR deepskyblue]Tweak[/COLOR] Test Scrapers: real scrape (Inception / Breaking Bad S01E01) instead of domain GET false "Blocked"
+- [COLOR deepskyblue]Tweak[/COLOR] Health check: name each repair in toast/log (or All good) - no phantom "1 repair"
+- [COLOR deepskyblue]Tweak[/COLOR] String #32042: "No Trakt account found" (IMDb wording removed; Trakt-only check)
+- [COLOR limegreen]Add[/COLOR] Documentaries hub: Movie Documentaries + TV Documentaries via TMDB genre 99 (Classy-style; ~15y date floor + vote floors)
+- [COLOR crimson]Remove[/COLOR] Top Documentary Films (TDF) browser — deleted docu.py / docuHeaven scrapers
+- [COLOR deepskyblue]Tweak[/COLOR] TV Sci-Fi & Fantasy: dual discover (EN/US|UK|AU vote>=25 + intl vote>=100), exclude Animation/Kids/Docu, merge by id, keep popularity order
+- [COLOR limegreen]Add[/COLOR] TV Genres: Thriller (Crime|Mystery), Detective (Crime+Mystery), Cop Shows (police/cop keywords) — TMDB has no TV Thriller genre
 
-  — Classy x[/COLOR]
+
+
+=====================================================
+Version 3.0.9.9 - "Sports HLS hold" (July 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Lists live HLS: prefer inputstream.ffmpegdirect so Referer/UA survive playlist refreshes (stops ~10s stalls / 403 on sports)
+
+=====================================================
+Version 3.0.9.8 - "Welcome stays gone" (July 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Settings repair: profile backup no longer full-overwrites userdata (was stomping last_version → welcome dialog every boot)
+- [COLOR orange]Fix[/COLOR] Emergency .bak restore preserves forward-only markers (last_version, module_base, plugin_base)
+- [COLOR limegreen]Add[/COLOR] Refresh emergency profile backup on module/plugin version change
+
+=====================================================
+Version 3.0.9.7 - "Tokens + welcome" (July 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Version announcement: persist last_version to disk AND setSetting so boot setSetting flushes cannot stomp it back
+- [COLOR orange]Fix[/COLOR] Trakt: stop clearing tokens on HTTP 400/401 (avoids empty default="true" settings poison / endless re-auth)
+- [COLOR orange]Fix[/COLOR] Settings repair: strip default= on sensitive keys; restore empty auth keys from backups on boot
+- [COLOR limegreen]Add[/COLOR] ssl unverified default HTTPS context for hosts with broken certificates (White ;))
+- [COLOR deepskyblue]Tweak[/COLOR] New TV Shows: sort by popularity, fixed UK -> GB (cleaner list, ~3 pages)
+
+=====================================================
+Version 3.0.9.6 - "Progress + cleanup" (July 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Trakt #775: progress widgets fetch `/sync/watched/shows?extended=progress` with pagination — `extended=full` no longer includes season/episode rows (root cause of Next Episodes / In Progress showing S01E01)
+- [COLOR orange]Fix[/COLOR] Watched-show cache validates season/episode detail; poisoned pre-#775 cache is rejected and refetched
+- [COLOR orange]Fix[/COLOR] Progress / TV Evening: skip shows without watched episode detail instead of defaulting to S01E01
+- [COLOR orange]Fix[/COLOR] Startup batch sync, TV indicators, and TV Evening backdrop use the same paginated progress fetch
+- [COLOR orange]Fix[/COLOR] In-progress widget: enrich TMDB posters before listing (no posterless deferred rows)
+- [COLOR orange]Fix[/COLOR] Next Episodes widget: stop infinite "Loading..." refresh loop when Trakt auth has failed
+- [COLOR orange]Fix[/COLOR] Sources: busy spinner stuck after user cancel on PlayMedia/STRM routes
+- [COLOR orange]Fix[/COLOR] Settings repair: normalize empty `adult_pin` userdata for Kodi 21/Omega settings load
+- [COLOR limegreen]Add[/COLOR] One-time startup purge (v3.0.9.5 flag): clears stale `trakt_watched_shows_extended` / next-episode cache and Trakt ETag validators
+- [COLOR orange]Remove[/COLOR] IPTV/whitehat: bundled `whitehat.xml`, list route, actionlist handler, and dead navigator wiring
+
+=====================================================
+Version 3.0.9.4 - "The quietly good housekeeping version" (June 2026)
+=====================================================
+- [COLOR orange]Fix[/COLOR] Movies -> Genres: switched from Trakt /movies/trending (tiny pool, 1–2 pages) to TMDB /discover/movie with English-language/country filters — now returns many pages of results, same approach as TV Shows genres
+- [COLOR orange]Fix[/COLOR] Watchlist truncation: movies and TV shows watchlist limit raised from 250 to 2000 — VIP users with large watchlists no longer get silently cut off
+- [COLOR orange]Fix[/COLOR] movies.py: collection_link (dead code) used limit={self.count} which would have capped at the page-item setting; collection display uses the local SQLite mirror (no cap) so this was harmless but clarified
 
 =====================================================
 Version 3.0.9.3 - "The My Final Goodbye version" (June 2026)
