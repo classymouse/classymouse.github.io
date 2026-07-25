@@ -81,6 +81,17 @@ EXCLUDE_FILES = {
     'CHANGELOG.md', 'LICENSE', 'LICENSE.txt', 'addons.xml', 'addons.xml.md5',
 }
 
+# Relpath prefixes (posix) skipped when packaging Classy for size (old Crew theme).
+CLASSY_EXCLUDE_PREFIXES = (
+    'resources/lib/artwork/thecrew/',
+    'resources/skins/thecrew/',
+    'addon_data_test/',
+)
+
+CLASSY_EXCLUDE_NAMES = {
+    '__icon.png',
+}
+
 
 def get_addon_version(addon_path: Path) -> str:
     addon_xml = addon_path / 'addon.xml'
@@ -97,6 +108,15 @@ def get_addon_version(addon_path: Path) -> str:
 def should_skip_path(path: Path, base_path: Path) -> bool:
     rel = path.relative_to(base_path)
     parts = rel.parts
+    rel_posix = rel.as_posix()
+
+    # Classy 4.0 soak: ship modern only (PNG8); yank old Crew theme from zip.
+    if base_path.name == 'plugin.video.classy':
+        if path.name in CLASSY_EXCLUDE_NAMES:
+            return True
+        for prefix in CLASSY_EXCLUDE_PREFIXES:
+            if rel_posix == prefix.rstrip('/') or rel_posix.startswith(prefix):
+                return True
 
     for part in parts:
         if part in EXCLUDE_DIRS:
