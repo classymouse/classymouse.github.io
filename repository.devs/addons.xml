@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <addons>
-    <addon id="script.module.thecrew" name="[COLOR orchid]THE CREW MODULE[/COLOR]" version="3.2.0" provider-name="The Crew">
+    <addon id="script.module.thecrew" name="[COLOR orchid]THE CREW MODULE[/COLOR]" version="3.2.1" provider-name="The Crew">
         <requires>
             <import addon="xbmc.python" version="3.0.1" />
             <import addon="script.module.beautifulsoup4" />
@@ -72,7 +72,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="script.module.classyscrapers" name="Classy Scrapers" version="1.0.1" provider-name="Classy">
+    <addon id="script.module.classyscrapers" name="Classy Scrapers" version="1.0.2" provider-name="Classy">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -93,14 +93,15 @@
                 <icon>icon.png</icon>
                 <fanart>fanart.jpg</fanart>
             </assets>
-            <news>1.0.1 - Few fixes (help viewer, branding)</news>
+            <news>1.0.2 - Quieter logs, Comet/Torrentio guards, TGX/PirateBay noise cut</news>
         </extension>
     </addon>
-    <addon id="plugin.video.classy" name="[COLOR teal]Classy[/COLOR]" version="4.0.1" provider-name="Classy">
+    <addon id="plugin.video.classy" name="[COLOR teal]Classy[/COLOR]" version="4.0.2" provider-name="Classy">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.resolveurl" version="5.0.0" optional="true" />
             <import addon="script.module.requests" version="2.22.0" />
+            <import addon="script.module.classyscrapers" version="1.0.2" />
             <import addon="script.module.resolveurl.xxx" optional="true" />
             <import addon="plugin.video.youtube" optional="true" />
             <import addon="script.module.inputstreamhelper" version="0.3.3" optional="true" />

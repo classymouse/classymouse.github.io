@@ -1,0 +1,12 @@
+[B]4.0.2[/B]
+- Require and load script.module.classyscrapers (first-party pack)
+- Scraper settings toggle + Cloudflare client shim for Classy-only installs
+- Debug logging on by default (beta); Xbox-friendly VFS log fallback
+- Up Next window props use thecrew.upnext.* (Crew 4.x identity)
+- Simkl P1–P3: PIN auth, personal lists/progress/calendars, scrobble/playcount, CM Manager, clear-resume + watched overlays
+
+[B]4.0.1[/B]
+- First-run profile mkdir fix (pinboard / Android)
+
+[B]4.0.0[/B]
+- Initial Classy 4.x beta

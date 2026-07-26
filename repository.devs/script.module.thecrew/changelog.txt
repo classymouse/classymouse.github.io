@@ -1,6 +1,27 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.2.1 - the "Saskia did it again - stop busy-cursor hotfix" (July 2026)
+=====================================================
+
+Trakt (confirmed user path for the 26s video):
+- [COLOR orange]Fix[/COLOR] cachesyncTVShows was bypassing cache (always full /sync/watched/shows?extended=progress) - now cache.get like movies; syncTVShows reuses shared watched-shows cache
+
+Simkl (same symptom class):
+- [COLOR orange]Fix[/COLOR] episode/movie lists no longer force a full library re-download on every Container.Refresh
+- [COLOR orange]Fix[/COLOR] Mid-episode Stop scrobbles as pause (<92%), matching CrewMonitor
+
+Sources / packs:
+- [COLOR orange]Fix[/COLOR] Pack resolve: prefer provider language (English by default) over size-only so French/English twins pick the right file (RD/AD/PM)
+- [COLOR orange]Fix[/COLOR] RD pack: never fall back to links[0] when the matched episode is not in the selected set - delete + reselect instead
+- [COLOR orange]Fix[/COLOR] Screeners and Cams toggle: OFF actually hides cams (was treating the string "false" as truthy)
+- [COLOR orchid]Change[/COLOR] External scraper packs: removed all code fixes and shims, our new own pack is ClassyScrapers
+
+Shared:
+- [COLOR orange]Fix[/COLOR] Stop scrobble + Trakt queue flush run in a background thread (player callback returns immediately)
+- [COLOR orange]Fix[/COLOR] Tools menu: Trakt / Simkl Authorize show again when that service has no token (was gated on active tracker only, so the other auth link stayed hidden)
+
+=====================================================
 Version 3.2.0 - the "Hey there SIMKL while trakt tracker tracks" release (July 2026)
 =====================================================
 

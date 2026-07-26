@@ -1,3 +1,13 @@
+[B]1.0.2[/B]
+- Quieter logging: truncate long lines, plain tags (no COLOR markup), no reverse-rewrite
+- scraper_error is one line (no full traceback dump)
+- PirateBay no longer logs full API payloads; Rutor URL spam removed
+- Fix Comet/Mediafusion/AIOStreams KeyError on missing total_seasons
+- Comet: skip streams without size/seeders metadata line
+- TGX #STATS collapsed to a single line per scrape
+- Torrentio: guard empty cache.get (None) so TV scrapes do not throw TypeError
+- Service rotates classyscrapers.log → classyscrapers.old.log on Kodi start
+
 [B]1.0.1[/B]
 - Few fixes (help viewer over settings, Crew orchid branding, torrent info text)
 
