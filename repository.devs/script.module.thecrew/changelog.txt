@@ -1,6 +1,50 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.2.3 - "Library add/auto-update" (July 2026)
+=====================================================
+
+Library (#245)
+- [COLOR orange]Fix[/COLOR] TV Add to Library failed — episodes indexer imported as `lib.resources.lib.indexers` (broken under module path); use relative `..indexers`
+- [COLOR orange]Fix[/COLOR] Movie Add to Library failed — `movieToLibrary` passed `tmdb` into `libmovies.add` which rejected the kwarg; accept optional `tmdb`
+- [COLOR orange]Fix[/COLOR] TV Add to Library no longer skips Kodi `UpdateLibrary(video)` (was left disabled from testing)
+- [COLOR orange]Fix[/COLOR] Auto Update Library service: same broken episodes import aborted silent runs; stamp last_run after update attempt; clearer service logs
+
+=====================================================
+Version 3.2.2 - "Hot fixes" (July 2026)
+=====================================================
+
+Up Next / playback
+- [COLOR orange]Fix[/COLOR] Up Next no longer offers Unknown Show / S00E01 when Home props were cleared mid-session (identity_complete + refuse incomplete rebind)
+- [COLOR orange]Fix[/COLOR] Up Next Play Now / autoplay no longer scrapes the previous episode — sourcesDirect kept stale window meta S/E over play()-set identity (pack resolve followed the wrong ep)
+- [COLOR orange]Fix[/COLOR] Bind Up Next session from live Crew player meta after playback starts (beats dual-install / Classy leftover thecrew.upnext.* props)
+
+Calendars (#244)
+- [COLOR orange]Fix[/COLOR] Simkl calendars honor the same sorts as Trakt: Today A–Z; This Week / Next Week / New Aired / multi-day = air date ASC then title A–Z
+- [COLOR orange]Fix[/COLOR] Calendar air dates survive worker enrich (Simkl int S/E vs worker str keys missed preserve — wrong order + missing dates like The Ark / AGT)
+- [COLOR deepskyblue]Tweak[/COLOR] Re-sort calendars after enrich so list order matches the dates you see
+
+Art / fanart.tv / trailers
+- [COLOR orange]Fix[/COLOR] Fanart.tv first for show/episode art (poster, fanart, clearlogo, clearart); TMDB fills gaps; short CDN logo URLs kept; prefer highest-likes logo
+- [COLOR orange]Fix[/COLOR] Seasons clearlogo was stuck on Crew default — TMDB external_ids key is tvdb_id (was reading tvdb, so fanart.tv never ran)
+- [COLOR orange]Fix[/COLOR] Episode info → Trailer now passes poster + fanart in meta (was missing — only addon poster showed)
+- [COLOR deepskyblue]Tweak[/COLOR] Also set tvshow.clearlogo for skins that look for that art key (Aeon Nox Silvo MyFlix)
+
+Lists / seasons / episodes
+- [COLOR orange]Fix[/COLOR] Unaired season titles use unaired.identify color (aired seasons stay normal)
+- [COLOR orange]Fix[/COLOR] Thin / future episode rows keep sensible show art + plot placeholders when TMDB stills/plots are empty
+
+Movies
+- [COLOR orange]Fix[/COLOR] Movie info cast/actors missing when metacache had art but no credits — refresh those rows; harden cast/crew parse + setCast
+- [COLOR orange]Fix[/COLOR] Movie director/writer init bug (tuple instead of two strings)
+- [COLOR orange]Fix[/COLOR] Sources list background used only fanart2 — movies send fanart, so BG fell back to Crew default; now fanart2 → fanart → landscape
+- [COLOR orange]Fix[/COLOR] Sources listitem info: setCast + TMDB credits fill when play meta lacked director/writer/actors (poster/discart still present)
+- [COLOR orange]Fix[/COLOR] Sources listitem trailer missing — play meta was built before trailer URL was set; now included + setTrailer on source rows
+- [COLOR orange]Fix[/COLOR] Playing info cast/director/writer missing — player used legacy setInfo only (no setCast); now InfoTag + shared TMDB credits fill (art/stream badges were already fine)
+- [COLOR orange]Fix[/COLOR] Simkl history / personal movie lists: light enrich skipped credits and re-cached without cast — Info on listitem empty while sources Info showed full crew
+- [COLOR orange]Fix[/COLOR] Movie MPAA showed NR — TMDB has no top-level certification; now read US cert from release_dates (theatrical preferred)
+
+=====================================================
 Version 3.2.1 - the "Saskia did it again - stop busy-cursor hotfix" (July 2026)
 =====================================================
 
