@@ -1,6 +1,61 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.2.2 - "Hot fixes" (July 2026)
+=====================================================
+
+Up Next / playback
+- [COLOR orange]Fix[/COLOR] Up Next no longer offers Unknown Show / S00E01 when Home props were cleared mid-session (identity_complete + refuse incomplete rebind)
+- [COLOR orange]Fix[/COLOR] Up Next Play Now / autoplay no longer scrapes the previous episode — sourcesDirect kept stale window meta S/E over play()-set identity (pack resolve followed the wrong ep)
+- [COLOR orange]Fix[/COLOR] Bind Up Next session from live Crew player meta after playback starts (beats dual-install / Classy leftover thecrew.upnext.* props)
+
+Calendars (#244)
+- [COLOR orange]Fix[/COLOR] Simkl calendars honor the same sorts as Trakt: Today A–Z; This Week / Next Week / New Aired / multi-day = air date ASC then title A–Z
+- [COLOR orange]Fix[/COLOR] Calendar air dates survive worker enrich (Simkl int S/E vs worker str keys missed preserve — wrong order + missing dates like The Ark / AGT)
+- [COLOR deepskyblue]Tweak[/COLOR] Re-sort calendars after enrich so list order matches the dates you see
+
+Art / fanart.tv / trailers
+- [COLOR orange]Fix[/COLOR] Fanart.tv first for show/episode art (poster, fanart, clearlogo, clearart); TMDB fills gaps; short CDN logo URLs kept; prefer highest-likes logo
+- [COLOR orange]Fix[/COLOR] Seasons clearlogo was stuck on Crew default — TMDB external_ids key is tvdb_id (was reading tvdb, so fanart.tv never ran)
+- [COLOR orange]Fix[/COLOR] Episode info → Trailer now passes poster + fanart in meta (was missing — only addon poster showed)
+- [COLOR deepskyblue]Tweak[/COLOR] Also set tvshow.clearlogo for skins that look for that art key (Aeon Nox Silvo MyFlix)
+
+Lists / seasons / episodes
+- [COLOR orange]Fix[/COLOR] Unaired season titles use unaired.identify color (aired seasons stay normal)
+- [COLOR orange]Fix[/COLOR] Thin / future episode rows keep sensible show art + plot placeholders when TMDB stills/plots are empty
+
+Movies
+- [COLOR orange]Fix[/COLOR] Movie info cast/actors missing when metacache had art but no credits — refresh those rows; harden cast/crew parse + setCast
+- [COLOR orange]Fix[/COLOR] Movie director/writer init bug (tuple instead of two strings)
+- [COLOR orange]Fix[/COLOR] Sources list background used only fanart2 — movies send fanart, so BG fell back to Crew default; now fanart2 → fanart → landscape
+- [COLOR orange]Fix[/COLOR] Sources listitem info: setCast + TMDB credits fill when play meta lacked director/writer/actors (poster/discart still present)
+- [COLOR orange]Fix[/COLOR] Sources listitem trailer missing — play meta was built before trailer URL was set; now included + setTrailer on source rows
+- [COLOR orange]Fix[/COLOR] Playing info cast/director/writer missing — player used legacy setInfo only (no setCast); now InfoTag + shared TMDB credits fill (art/stream badges were already fine)
+- [COLOR orange]Fix[/COLOR] Simkl history / personal movie lists: light enrich skipped credits and re-cached without cast — Info on listitem empty while sources Info showed full crew
+- [COLOR orange]Fix[/COLOR] Movie MPAA showed NR — TMDB has no top-level certification; now read US cert from release_dates (theatrical preferred)
+
+=====================================================
+Version 3.2.1 - the "Saskia did it again - stop busy-cursor hotfix" (July 2026)
+=====================================================
+
+Trakt (confirmed user path for the 26s video):
+- [COLOR orange]Fix[/COLOR] cachesyncTVShows was bypassing cache (always full /sync/watched/shows?extended=progress) - now cache.get like movies; syncTVShows reuses shared watched-shows cache
+
+Simkl (same symptom class):
+- [COLOR orange]Fix[/COLOR] episode/movie lists no longer force a full library re-download on every Container.Refresh
+- [COLOR orange]Fix[/COLOR] Mid-episode Stop scrobbles as pause (<92%), matching CrewMonitor
+
+Sources / packs:
+- [COLOR orange]Fix[/COLOR] Pack resolve: prefer provider language (English by default) over size-only so French/English twins pick the right file (RD/AD/PM)
+- [COLOR orange]Fix[/COLOR] RD pack: never fall back to links[0] when the matched episode is not in the selected set - delete + reselect instead
+- [COLOR orange]Fix[/COLOR] Screeners and Cams toggle: OFF actually hides cams (was treating the string "false" as truthy)
+- [COLOR orchid]Change[/COLOR] External scraper packs: removed all code fixes and shims, our new own pack is ClassyScrapers
+
+Shared:
+- [COLOR orange]Fix[/COLOR] Stop scrobble + Trakt queue flush run in a background thread (player callback returns immediately)
+- [COLOR orange]Fix[/COLOR] Tools menu: Trakt / Simkl Authorize show again when that service has no token (was gated on active tracker only, so the other auth link stayed hidden)
+
+=====================================================
 Version 3.2.0 - the "Hey there SIMKL while trakt tracker tracks" release (July 2026)
 =====================================================
 
