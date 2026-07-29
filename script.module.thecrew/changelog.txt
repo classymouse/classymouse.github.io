@@ -1,6 +1,16 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.2.3 - "Library add/auto-update" (July 2026)
+=====================================================
+
+Library (#245)
+- [COLOR orange]Fix[/COLOR] TV Add to Library failed — episodes indexer imported as `lib.resources.lib.indexers` (broken under module path); use relative `..indexers`
+- [COLOR orange]Fix[/COLOR] Movie Add to Library failed — `movieToLibrary` passed `tmdb` into `libmovies.add` which rejected the kwarg; accept optional `tmdb`
+- [COLOR orange]Fix[/COLOR] TV Add to Library no longer skips Kodi `UpdateLibrary(video)` (was left disabled from testing)
+- [COLOR orange]Fix[/COLOR] Auto Update Library service: same broken episodes import aborted silent runs; stamp last_run after update attempt; clearer service logs
+
+=====================================================
 Version 3.2.2 - "Hot fixes" (July 2026)
 =====================================================
 
