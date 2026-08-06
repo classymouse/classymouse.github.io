@@ -1,12 +1,56 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.2.5 - "Next Episodes, library boot, scrape noise" (August 2026)
+=====================================================
+
+TV Shows
+- [COLOR orange]Fix[/COLOR] Simkl Next Episodes showed unaired season premieres (Grey's S23, 9-1-1 S10, Ghosts S06, etc.) - drop markers with a known future air date (Simkl date + TMDB enrich + season-cache premiere); stop treating next_to_watch.date as last_watched_at
+
+Library (#245 follow-up)
+- [COLOR orange]Fix[/COLOR] Auto Update Library again runs once when Kodi/service starts (with notification if enabled), then every 6 hours - startup pass was missing because only the 6h interval was checked
+- [COLOR orange]Fix[/COLOR] Library service thread died at boot (`list index out of range`) - no longer uses plugin `sys.argv` for .strm matching/writing; ensures service + tvshows tables before update; starts after boot main() so it does not race settings repair
+- [COLOR orange]Fix[/COLOR] Root cause of that IndexError: `libtools` imported `movies`->`navigator` which did `sys.argv[1]` at import time under the service thread - navigator argv is now safe; movies/tvshows are lazy-imported
+
+Sources
+- [COLOR orange]Fix[/COLOR] Title filter wiped M*A*S*H (etc.) results - keep asterisks out of cleaned titles; Trakt aliases are dicts (`title` key), not `str(dict)` junk like `{titlemashcountry}`
+- [COLOR orange]Fix[/COLOR] Orion TV cache read hit IndexError (looked for timestamp on `rel_url` which has none) - use `rel_src` with `added` like other providers; drop noisy CM Debug traceback spam
+- [COLOR orange]Fix[/COLOR] Classy scrapers (and alike) failed on 2nd+ play in-session (`'list' object is not callable`) - `self.sources = []` shadowed the method on cached instances; resolve unbound `sources()` instead
+- [COLOR deepskyblue]Tweak[/COLOR] Drop per-source `[seas_ep_filter]` log lines (filter is settled)
+
+=====================================================
+Version 3.2.4 - "Search speed + scrape polish" (July 2026)
+=====================================================
+
+Movies
+- [COLOR orange]Fix[/COLOR] Movie search was slow (especially Xbox / low-end): every hit ran full worker (TMDB details + credits + Fanart.tv) before the list opened. Search now uses a light path (search payload only)
+- [COLOR orange]Fix[/COLOR] Movie search still stalled ~10s+ after clear-cache: directory waited on Trakt/Simkl full watched sync + per-row bookmark DB. Search now uses soft cached indicators only and skips resume lookups
+- [COLOR orange]Fix[/COLOR] Clear Search History no longer drops into an empty listing (was added as a folder); stays on search and refreshes. Empty keyboard/term searches are ignored
+- [COLOR orange]Fix[/COLOR] Movie search play no longer scrapes with imdb=0 - light path fills tt* via cached TMDB /external_ids (also play() safety net)
+
+TV Shows
+- [COLOR orange]Fix[/COLOR] Same Clear Search History / empty-query guard as movies
+
+Debrid
+- [COLOR orange]Fix[/COLOR] Cancelling a Real-Debrid (etc.) cloud download no longer asks "keep transferring?" three times - cancel now arms Crew stop + suppresses ResolveURL keep-transfer prompts so Smart Resolve does not re-ask on the next links
+
+Sources
+- [COLOR orange]Fix[/COLOR] "No stream available" right after a cold scrape timeout with 0 hits while scrapers were still running - wait a short grace for the first sources before aborting
+- [COLOR orange]Fix[/COLOR] Scrape dialog felt stuck for several seconds: re-imported ~70 scrapers every play; cache providers for the Kodi session, skip Gears helper modules, paint dialog immediately (0.5s updates), cache ResolveURL host list
+- [COLOR orange]Fix[/COLOR] 15/69 scrapers completing then whole Gears/Classy packs looking "slow": was a 69-thread stampede + SlowScraper strikes on finished-after-close. Cap concurrency; only strike while dialog open
+- [COLOR orange]Fix[/COLOR] Fast scrapers sat queued for the full 15s: dead hosts held slots on default `client.request` 30s timeout. During scrape, cap HTTP waits (~7-8s) and raise concurrency to 48 so 1-2s providers actually run
+- [COLOR deepskyblue]Tweak[/COLOR] Settings -> Scrapers: "Enable built-in Crew scrapers" (`crewscrapers.enabled`, default on) - turn off to scrape with Classy/external packs only (skips dead HTML internals)
+- [COLOR orange]Fix[/COLOR] Reuse prior source cache keyed imdb=0+tmdb when play now has a real tt* (light-search fill) so a second click is not a cold miss
+- [COLOR orange]Fix[/COLOR] Source list paint was ~25s for 1000 rows (full meta/cast per torrent) - slim InfoTags; freeze list before filter so late scrapers cannot balloon it
+- [COLOR deepskyblue]Tweak[/COLOR] Source cache: default 60 min; soft/stale ~4h for movies and episodes - keys are imdb|tmdb + sXeY (imdb missing -> tmdb scopes the title)
+
+=====================================================
 Version 3.2.3 - "Library add/auto-update" (July 2026)
 =====================================================
 
 Library (#245)
-- [COLOR orange]Fix[/COLOR] TV Add to Library failed — episodes indexer imported as `lib.resources.lib.indexers` (broken under module path); use relative `..indexers`
-- [COLOR orange]Fix[/COLOR] Movie Add to Library failed — `movieToLibrary` passed `tmdb` into `libmovies.add` which rejected the kwarg; accept optional `tmdb`
+- [COLOR orange]Fix[/COLOR] TV Add to Library failed - episodes indexer imported as `lib.resources.lib.indexers` (broken under module path); use relative `..indexers`
+- [COLOR orange]Fix[/COLOR] Movie Add to Library failed - `movieToLibrary` passed `tmdb` into `libmovies.add` which rejected the kwarg; accept optional `tmdb`
 - [COLOR orange]Fix[/COLOR] TV Add to Library no longer skips Kodi `UpdateLibrary(video)` (was left disabled from testing)
 - [COLOR orange]Fix[/COLOR] Auto Update Library service: same broken episodes import aborted silent runs; stamp last_run after update attempt; clearer service logs
 
@@ -16,18 +60,18 @@ Version 3.2.2 - "Hot fixes" (July 2026)
 
 Up Next / playback
 - [COLOR orange]Fix[/COLOR] Up Next no longer offers Unknown Show / S00E01 when Home props were cleared mid-session (identity_complete + refuse incomplete rebind)
-- [COLOR orange]Fix[/COLOR] Up Next Play Now / autoplay no longer scrapes the previous episode — sourcesDirect kept stale window meta S/E over play()-set identity (pack resolve followed the wrong ep)
+- [COLOR orange]Fix[/COLOR] Up Next Play Now / autoplay no longer scrapes the previous episode - sourcesDirect kept stale window meta S/E over play()-set identity (pack resolve followed the wrong ep)
 - [COLOR orange]Fix[/COLOR] Bind Up Next session from live Crew player meta after playback starts (beats dual-install / Classy leftover thecrew.upnext.* props)
 
 Calendars (#244)
-- [COLOR orange]Fix[/COLOR] Simkl calendars honor the same sorts as Trakt: Today A–Z; This Week / Next Week / New Aired / multi-day = air date ASC then title A–Z
-- [COLOR orange]Fix[/COLOR] Calendar air dates survive worker enrich (Simkl int S/E vs worker str keys missed preserve — wrong order + missing dates like The Ark / AGT)
+- [COLOR orange]Fix[/COLOR] Simkl calendars honor the same sorts as Trakt: Today A-Z; This Week / Next Week / New Aired / multi-day = air date ASC then title A-Z
+- [COLOR orange]Fix[/COLOR] Calendar air dates survive worker enrich (Simkl int S/E vs worker str keys missed preserve - wrong order + missing dates like The Ark / AGT)
 - [COLOR deepskyblue]Tweak[/COLOR] Re-sort calendars after enrich so list order matches the dates you see
 
 Art / fanart.tv / trailers
 - [COLOR orange]Fix[/COLOR] Fanart.tv first for show/episode art (poster, fanart, clearlogo, clearart); TMDB fills gaps; short CDN logo URLs kept; prefer highest-likes logo
-- [COLOR orange]Fix[/COLOR] Seasons clearlogo was stuck on Crew default — TMDB external_ids key is tvdb_id (was reading tvdb, so fanart.tv never ran)
-- [COLOR orange]Fix[/COLOR] Episode info → Trailer now passes poster + fanart in meta (was missing — only addon poster showed)
+- [COLOR orange]Fix[/COLOR] Seasons clearlogo was stuck on Crew default - TMDB external_ids key is tvdb_id (was reading tvdb, so fanart.tv never ran)
+- [COLOR orange]Fix[/COLOR] Episode info -> Trailer now passes poster + fanart in meta (was missing - only addon poster showed)
 - [COLOR deepskyblue]Tweak[/COLOR] Also set tvshow.clearlogo for skins that look for that art key (Aeon Nox Silvo MyFlix)
 
 Lists / seasons / episodes
@@ -35,14 +79,14 @@ Lists / seasons / episodes
 - [COLOR orange]Fix[/COLOR] Thin / future episode rows keep sensible show art + plot placeholders when TMDB stills/plots are empty
 
 Movies
-- [COLOR orange]Fix[/COLOR] Movie info cast/actors missing when metacache had art but no credits — refresh those rows; harden cast/crew parse + setCast
+- [COLOR orange]Fix[/COLOR] Movie info cast/actors missing when metacache had art but no credits - refresh those rows; harden cast/crew parse + setCast
 - [COLOR orange]Fix[/COLOR] Movie director/writer init bug (tuple instead of two strings)
-- [COLOR orange]Fix[/COLOR] Sources list background used only fanart2 — movies send fanart, so BG fell back to Crew default; now fanart2 → fanart → landscape
+- [COLOR orange]Fix[/COLOR] Sources list background used only fanart2 - movies send fanart, so BG fell back to Crew default; now fanart2 -> fanart -> landscape
 - [COLOR orange]Fix[/COLOR] Sources listitem info: setCast + TMDB credits fill when play meta lacked director/writer/actors (poster/discart still present)
-- [COLOR orange]Fix[/COLOR] Sources listitem trailer missing — play meta was built before trailer URL was set; now included + setTrailer on source rows
-- [COLOR orange]Fix[/COLOR] Playing info cast/director/writer missing — player used legacy setInfo only (no setCast); now InfoTag + shared TMDB credits fill (art/stream badges were already fine)
-- [COLOR orange]Fix[/COLOR] Simkl history / personal movie lists: light enrich skipped credits and re-cached without cast — Info on listitem empty while sources Info showed full crew
-- [COLOR orange]Fix[/COLOR] Movie MPAA showed NR — TMDB has no top-level certification; now read US cert from release_dates (theatrical preferred)
+- [COLOR orange]Fix[/COLOR] Sources listitem trailer missing - play meta was built before trailer URL was set; now included + setTrailer on source rows
+- [COLOR orange]Fix[/COLOR] Playing info cast/director/writer missing - player used legacy setInfo only (no setCast); now InfoTag + shared TMDB credits fill (art/stream badges were already fine)
+- [COLOR orange]Fix[/COLOR] Simkl history / personal movie lists: light enrich skipped credits and re-cached without cast - Info on listitem empty while sources Info showed full crew
+- [COLOR orange]Fix[/COLOR] Movie MPAA showed NR - TMDB has no top-level certification; now read US cert from release_dates (theatrical preferred)
 
 =====================================================
 Version 3.2.1 - the "Saskia did it again - stop busy-cursor hotfix" (July 2026)

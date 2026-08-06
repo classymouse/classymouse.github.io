@@ -1,6 +1,13 @@
 [COLOR orchid][B]The Crew Plugin - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.2.1 - paired with module 3.2.5 (August 2026)
+=====================================================
+- [COLOR limegreen]Release[/COLOR] Paired with script.module.thecrew 3.2.5 (Next Episodes / library boot / scrape polish)
+- [COLOR deepskyblue]Tweak[/COLOR] Settings -> Scrapers: enable/disable built-in Crew scrapers (`crewscrapers.enabled`)
+- [COLOR deepskyblue]Tweak[/COLOR] Source cache default duration 60 minutes (range up to 240)
+
+=====================================================
 Version 3.2.0 - paired with module 3.2.0 (July 2026)
 =====================================================
 - [COLOR limegreen]Release[/COLOR] Aligned with script.module.thecrew 3.2.0 (Simkl XOR, Classy Scrapers, Downloads settings fix)

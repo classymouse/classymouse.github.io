@@ -1,3 +1,8 @@
+[B]4.0.3[/B]
+- TV Evening: quiet scrape/resolve overlay (fixed show header, whisper status)
+- Simkl/Trakt: force complete scrobble + mark watched on evening episode end
+- Configurable mark-watched / hide-resume threshold (Playback settings, default 92%)
+
 [B]4.0.2[/B]
 - Require and load script.module.classyscrapers (first-party pack)
 - Scraper settings toggle + Cloudflare client shim for Classy-only installs
