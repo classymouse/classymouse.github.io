@@ -1,6 +1,46 @@
 [COLOR orchid][B]The Crew - Changelog[/B][/COLOR]
 
 =====================================================
+Version 3.2.9 - "Years + builders quiet boot" (August 2026)
+=====================================================
+
+Movies
+- [COLOR orange]Fix[/COLOR] Movies -> Years was empty/sparse for many users (Trakt trending?years=); now TMDB discover with the same English/origin filters as Genres
+
+[COLOR red][B]Debug / Builders [/B][/COLOR]only!
+- [COLOR lime]New[/COLOR] Builders-only: Suppress all startup UI (plugin Debug) — mutes version announcement, Trakt startup notices, debrid toasts, health-check UI, and library auto-update / new-season toasts (separate from Silent boot)
+- [COLOR orange]Warning[/COLOR] Builders who enable this: users will not see Crew startup notices (version/update dialogs, library auto-update toasts, debrid expiry toasts, health-check UI). If a user “never got the update notice” or library message at boot, that silence is the build’s setting — not a Crew bug. Day-to-day dialogs while using the addon still work.
+
+- [COLOR orange]Polish[/COLOR] Debug settings: Warning block above Enable Debug; shorter help lines (Kodi truncates long text rows)
+
+Plugin 3.2.2 ships the builders setting + strings and requires this module.
+
+=====================================================
+Version 3.2.8 - "Search Back navigation" (August 2026)
+=====================================================
+
+Search
+- [COLOR orange]Fix[/COLOR] People Search uses Container.Update(...,replace) so Back skips the keyboard dialog
+- [COLOR orange]Fix[/COLOR] Advanced Search is a folder again — results list into that handle (Classy pattern) so Back returns to Movies/TV instead of trapping in Container.Update
+
+=====================================================
+Version 3.2.7 - "People + Advanced Search" (August 2026)
+=====================================================
+
+Search
+- [COLOR orange]Fix[/COLOR] People Search (Movies + TV) showed no results after the keyboard — dialog routes now Container.Update into moviePersons / tvPersons like title search
+- [COLOR orange]Fix[/COLOR] Advanced Search (Movies + TV) same dialog-handle trap — results open via movieAdvancedResults / tvAdvancedResults with the filter in the URL
+- [COLOR orange]Fix[/COLOR] Advanced Search year filters on movies used TV TMDB params (`first_air_date_*`); now `year` / `primary_release_date` (and movie-aware Release Date sort)
+- [COLOR orange]Fix[/COLOR] Advanced Search "expired" toast — filter was stashed on a non-existent Window property; payload is passed on the results URL instead
+
+=====================================================
+Version 3.2.6 - "Adult PIN master reset" (August 2026)
+=====================================================
+
+Adult Section
+- [COLOR orange]Fix[/COLOR] Master Reset Key could clear the lockout loop but leave Enter PIN stuck (Omega empty PIN stored as a space; reset refused when protection was on with no real PIN). Reset now clears the placeholder, disables protection, and recovers that state.
+
+=====================================================
 Version 3.2.5 - "Next Episodes, library boot, scrape noise" (August 2026)
 =====================================================
 

@@ -120,6 +120,13 @@ def should_skip_path(path: Path, base_path: Path) -> bool:
 
     for part in parts:
         if part in EXCLUDE_DIRS:
+            # Classy ships runtime helpers under resources/lib/tools (changelog, cache, logs).
+            if (
+                part == 'tools'
+                and base_path.name == 'plugin.video.classy'
+                and rel_posix.startswith('resources/lib/tools')
+            ):
+                continue
             return True
         if part.startswith('.'):
             return True

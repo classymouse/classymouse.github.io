@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.classy" name="[COLOR teal]Classy[/COLOR]" version="4.0.3" provider-name="Classy">
+    <addon id="plugin.video.classy" name="[COLOR orchid]THE CREW[/COLOR]" version="4.0.5" provider-name="The Crew">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         <import addon="script.module.resolveurl" version="5.0.0" optional="true" />
@@ -8,7 +8,7 @@
         <import addon="script.module.resolveurl.xxx" optional="true" />
         <import addon="plugin.video.youtube" optional="true" />
         <!-- Sports HLS: lists play prefers ffmpegdirect; ISA fallback if missing.
-             inputstreamhelper does NOT pull ffmpegdirect — declare it explicitly. -->
+             inputstreamhelper does NOT pull ffmpegdirect  -  declare it explicitly. -->
         <import addon="script.module.inputstreamhelper" version="0.3.3" optional="true" />
         <import addon="inputstream.ffmpegdirect" optional="true" />
     </requires>
@@ -17,7 +17,7 @@
     </extension>
     <extension library="service.py" point="xbmc.service" />
     <extension point="xbmc.addon.metadata">
-        <summary lang="en">Classy Video addon, warning, in BETA!</summary>
+        <summary lang="en">The Crew is a team of individuals that does what it can to provide others, you, the best in entertainment. (4.x beta  -  dual-install soak build.)</summary>
         <description lang="en">The Crew is a team of individuals that does what it can to provide others, you the best in entertainment.
 
         Beware: This is version 4 of the addon, and it is still in BETA.</description>

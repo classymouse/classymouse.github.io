@@ -1,3 +1,13 @@
+[B]4.0.5[/B]
+- Tools: Clear caches (grouped buckets), upload logs (Kodi + The Crew), changelog viewer
+- Menu: navi.* toggles removed - full tree always shown; My Crew handles shortcuts
+- Settings -> External Scrapers: enable/disable built-in (internal) scrapers (`crewscrapers.enabled`)
+
+[B]4.0.4[/B]
+- Genres / discover Next Page: do not treat empty Container.PluginName as widget when plugin:// argv is Classy (Shield page-2 break)
+- TV Evening: soft-pause / clear stale session before Greenhats & movie plays; ignore foreign AV so evening cannot hijack after ~20s
+- Listing: skip a bad row instead of aborting the whole directory
+
 [B]4.0.3[/B]
 - TV Evening: quiet scrape/resolve overlay (fixed show header, whisper status)
 - Simkl/Trakt: force complete scrobble + mark watched on evening episode end
@@ -5,13 +15,13 @@
 
 [B]4.0.2[/B]
 - Require and load script.module.classyscrapers (first-party pack)
-- Scraper settings toggle + Cloudflare client shim for Classy-only installs
+- Scraper settings toggle + Cloudflare client shim for Crew-only installs (no Crew 3.x module)
 - Debug logging on by default (beta); Xbox-friendly VFS log fallback
 - Up Next window props use thecrew.upnext.* (Crew 4.x identity)
-- Simkl P1–P3: PIN auth, personal lists/progress/calendars, scrobble/playcount, CM Manager, clear-resume + watched overlays
+- Simkl P1-P3: PIN auth, personal lists/progress/calendars, scrobble/playcount, CM Manager, clear-resume + watched overlays
 
 [B]4.0.1[/B]
 - First-run profile mkdir fix (pinboard / Android)
 
 [B]4.0.0[/B]
-- Initial Classy 4.x beta
+- Initial The Crew 4.x beta (soak id: plugin.video.classy)
