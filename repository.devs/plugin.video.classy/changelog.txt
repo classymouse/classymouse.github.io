@@ -1,4 +1,31 @@
+[B]4.0.8[/B]
+- Context menus: central hub (video / menu / My Crew surfaces); discovery block (Play trailer stub) ahead of play/tracker rows
+- Widget CM: Open full list, Browse series, Browse season unchanged (CM audit pass start)
+
+[B]4.0.7[/B]
+- Legal: GPL-3.0 file headers across resources/lib (The Crew / plugin.video.thecrew template)
+- Developers menu: Copy OpenSubtitles creds, Check user-facing ASCII, Fix common ASCII issues (dev password; scrollable report)
+- Dev: apply_gpl_header.py + gpl_header.py; check_user_ascii / copy_os_creds share resources/lib/tools logic
+
+[B]4.0.6[/B]
+- Subtitles: OpenSubtitles.com auto-load on play; Follow Kodi / Always on / Off; preferred audio when multiple tracks (Kodi locale or English)
+- IntroDB: episode intro/recap skip (Prompt / Auto / Off); Up Next Credits timing option; chapter fallback
+- Skins: IntroSkip.xml prompt dialog (modern + thecrew)
+- Playback: service monitor fires subs + IntroDB hooks (plugin/service interpreter split); Up Next handoff + stale-stop guard
+- Up Next: prior-episode Stop scrobbles only (frozen snapshot); defer teardown while Kodi still playing (fixes ep2 intro skip)
+- Up Next: Auto-play Next Episode forces top-source play on handoff (select=autoplay); dual-install plugin_id owner
+- Playback: PlaybackHooksMonitor singleton on ClassyMonitor (TV Evening pattern); recap + intro segment queue (late cold opens)
+- Subtitles: TMDB fallback search when IMDb returns no OpenSubtitles results
+- Subtitles: Podnapisi.net fallback when OpenSubtitles has no match (toggle in settings)
+- Up Next: autoplay prefers exact SxEy sources; skips prior-episode torrent hash (season-pack replay fix)
+- Play: auto-fallback to next source when CDN playback dies before AV starts (dead TorBox rows)
+- Simkl: Mark unwatched context menu (query=6/7 playcount parse)
+- WeTrakr: service progress tick (~30s playing updates); session persists across Kodi restart
+- Progress widgets: event-driven warm (scrobble/CM) + in_widget() gates background worker tick
+
 [B]4.0.5[/B]
+- Scrape: Crew Pre-emptive Termination / Limit settings removed; 4.x auto early-finish instead (quality-floor cutoff when enough links + straggler idle stop for slow providers; built-in defaults, no Settings rows)
+- CM: Play Random still stub (Crew 3.x had full `action=random` handler); `random.autoplay` setting not ported until route ships
 - Tools: Clear caches (grouped buckets), upload logs (Kodi + The Crew), changelog viewer
 - Menu: navi.* toggles removed - full tree always shown; My Crew handles shortcuts
 - Settings -> External Scrapers: enable/disable built-in (internal) scrapers (`crewscrapers.enabled`)
