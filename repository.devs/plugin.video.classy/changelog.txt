@@ -1,5 +1,17 @@
+[B]4.0.11[/B]
+- Sports / live HLS: vendor White segmentproxy (register_live / static / ws) and start it from Classy service - fixes CDN crewstreamer ImportError (rockystream etc.)
+- Playback: InfoTag tvshowtitle version-safe; stop session-rehydrate spam every poll on sports / no-id plays
+
+[B]4.0.10[/B]
+- Context menus: Find similar (TMDB similar API); trailer / clear-resume localized; no duplicate Information row (Kodi system CM)
+- Context menus: Browse Series / Browse Season on all episode rows; season mark watched via seasonPlaycount (Trakt/Simkl)
+
+[B]4.0.9[/B]
+- Context menus: Play Trailer wired (TMDB videos + YouTube); cut stub rows from default CM (similar / random / library)
+- Trailers: InfoTag and CM share action=trailer resolver; PlayMedia playback; PC soak OK
+
 [B]4.0.8[/B]
-- Context menus: central hub (video / menu / My Crew surfaces); discovery block (Play trailer stub) ahead of play/tracker rows
+- Context menus: central hub (video / menu / My Crew surfaces); discovery block ahead of play/tracker rows
 - Widget CM: Open full list, Browse series, Browse season unchanged (CM audit pass start)
 
 [B]4.0.7[/B]
