@@ -1,6 +1,73 @@
+[B]4.0.18[/B]
+- Shield Test candidate (dev repo): Kids TMDB hub + Disney/Pixar; single thecrew artwork/skins; FULL LIVE SITES; downloads; R1 bookmarks; sports list/CDN bridges from the 4.0.17 line
+
+[B]4.0.17[/B]
+- Bookmarks: slim local bookmarks.db (R1) - dual-write on pause/stop; tracker wins on read; local overlays when no tracker; Clear Resume + movie/episode mark watched dual-write; bookmarks.enabled (default On)
+- Playback: resume prompt no longer sticks paused (unpause only when paused); seek success works below 15s; ignore resume under 30s / under 1%
+- Sports: FULL LIVE SITES first Sports row (Crew 3.2.23-27); Misc Sports menu parked; list thumbs rewrite script.thecrew.artwork -> Classy in-addon; SEARCH rows fall back to search.png
+- Lists: hide White XML Testings/developer rows unless profile testings.xml is present (Crew parity)
+- Lists/CDN: bridge White crewstreamer allowlist so plugin.video.classy can use search_page / resolve (Crew-only Addon id gate)
+- Lists: empty REPLAYS/SCRAPER thumbs fall back to local replays.png; FULL SITE LIVE -> live.png (White often omits filenames)
+- Kids: completely revamped - live TMDB kids Movies/TV hub + Disney/Pixar animation; new kids_movies / kids_tv / disney icons; retired the dead debridkids / learning / songs / disney_years feeds
+- Artwork: single in-addon pack resources/lib/artwork/thecrew (was modern); dropped duplicate old thecrew pack + underscore junk PNGs; dialog skins under resources/skins/thecrew; appearance.1=thecrew
+
+- Playback: unified outcome policy (Stop/Ended/Up Next handoff/TV Evening) - removed invisible 85% force-complete; Up Next handoff completes prior episode at 100%
+- Playback: session Window props under thecrew.playback.* (legacy classy.playback.* still read); require explicit Up Next / playback owner
+- Debrid: pack file-pick for RD/AD/PM magnets with S/E (Crew parity) - no ResolveURL fallback that plays the wrong episode
+- Sources: cheap sourceList InfoTag (title/plot/year/ids/trailer/duration) - no cast HTTP
+- Tools: Debrid management + account worker; ResolveURL settings backup reconcile (empty live stays empty; scrub .backup and .bak)
+- Tools: Scraper Packs dialog (modern + thecrew) - On/Off toggles; pack rows removed from user settings (IDs kept hidden)
+- Debug: Device info blurb (Kodi/Python/addon/platform/tracker) + copy; warning that Off + empty Dev Password are normal; addon_debug defaults Off
+- Sources: Verify Torrents Cache + honest UNKNOWN chip; compact / extra-info / per-quality cap settings
+- Sources: per-quality cap applies on magnets before debrid expand (tier buckets) - was collapsing to N rows after expand
+- Downloads: Enable + one offline folder (not library paths); sourceList CM Download; Tools -> Downloads browse
+- General: movie.widget + tv.widget presets for movieWidget / tvWidget home entries (setting label TV home widget)
+- Settings: cut remove.uncached (RD cache check era); cut unused max.limit.sources
+- WeTrakr: API 1.0.10 - scrobble min_progress from playback.watched_percent; last_playback_at stamp; show On Hold writes status hold
+- Settings: hide unused wetrakr.scrobble_threshold (global watched % is the user control)
+- IntroDB: credits fetch for Up Next no longer requires intro-skip On
+- Scrapers: provider failures logged distinctly from zero-result scrapes; classyscrapers remains optional
+- Brand: salted addon-id gate (working-title classy + go-live thecrew digests)
+
+[B]4.0.16[/B]
+- Scrapers: script.module.classyscrapers is optional - Classy runs with built-ins and/or other packs if ClassyScrapers is removed
+- WeTrakr: audit API 1.0.8 / 1.0.9 - watched writes send allow_rewatch=false; log WeTrakr-Deprecation; calendar rows prefer entry-level external ids
+
+[B]4.0.15[/B]
+- Sports: SegmentProxy live manifests keep session cookies across refreshes (parity with Crew White cookie_fix). FULL LIVE SITES + HTTP/2 client still parked for Classy port.
+
+[B]4.0.14[/B]
+- Xbox: safe platform detect (no platform.uname) so open/service and SSL patch work on UWP
+- Sports: stop SegmentProxy on service abort (daemon request threads + shutdown) - fixes ~5s Kodi exit hang after live HLS
+- Library: Setup library sources uses okDialog for multi-line next steps (was truncated toast)
+- Up Next: mid-play prescrape for next episode (silent scrape + single-use cache; skip overlay on hit)
+- Artwork: modern sports icon refresh
+
+[B]4.0.13[/B]
+- WeTrakr: Discover shelves (Trending / Popular / Top Rated) under My Movies + My TV
+- WeTrakr: catalog Search + Public Lists hub (trending / recent / list items)
+- WeTrakr: movie calendar (Releasing This Week / Month + My releases)
+- WeTrakr: Favorites browse; Waiting shelf (TV); Playing list row (movies)
+- WeTrakr: public list URL lane (wetrakrpubliclist:id:movie|show) for curated hubs
+- WeTrakr: 420/429 rate-limit handling (retry once on 429; plan-lock toast on 420)
+- Tools: Clear WeTrakr Cache + Force WeTrakr Sync; Clear all includes WeTrakr stores
+- Holidays: December hub on WeTrakr Christmas Collection (Movies / Specials / Series / Stage / Day Binge)
+- Holidays: drop Movies-source xristmas TMDB list row (hub is the entry)
+- Artwork: modern pack refresh (icons / posters / halloween); holidays art present
+
+[B]4.0.12[/B]
+- WeTrakr: personal Lists under My Movies / My TV (sync/lists index + items; beside MDBList)
+- WeTrakr: Manager CM (tracking statuses, favorites, personal list add/remove; membership-aware)
+- WeTrakr / Trakt Manager: success toast past tense (Added to / Removed from ...)
+- WeTrakr: Next Episodes pages all watching/paused shows (was stuck on first API page ~20)
+- WeTrakr: In Progress Shows overlays - stop treating every show with watched eps as fully watched
+- Play: Home widget Next Episodes / progress rows stamp select=Autoplay + setResolvedUrl (scrape-then-stop fix)
+- Settings: Up Next trigger % / end-seconds only for their timing modes; countdown (15s) + Auto-play stay under Credits (IntroDB)
+
 [B]4.0.11[/B]
 - Sports / live HLS: vendor White segmentproxy (register_live / static / ws) and start it from Classy service - fixes CDN crewstreamer ImportError (rockystream etc.)
 - Playback: InfoTag tvshowtitle version-safe; stop session-rehydrate spam every poll on sports / no-id plays
+
 
 [B]4.0.10[/B]
 - Context menus: Find similar (TMDB similar API); trailer / clear-resume localized; no duplicate Information row (Kodi system CM)
