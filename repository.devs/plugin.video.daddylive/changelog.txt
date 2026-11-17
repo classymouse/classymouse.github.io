@@ -1,0 +1,5 @@
+[B]5.2.10[/B]
+- Playback: drop ffmpegdirect timeshift for live HLS (realtime only) - Shield ABC USA stalled ~5m with timeshift
+
+[B]5.2.9[/B]
+- Prior live ship
